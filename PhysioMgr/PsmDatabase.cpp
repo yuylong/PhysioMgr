@@ -6,14 +6,12 @@
  * Copyright(c) 2015-2017 Yulong Yu. All rights reserved.
  */
 
-#include "MainWindow.h"
-#include <QApplication>
+#include "PsmDatabase.h"
 
-int main(int argc, char *argv[])
+PsmDatabase::PsmDatabase()
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+    this->host = QString();
+    this->username = QString();
+    this->password = QString();
+    this->schema = QString();
 }

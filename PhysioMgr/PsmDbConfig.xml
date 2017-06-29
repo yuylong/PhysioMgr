@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<database>  
+    <host>10.3.3.157</host>  
+    <username>root</username>
+    <password>root</password>
+    <schema>ysphysiodb</schema>
+</database>

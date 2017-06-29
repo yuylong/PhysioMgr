@@ -1,3 +1,11 @@
+#-
+# GNU GENERAL PUBLIC LICENSE, version 3
+# See LICENSE file for detail.
+#
+# Author: Yulong Yu, Jun 29th, 2017
+# Copyright(c) 2015-2017 Yulong Yu. All rights reserved.
+#
+
 #-------------------------------------------------
 #
 # Project created by QtCreator 2017-06-29T14:05:53
@@ -24,8 +32,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp
+        MainWindow.cpp \
+    PsmDatabase.cpp
 
-HEADERS  += MainWindow.h
+HEADERS  += MainWindow.h \
+    PsmDatabase.h
 
 FORMS    += MainWindow.ui
+
+DISTFILES += \
+    PsmDbConfig.xml
