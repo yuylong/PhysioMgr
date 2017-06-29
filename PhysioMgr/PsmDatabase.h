@@ -22,6 +22,8 @@ protected:
     QString schema;
     bool isStarted;
 
+    static QString connectname;
+
 public:
     PsmDatabase();
 
@@ -34,7 +36,7 @@ public:
     void configConnectionFromFile(QString path);
 
     bool startDatabase();
-    bool stopDatabase();
+    void stopDatabase();
     bool isDatabaseStarted() const;
 };
 
