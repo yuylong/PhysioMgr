@@ -113,11 +113,12 @@ bool PsmDatabase::startDatabase()
     db.setUserName(this->username);
     db.setPassword(this->password);
     db.setDatabaseName(this->schema);
-    if ( !db.open() )
-        return false;
-
-    db.close();
     this->isStarted = true;
+
+    // Try open and close the database.
+    if (!db.open())
+        return true;
+    db.close();
     return true;
 }
 

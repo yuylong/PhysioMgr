@@ -11,6 +11,8 @@
 
 #include <QMainWindow>
 
+#include "PsmDatabase.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -19,12 +21,18 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+protected:
+    PsmDatabase database;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
+
+    static const QString dbConfigFile;
+    void initDatabase();
 };
 
 #endif // MAINWINDOW_H
