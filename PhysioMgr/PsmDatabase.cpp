@@ -97,7 +97,7 @@ void PsmDatabase::configConnectionFromFile(QString path)
 
 bool PsmDatabase::startDatabase()
 {
-    if (this->isConnectionConfigured())
+    if (!this->isConnectionConfigured())
         return false;
     if (this->isStarted)
         return true;
