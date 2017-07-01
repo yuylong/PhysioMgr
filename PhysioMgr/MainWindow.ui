@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>710</width>
-    <height>407</height>
+    <width>875</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -189,7 +189,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit"/>
+            <widget class="QLineEdit" name="lePatientCond"/>
            </item>
            <item>
             <spacer name="horizontalSpacer_2">
@@ -205,7 +205,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="pbPatientRefresh">
              <property name="text">
               <string>刷新列表</string>
              </property>
@@ -215,18 +215,52 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,1">
+         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,1,0,0,0,0">
           <item>
            <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>输出条目：</string>
+             <string>符合筛选条件的患者数：</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="lblPatientCnt">
             <property name="text">
              <string>0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>添加新患者</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>查看详细/修改选中患者</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="text">
+             <string>删除选中患者</string>
             </property>
            </widget>
           </item>
@@ -361,7 +395,59 @@
           <property name="title">
            <string>科室</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,1,0,0,0">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>总数：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblDepartCnt">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbDepartAdd">
+               <property name="text">
+                <string>添加</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbDepartUpd">
+               <property name="text">
+                <string>查看/编辑选中项</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbDepartDel">
+               <property name="text">
+                <string>删除选中项</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
            <item>
             <widget class="QTableWidget" name="tblDepartments">
              <property name="rowCount">
@@ -391,14 +477,66 @@
           <property name="title">
            <string>理疗项目</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,1,0,0,0">
+             <item>
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>总数：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblPhysioItemCnt">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbPhysioItemAdd">
+               <property name="text">
+                <string>添加</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbPhysioItemUpd">
+               <property name="text">
+                <string>查看/编辑选中项</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbPhysioItemDel">
+               <property name="text">
+                <string>删除选中项</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
            <item>
             <widget class="QTableWidget" name="tblPhysioList">
              <property name="rowCount">
               <number>1</number>
              </property>
              <property name="columnCount">
-              <number>6</number>
+              <number>3</number>
              </property>
              <row/>
              <column>
@@ -416,9 +554,6 @@
                <string>单价</string>
               </property>
              </column>
-             <column/>
-             <column/>
-             <column/>
             </widget>
            </item>
           </layout>
@@ -440,7 +575,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>710</width>
+     <width>875</width>
      <height>23</height>
     </rect>
    </property>
