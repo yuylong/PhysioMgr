@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `ysphysiodb` /*!40100 DEFAULT CHARACTER SET utf8 
 USE `ysphysiodb`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 10.3.3.157    Database: ysphysiodb
+-- Host: localhost    Database: ysphysiodb
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -160,7 +160,7 @@ DROP TABLE IF EXISTS `physio_items`;
 CREATE TABLE `physio_items` (
   `id` varchar(64) NOT NULL,
   `name` varchar(64) DEFAULT NULL,
-  `price` decimal(10,0) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -171,6 +171,7 @@ CREATE TABLE `physio_items` (
 
 LOCK TABLES `physio_items` WRITE;
 /*!40000 ALTER TABLE `physio_items` DISABLE KEYS */;
+INSERT INTO `physio_items` VALUES ('LL','腊疗',1.00),('MB','米波',1.00),('WF','外敷',1.20),('WFKD','外敷烤电',1.00),('ZJ','针灸',1.00);
 /*!40000 ALTER TABLE `physio_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,4 +218,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-29 14:09:51
+-- Dump completed on 2017-07-01 16:10:31
