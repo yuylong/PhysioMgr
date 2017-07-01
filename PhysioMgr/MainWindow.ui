@@ -14,7 +14,7 @@
    <string>医院理疗管理系统</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -44,16 +44,103 @@
        <attribute name="title">
         <string>患者管理</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>筛选条件</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tblPatients"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tabHospiRecord">
        <attribute name="title">
         <string>住院信息</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>90</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>筛选条件</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tblHospiList"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tabDoctorInfo">
        <attribute name="title">
         <string>医护人员</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>筛选条件</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tblDoctors">
+          <property name="rowCount">
+           <number>1</number>
+          </property>
+          <property name="columnCount">
+           <number>5</number>
+          </property>
+          <row/>
+          <column>
+           <property name="text">
+            <string>编号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>姓名</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>类别</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>姓名</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>电话</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tabBasicInfo">
        <attribute name="title">
