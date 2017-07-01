@@ -37,6 +37,7 @@ CREATE TABLE `departments` (
 
 LOCK TABLES `departments` WRITE;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
+INSERT INTO `departments` VALUES ('FK','妇科'),('NK','内科'),('WK','外科');
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,4 +219,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-01 16:10:31
+-- Dump completed on 2017-07-01 16:31:18
