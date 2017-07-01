@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>738</width>
-    <height>332</height>
+    <width>710</width>
+    <height>407</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>医院理疗管理系统</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -33,12 +33,136 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
         <string>理疗打卡</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>120</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>打卡信息</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,1,0,0,1">
+               <item>
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string>理疗项目：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="cmbPhysioSel"/>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>护士：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="cmbNurseSel"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0">
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>患者卡号：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lePatientID"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbPhysioOp">
+             <property name="minimumSize">
+              <size>
+               <width>75</width>
+               <height>75</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>打卡</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tblPhysioLog">
+          <property name="rowCount">
+           <number>1</number>
+          </property>
+          <property name="columnCount">
+           <number>5</number>
+          </property>
+          <row/>
+          <column>
+           <property name="text">
+            <string>患者卡号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>患者姓名</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>理疗项目</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>护士</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>打卡时间</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tabPatientInfo">
        <attribute name="title">
@@ -231,20 +355,12 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>738</width>
+     <width>710</width>
      <height>23</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionPhysioRecord">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>PhysioRecord</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
