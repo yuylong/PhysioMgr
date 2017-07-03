@@ -38,6 +38,7 @@ private:
     void initDatabase();
 
     void refreshDepartmentList();
+    void refreshPhysioItemList();
 };
 
 #endif // MAINWINDOW_H

@@ -68,9 +68,30 @@ void MainWindow::refreshDepartmentList()
     this->database.fillTableWidget(ui->tblDepartments, &query, colmap);
 }
 
+void MainWindow::refreshPhysioItemList()
+{
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.exec("SELECT * FROM physio_items;");
+    if (!ok) {
+        QSqlError sqlerr = query.lastError();
+        QMessageBox::warning(this, "数据库错误",
+                             "无法完成理疗项目列表刷新。错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                             "数据库系统描述：" + sqlerr.text());
+        return;
+    }
+
+    ui->lblPhysioItemCnt->setText(QString::number(query.size()));
+
+    QList<int> colmap;
+    colmap << 0 << 1 << 2;
+    this->database.fillTableWidget(ui->tblPhysioList, &query, colmap);
+}
+
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
     if (ui->tabWidget->currentWidget() == ui->tabBasicInfo) {
         this->refreshDepartmentList();
+        this->refreshPhysioItemList();
     }
 }
