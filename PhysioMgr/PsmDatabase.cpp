@@ -45,7 +45,7 @@ QString PsmDatabase::getSchema() const
 
 bool PsmDatabase::isConnectionConfigured() const
 {
-    return !(this->host.isNull() || this->username.isNull() || this->password.isNull() || this->schema.isNull());
+    return !(this->host.isEmpty() || this->username.isEmpty() || this->password.isEmpty() || this->schema.isEmpty());
 }
 
 void PsmDatabase::configConnection(QString host, QString username, QString password, QString schema)
@@ -162,12 +162,14 @@ void PsmDatabase::fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query, const 
         QSqlRecord rec = query->record();
 
         for (int i = 0; i < colmap.size(); i++) {
+            QString valstr = rec.value(colmap[i]).toString();
             item = tblwdg->item(row, i);
-            if (item == NULL)
-                item = new QTableWidgetItem();
-
-            item->setText(rec.value(colmap[i]).toString());
-            tblwdg->setItem(row, i, item);
+            if (item != NULL) {
+                item->setText(valstr);
+            } else {
+                item = new QTableWidgetItem(valstr);
+                tblwdg->setItem(row, i, item);
+            }
         }
         row++;
     } while (query->next());

@@ -28,6 +28,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    bool initDatabase();
+
 private slots:
     void on_tabWidget_currentChanged(int index);
 
@@ -39,11 +41,13 @@ private:
     Ui::MainWindow *ui;
 
     static const QString dbConfigFile;
-    void initDatabase();
 
     QList<int> departColMap, physioItemColMap;
     void refreshDepartmentList();
     void refreshPhysioItemList();
+
+protected:
+    virtual void showEvent(QShowEvent *event);
 };
 
 #endif // MAINWINDOW_H
