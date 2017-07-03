@@ -45,7 +45,7 @@ QString PsmDatabase::getSchema() const
 
 bool PsmDatabase::isConnectionConfigured() const
 {
-    return (this->host.isNull() || this->username.isNull() || this->password.isNull() || this->schema.isNull());
+    return !(this->host.isNull() || this->username.isNull() || this->password.isNull() || this->schema.isNull());
 }
 
 void PsmDatabase::configConnection(QString host, QString username, QString password, QString schema)
