@@ -39,7 +39,7 @@
        <attribute name="title">
         <string>理疗打卡</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1">
         <item>
          <widget class="QGroupBox" name="groupBox_6">
           <property name="minimumSize">
