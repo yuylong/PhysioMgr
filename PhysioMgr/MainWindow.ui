@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -215,7 +215,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,1,0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,1,0,0,0,0">
           <item>
            <widget class="QLabel" name="label_6">
             <property name="text">
@@ -251,9 +251,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>患者添加住院记录</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pbPatientUdp">
             <property name="text">
-             <string>查看详细/修改选中患者</string>
+             <string>查看/修改患者信息</string>
             </property>
            </widget>
           </item>
@@ -333,19 +340,117 @@
        <attribute name="title">
         <string>医护人员</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,1">
         <item>
          <widget class="QGroupBox" name="groupBox_3">
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>80</height>
+            <height>60</height>
            </size>
           </property>
           <property name="title">
            <string>筛选条件</string>
           </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0,0,1,0,0">
+           <item>
+            <widget class="QCheckBox" name="chbDoctorListAll">
+             <property name="text">
+              <string>全部</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="Line" name="line">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>编号/姓名/科室/电话：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leDoctorCond"/>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbDoctorOp">
+             <property name="text">
+              <string>刷新列表</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,0,1,0,0,0">
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>符合筛选条件的人员数：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="leDoctorCnt">
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbDoctorAdd">
+            <property name="text">
+             <string>添加医护人员</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbDoctorUpd">
+            <property name="text">
+             <string>查看/修改人员信息</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbDoctorDel">
+            <property name="text">
+             <string>删除选中人员</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QTableWidget" name="tblDoctors">
@@ -373,7 +478,7 @@
           </column>
           <column>
            <property name="text">
-            <string>姓名</string>
+            <string>科室</string>
            </property>
           </column>
           <column>
