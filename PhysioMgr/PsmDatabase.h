@@ -10,7 +10,9 @@
 #define PSMDATABASE_H
 
 #include <QString>
+#include <QList>
 #include <QtSql>
+#include <QTableWidget>
 
 
 class PsmDatabase
@@ -40,6 +42,7 @@ public:
     bool isDatabaseStarted() const;
 
     QSqlQuery getQuery();
+    void fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query, const QList<int> &colmap);
 };
 
 #endif // PSMDATABASE_H

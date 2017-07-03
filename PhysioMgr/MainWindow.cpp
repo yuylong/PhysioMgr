@@ -61,28 +61,11 @@ void MainWindow::refreshDepartmentList()
         return;
     }
 
-    ui->tblDepartments->setRowCount(query.size());
+    ui->lblDepartCnt->setText(QString::number(query.size()));
 
-    query.seek(-1);
-    int linecnt = 0;
-    QTableWidgetItem *item;
-    while (query.next()) {
-        item = ui->tblDepartments->item(linecnt, 0);
-        if (item == NULL)
-            item = new QTableWidgetItem();
-        item->setText(query.value(0).toString());
-        ui->tblDepartments->setItem(linecnt, 0, item);
-
-        item = ui->tblDepartments->item(linecnt, 1);
-        if (item == NULL)
-            item = new QTableWidgetItem();
-        item->setText(query.value(1).toString());
-        ui->tblDepartments->setItem(linecnt, 1, item);
-
-        qDebug() << query.value(0) << query.value(1);
-
-        linecnt++;
-    }
+    QList<int> colmap;
+    colmap << 0 << 1;
+    this->database.fillTableWidget(ui->tblDepartments, &query, colmap);
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)

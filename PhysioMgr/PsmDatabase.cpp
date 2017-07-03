@@ -120,7 +120,6 @@ bool PsmDatabase::startDatabase()
     return true;
 }
 
-
 void PsmDatabase::stopDatabase()
 {
     if (!this->isStarted)
@@ -146,4 +145,30 @@ QSqlQuery PsmDatabase::getQuery()
 
     QSqlQuery query(db);
     return query;
+}
+
+void PsmDatabase::fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query, const QList<int> &colmap)
+{
+    tblwdg->setRowCount(query->size());
+    tblwdg->setColumnCount(colmap.size());
+
+    bool ok = query->first();
+    if (!ok)
+        return;
+
+    QTableWidgetItem *item;
+    int row = 0;
+    do {
+        QSqlRecord rec = query->record();
+
+        for (int i = 0; i < colmap.size(); i++) {
+            item = tblwdg->item(row, i);
+            if (item == NULL)
+                item = new QTableWidgetItem();
+
+            item->setText(rec.value(colmap[i]).toString());
+            tblwdg->setItem(row, i, item);
+        }
+        row++;
+    } while (query->next());
 }
