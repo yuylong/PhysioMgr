@@ -47,3 +47,15 @@ void MainWindow::initDatabase()
         return;
     }
 }
+
+void refreshDepartmentList()
+{
+
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    if (ui->tabWidget->currentWidget() == ui->tabBasicInfo) {
+
+    }
+}

@@ -38,6 +38,8 @@ public:
     bool startDatabase();
     void stopDatabase();
     bool isDatabaseStarted() const;
+
+    QSqlQuery getQuery();
 };
 
 #endif // PSMDATABASE_H

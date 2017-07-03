@@ -115,10 +115,8 @@ bool PsmDatabase::startDatabase()
     db.setDatabaseName(this->schema);
     this->isStarted = true;
 
-    // Try open and close the database.
-    if (!db.open())
-        return true;
-    db.close();
+    // Try open the database.
+    db.open();
     return true;
 }
 
@@ -136,4 +134,16 @@ void PsmDatabase::stopDatabase()
 bool PsmDatabase::isDatabaseStarted() const
 {
     return this->isStarted;
+}
+
+QSqlQuery PsmDatabase::getQuery()
+{
+    if (!this->isStarted)
+        return QSqlQuery();
+
+    // Database will be open automatically.
+    QSqlDatabase db = QSqlDatabase::database(connectname, true);
+
+    QSqlQuery query(db);
+    return query;
 }

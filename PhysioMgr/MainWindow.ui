@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>875</width>
-    <height>480</height>
+    <width>932</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -215,7 +215,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,1,0,0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,1,0,0,0">
           <item>
            <widget class="QLabel" name="label_6">
             <property name="text">
@@ -244,21 +244,21 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="pbPatientAdd">
             <property name="text">
              <string>添加新患者</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_3">
+           <widget class="QPushButton" name="pbPatientUdp">
             <property name="text">
              <string>查看详细/修改选中患者</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="pbPatientDel">
             <property name="text">
              <string>删除选中患者</string>
             </property>
@@ -397,7 +397,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,1,0,0,0">
+            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,1,0,0,0,0">
              <item>
               <widget class="QLabel" name="label_5">
                <property name="text">
@@ -419,11 +419,18 @@
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>40</width>
+                 <width>20</width>
                  <height>20</height>
                 </size>
                </property>
               </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbDepartRefrsh">
+               <property name="text">
+                <string>刷新</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pbDepartAdd">
@@ -479,7 +486,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,1,0,0,0">
+            <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,1,0,0,0,0">
              <item>
               <widget class="QLabel" name="label_9">
                <property name="text">
@@ -501,11 +508,18 @@
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>40</width>
+                 <width>20</width>
                  <height>20</height>
                 </size>
                </property>
               </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbPhysioItemRefrsh">
+               <property name="text">
+                <string>刷新</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pbPhysioItemAdd">
@@ -575,7 +589,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>875</width>
+     <width>932</width>
      <height>23</height>
     </rect>
    </property>

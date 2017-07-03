@@ -28,11 +28,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::MainWindow *ui;
 
     static const QString dbConfigFile;
     void initDatabase();
+
+    void refreshDepartmentList();
 };
 
 #endif // MAINWINDOW_H
