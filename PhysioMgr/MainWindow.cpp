@@ -46,6 +46,9 @@ void MainWindow::initDatabase()
         qGuiApp->exit(-1);
         return;
     }
+
+    this->departColMap << 0 << 1;
+    this->physioItemColMap << 0 << 1 << 2;
 }
 
 void MainWindow::refreshDepartmentList()
@@ -62,10 +65,7 @@ void MainWindow::refreshDepartmentList()
     }
 
     ui->lblDepartCnt->setText(QString::number(query.size()));
-
-    QList<int> colmap;
-    colmap << 0 << 1;
-    this->database.fillTableWidget(ui->tblDepartments, &query, colmap);
+    this->database.fillTableWidget(ui->tblDepartments, &query, this->departColMap);
 }
 
 void MainWindow::refreshPhysioItemList()
@@ -82,10 +82,7 @@ void MainWindow::refreshPhysioItemList()
     }
 
     ui->lblPhysioItemCnt->setText(QString::number(query.size()));
-
-    QList<int> colmap;
-    colmap << 0 << 1 << 2;
-    this->database.fillTableWidget(ui->tblPhysioList, &query, colmap);
+    this->database.fillTableWidget(ui->tblPhysioList, &query, this->physioItemColMap);
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
@@ -94,4 +91,14 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         this->refreshDepartmentList();
         this->refreshPhysioItemList();
     }
+}
+
+void MainWindow::on_pbDepartRefrsh_clicked()
+{
+    this->refreshDepartmentList();
+}
+
+void MainWindow::on_pbPhysioItemRefrsh_clicked()
+{
+    this->refreshPhysioItemList();
 }

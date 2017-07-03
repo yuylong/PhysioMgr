@@ -31,12 +31,17 @@ public:
 private slots:
     void on_tabWidget_currentChanged(int index);
 
+    void on_pbDepartRefrsh_clicked();
+
+    void on_pbPhysioItemRefrsh_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     static const QString dbConfigFile;
     void initDatabase();
 
+    QList<int> departColMap, physioItemColMap;
     void refreshDepartmentList();
     void refreshPhysioItemList();
 };
