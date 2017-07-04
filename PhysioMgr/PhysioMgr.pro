@@ -34,13 +34,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         MainWindow.cpp \
     PsmDatabase.cpp \
-    PsmService.cpp
+    PsmService.cpp \
+    PsmDlgDepartment.cpp
 
 HEADERS  += MainWindow.h \
     PsmDatabase.h \
-    PsmService.h
+    PsmService.h \
+    PsmDlgDepartment.h
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    PsmDlgDepartment.ui
 
 DISTFILES += \
     PsmDbConfig.xml
