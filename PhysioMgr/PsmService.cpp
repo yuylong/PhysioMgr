@@ -91,6 +91,35 @@ void PsmService::refreshDepartmentList(QLabel *lbl, QTableWidget *tbl, QWidget *
     this->database.fillTableWidget(tbl, &query, colmap);
 }
 
+void PsmService::insertNewDepartment(const QString &depid, const QString &depname, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("INSERT INTO departments VALUES(?, ?);");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, depid);
+    query.bindValue(1, depname);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成科室列表刷新。" + exterrstr);
+    return;
+}
+
 void PsmService::refreshPhysioItemList(QLabel *lbl, QTableWidget *tbl, QWidget *window)
 {
     static QList<int> colmap;

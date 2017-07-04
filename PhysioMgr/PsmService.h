@@ -30,6 +30,8 @@ public:
     bool init(QWidget *window = NULL);
 
     void refreshDepartmentList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void insertNewDepartment(const QString &depid, const QString &depname, QWidget *window = NULL);
+
     void refreshPhysioItemList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
 };
 

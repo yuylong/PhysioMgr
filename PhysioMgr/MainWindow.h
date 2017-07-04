@@ -38,6 +38,8 @@ private slots:
 
     void on_pbPhysioItemRefrsh_clicked();
 
+    void on_pbDepartAdd_clicked();
+
 private:
     Ui::MainWindow *ui;
 

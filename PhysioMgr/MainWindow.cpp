@@ -10,6 +10,7 @@
 #include "ui_MainWindow.h"
 
 #include <QMessageBox>
+#include "PsmDlgDepartment.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -71,4 +72,15 @@ void MainWindow::on_pbPhysioItemRefrsh_clicked()
 
 void MainWindow::showEvent(QShowEvent *event)
 {
+}
+
+void MainWindow::on_pbDepartAdd_clicked()
+{
+    PsmDlgDepartment dialog(this);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    this->service.insertNewDepartment(dialog.getDepartID(), dialog.getDepartName());
+    this->refreshDepartmentList();
 }

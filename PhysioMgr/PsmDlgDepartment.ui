@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PsmDlgDepartment</class>
- <widget name="PsmDlgDepartment" class="QDialog">
+ <widget class="QDialog" name="PsmDlgDepartment">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>科室详细信息</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="0,1" columnminimumwidth="0,1">
      <item row="0" column="0">
@@ -55,32 +55,32 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>dlgDepartment</receiver>
+   <receiver>PsmDlgDepartment</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>149</x>
+     <y>122</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>149</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>dlgDepartment</receiver>
+   <receiver>PsmDlgDepartment</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>149</x>
+     <y>122</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>149</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>
