@@ -12,6 +12,7 @@
 #include <QMainWindow>
 
 #include "PsmDatabase.h"
+#include "PsmService.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,13 +23,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 protected:
-    PsmDatabase database;
+    PsmService service;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    bool initDatabase();
+    bool initService();
 
 private slots:
     void on_tabWidget_currentChanged(int index);

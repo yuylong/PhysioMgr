@@ -45,7 +45,6 @@ bool PsmService::init(QWidget *window)
 
     if (this->configfile.isEmpty()) {
         QMessageBox::critical(window, "致命错误", "数据库配置文件未设置，请联系开发人员解决！");
-        qGuiApp->exit(-1);
         return false;
     }
 
@@ -53,14 +52,12 @@ bool PsmService::init(QWidget *window)
     this->database.configConnectionFromFile(this->configfile);
     if ( !this->database.isConnectionConfigured() ) {
         QMessageBox::critical(window, "致命错误", "无法打开数据库配置文件，请联系开发人员解决！");
-        qGuiApp->exit(-1);
-        return false;
+         return false;
     }
 
     this->database.startDatabase();
     if (!this->database.isDatabaseStarted()) {
         QMessageBox::critical(window, "致命错误", "数据库无法完成配置工作，请联系开发人员解决！");
-        qGuiApp->exit(-1);
         return false;
     }
 

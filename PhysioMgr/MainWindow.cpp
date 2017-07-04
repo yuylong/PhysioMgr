@@ -16,83 +16,43 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    //this->initDatabase();
 }
 
 MainWindow::~MainWindow()
 {
-    this->database.stopDatabase();
     delete ui;
 }
 
-const QString MainWindow::dbConfigFile("PsmDbConfig.xml");
 
-bool MainWindow::initDatabase()
+
+bool MainWindow::initService()
 {
+    static QString dbConfigFile("PsmDbConfig.xml");
     QString appdir = qGuiApp->applicationDirPath();
     QString configpath = appdir + "/" + dbConfigFile;
 
-    this->database.configConnectionFromFile(configpath);
-    if ( !this->database.isConnectionConfigured() ) {
-        QMessageBox::critical(this, "致命错误", "无法打开数据库配置文件，请联系开发人员解决！");
+    this->service.setConfigFile(configpath);
+    this->service.setParentWindow(this);
+
+    bool ok = this->service.init();
+    if (!ok) {
         qGuiApp->exit(-1);
         return false;
     }
 
-    this->database.startDatabase();
-    if (!this->database.isDatabaseStarted()) {
-        QMessageBox::critical(this, "致命错误", "数据库无法完成配置工作，请联系开发人员解决！");
-        qGuiApp->exit(-1);
-        return false;
-    }
-
-    this->departColMap << 0 << 1;
-    this->physioItemColMap << 0 << 1 << 2;
     this->refreshDepartmentList();
     this->refreshPhysioItemList();
-
     return true;
 }
 
 void MainWindow::refreshDepartmentList()
 {
-    bool ok;
-    QSqlQuery query = this->database.getQuery();
-    ok = query.exec("SELECT * FROM departments;");
-    if (!ok) {
-        QSqlError sqlerr = query.lastError();
-        QString exterrstr;
-        if (sqlerr.isValid()) {
-            exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
-                        "数据库系统描述：" + sqlerr.text();
-        }
-        QMessageBox::warning(this, "数据库错误", "无法完成科室列表刷新。" + exterrstr);
-        return;
-    }
-
-    ui->lblDepartCnt->setText(QString::number(query.size()));
-    this->database.fillTableWidget(ui->tblDepartments, &query, this->departColMap);
+    this->service.refreshDepartmentList(ui->lblDepartCnt, ui->tblDepartments);
 }
 
 void MainWindow::refreshPhysioItemList()
 {
-    bool ok;
-    QSqlQuery query = this->database.getQuery();
-    ok = query.exec("SELECT * FROM physio_items;");
-    if (!ok) {
-        QSqlError sqlerr = query.lastError();
-        QString exterrstr;
-        if (sqlerr.isValid()) {
-            exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
-                        "数据库系统描述：" + sqlerr.text();
-        }
-        QMessageBox::warning(this, "数据库错误", "无法完成理疗项目列表刷新。" + exterrstr);
-        return;
-    }
-
-    ui->lblPhysioItemCnt->setText(QString::number(query.size()));
-    this->database.fillTableWidget(ui->tblPhysioList, &query, this->physioItemColMap);
+    this->service.refreshPhysioItemList(ui->lblPhysioItemCnt, ui->tblPhysioList);
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
