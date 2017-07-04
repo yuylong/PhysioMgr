@@ -74,6 +74,19 @@ int PsmService::getTableSelectedRow(QTableWidget *tbl)
     return idx.topRow();
 }
 
+QString PsmService::readTableSelectedId(QTableWidget *tbl, int idx)
+{
+    int rowidx = this->getTableSelectedRow(tbl);
+    if (rowidx < 0)
+        return QString();
+
+    QTableWidgetItem *item = tbl->item(rowidx, idx);
+    if (item == NULL)
+        return QString();
+
+    return item->text();
+}
+
 bool PsmService::readSelectedDepartment(QTableWidget *tbl, PsmSrvDepartment *dep)
 {
     int rowidx = this->getTableSelectedRow(tbl);
@@ -92,15 +105,7 @@ bool PsmService::readSelectedDepartment(QTableWidget *tbl, PsmSrvDepartment *dep
 
 QString PsmService::readSelectedDepartmentId(QTableWidget *tbl)
 {
-    int rowidx = this->getTableSelectedRow(tbl);
-    if (rowidx < 0)
-        return QString();
-
-    QTableWidgetItem *item = tbl->item(rowidx, 0);
-    if (item == NULL)
-        return QString();
-
-    return item->text();
+    return this->readTableSelectedId(tbl, 0);
 }
 
 void PsmService::refreshDepartmentList(QLabel *lbl, QTableWidget *tbl, QWidget *window)
@@ -214,6 +219,31 @@ bad:
     }
     QMessageBox::warning(window, "数据库错误", "无法删除选定科室。" + exterrstr);
     return;
+}
+
+bool PsmService::readSelectedPhysioItem(QTableWidget *tbl, PsmSrvPhysioItem *physio)
+{
+    int rowidx = this->getTableSelectedRow(tbl);
+    if (rowidx < 0)
+        return false;
+
+    QTableWidgetItem *itemid = tbl->item(rowidx, 0);
+    QTableWidgetItem *itemname = tbl->item(rowidx, 1);
+    QTableWidgetItem *itemprice = tbl->item(rowidx, 2);
+    if (itemid == NULL || itemname == NULL)
+        return false;
+
+    physio->id = itemid->text();
+    physio->name = itemname->text();
+    physio->price = 1.0;
+    if (itemprice != NULL)
+        physio->price = itemprice->text().toDouble();
+    return true;
+}
+
+QString PsmService::readSelectedPhysioItemId(QTableWidget *tbl)
+{
+    return this->readTableSelectedId(tbl, 0);
 }
 
 void PsmService::refreshPhysioItemList(QLabel *lbl, QTableWidget *tbl, QWidget *window)

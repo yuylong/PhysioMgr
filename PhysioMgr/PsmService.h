@@ -15,6 +15,12 @@ struct PsmSrvDepartment {
     QString name;
 };
 
+struct PsmSrvPhysioItem {
+    QString id;
+    QString name;
+    double price;
+};
+
 class PsmService
 {
 protected:
@@ -41,10 +47,13 @@ public:
     void updateDepartment(const PsmSrvDepartment &dep, QWidget *window = NULL);
     void deleteDepartment(const QString &depid, QWidget *window = NULL);
 
+    bool readSelectedPhysioItem(QTableWidget *tbl, PsmSrvPhysioItem *physio);
+    QString readSelectedPhysioItemId(QTableWidget *tbl);
     void refreshPhysioItemList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
 
 private:
     int getTableSelectedRow(QTableWidget *tbl);
+    QString readTableSelectedId(QTableWidget *tbl, int idx);
 };
 
 #endif // PSMSERVICE_H
