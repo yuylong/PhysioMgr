@@ -40,6 +40,10 @@ private slots:
 
     void on_pbDepartAdd_clicked();
 
+    void on_pbDepartUpd_clicked();
+
+    void on_pbDepartDel_clicked();
+
 private:
     Ui::MainWindow *ui;
 

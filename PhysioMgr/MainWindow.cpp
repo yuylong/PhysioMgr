@@ -81,6 +81,52 @@ void MainWindow::on_pbDepartAdd_clicked()
     if (dialog.result() != QDialog::Accepted)
         return;
 
-    this->service.insertNewDepartment(dialog.getDepartID(), dialog.getDepartName());
+    PsmSrvDepartment dep;
+    dep.id = dialog.getDepartID();
+    dep.name = dialog.getDepartName();
+    if (dep.id.isEmpty() || dep.name.isEmpty())
+        return;
+
+    this->service.insertNewDepartment(dep);
+    this->refreshDepartmentList();
+}
+
+void MainWindow::on_pbDepartUpd_clicked()
+{
+    PsmSrvDepartment dep;
+    bool ok = this->service.readSelectedDepartment(ui->tblDepartments, &dep);
+    if (!ok)
+        return;
+
+    PsmDlgDepartment dialog(this);
+    dialog.setDepartID(dep.id);
+    dialog.setDepartName(dep.name);
+    dialog.lockDepartID();
+
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    dep.name = dialog.getDepartName();
+    if (dep.name.isEmpty())
+        return;
+
+    this->service.updateDepartment(dep);
+    this->refreshDepartmentList();
+}
+
+void MainWindow::on_pbDepartDel_clicked()
+{
+    PsmSrvDepartment dep;
+    bool ok = this->service.readSelectedDepartment(ui->tblDepartments, &dep);
+    if (!ok)
+        return;
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "删除确认", "确认要删除科室 " + dep.name + " (" + dep.id +")？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    this->service.deleteDepartment(dep.id);
     this->refreshDepartmentList();
 }
