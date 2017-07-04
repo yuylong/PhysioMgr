@@ -15,6 +15,14 @@ public:
     explicit PsmDlgDepartment(QWidget *parent = 0);
     ~PsmDlgDepartment();
 
+    QString getDepartID() const;
+    QString getDepartName() const;
+
+    void setDepartID(const QString &id);
+    void setDepartName(const QString &name);
+    void lockDepartID();
+    void unlockDepartID();
+
 private:
     Ui::PsmDlgDepartment *ui;
 };
