@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `ysphysiodb` /*!40100 DEFAULT CHARACTER SET utf8 
 USE `ysphysiodb`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: ysphysiodb
+-- Host: 10.3.3.157    Database: ysphysiodb
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -37,7 +37,7 @@ CREATE TABLE `departments` (
 
 LOCK TABLES `departments` WRITE;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
-INSERT INTO `departments` VALUES ('FK','妇科'),('NK','内科'),('WK','外科');
+INSERT INTO `departments` VALUES ('EK','儿科'),('FK','妇科'),('NK','内科'),('WK','外科');
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +172,7 @@ CREATE TABLE `physio_items` (
 
 LOCK TABLES `physio_items` WRITE;
 /*!40000 ALTER TABLE `physio_items` DISABLE KEYS */;
-INSERT INTO `physio_items` VALUES ('LL','腊疗',1.00),('MB','米波',1.00),('WF','外敷',1.20),('WFKD','外敷烤电',1.00),('ZJ','针灸',1.00);
+INSERT INTO `physio_items` VALUES ('AJ','艾灸',1.00),('BBG','白拔罐',1.00),('CDB','超短波',1.00),('CJB','冲击波',1.00),('FXBG','放血拔罐',1.00),('FZ','飞针',1.00),('JTN','颈推拿',1.00),('JTN2','肩推拿',1.00),('LL','腊疗',1.00),('LXY','卢向阳',1.00),('MB','米波',1.00),('NMB','纳米波',1.00),('QY','牵引',1.00),('SBG','石拔罐',1.00),('SXZTN','上下肢推拿',1.00),('WB','微波',1.00),('WF','外敷',1.00),('WFKD','外敷烤电',1.00),('XGTN','膝盖推拿',1.00),('XJY','修靖延',1.00),('YTN','腰推拿',1.00),('ZJ','针灸',1.00),('ZP','中频',1.00),('ZYXZ','中药熏蒸',1.00);
 /*!40000 ALTER TABLE `physio_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,4 +219,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-01 16:31:18
+-- Dump completed on 2017-07-05 14:04:35
