@@ -21,6 +21,16 @@ struct PsmSrvPhysioItem {
     double price;
 };
 
+struct PsmSrvDoctor {
+    QString id;
+    QString name;
+    bool isNurse;
+    QString type;
+    QString depId;
+    QString depName;
+    QString phone;
+};
+
 class PsmService
 {
 protected:
@@ -57,6 +67,11 @@ public:
     void insertNewPhysioItem(const PsmSrvPhysioItem &physio, QWidget *window = NULL);
     void updatePhysioItem(const PsmSrvPhysioItem &physio, QWidget *window = NULL);
     void deletePhysioItem(const QString &physioid, QWidget *window = NULL);
+
+    /* Doctor */
+    bool readSelectedDoctor(QTableWidget *tbl, PsmSrvDoctor *doctor);
+    QString readSelectedDoctorId(QTableWidget *tbl);
+    void refreshDoctorList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
 
 private:
     int getTableSelectedRow(QTableWidget *tbl);

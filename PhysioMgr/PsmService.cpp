@@ -433,3 +433,61 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法删除选定理疗项目。" + exterrstr);
     return;
 }
+
+bool PsmService::readSelectedDoctor(QTableWidget *tbl, PsmSrvDoctor *doctor)
+{
+    int rowidx = this->getTableSelectedRow(tbl);
+    if (rowidx < 0)
+        return false;
+
+    QTableWidgetItem *itemid = tbl->item(rowidx, 0);
+    QTableWidgetItem *itemname = tbl->item(rowidx, 1);
+    QTableWidgetItem *itemtype = tbl->item(rowidx, 2);
+    QTableWidgetItem *itemdep = tbl->item(rowidx, 3);
+    QTableWidgetItem *itemphone = tbl->item(rowidx, 4);
+    if (itemid == NULL || itemname == NULL)
+        return false;
+
+    doctor->id = itemid->text();
+    doctor->name = itemname->text();
+    doctor->isNurse = itemtype->data(Qt::UserRole).toBool();
+    doctor->type = itemtype->text();
+    doctor->depId = itemdep->data(Qt::UserRole).toString();
+    doctor->depName = itemdep->text();
+    doctor->phone = itemphone->text();
+    return true;
+}
+
+QString PsmService::readSelectedDoctorId(QTableWidget *tbl)
+{
+    return this->readTableSelectedId(tbl, 0);
+}
+
+void PsmService::refreshDoctorList(QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap, datamap;
+    if (colmap.isEmpty())
+        colmap << 0 << 1 << 3 << 5 << 6;
+    if (datamap.isEmpty())
+        datamap << -1 << -1 << 2 << 4 << -1;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.exec("SELECT * FROM doctors;");
+    if (!ok) {
+        QSqlError sqlerr = query.lastError();
+        QString exterrstr;
+        if (sqlerr.isValid()) {
+            exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                        "数据库系统描述：" + sqlerr.text();
+        }
+        QMessageBox::warning(window, "数据库错误", "无法完成医护人员列表刷新。" + exterrstr);
+        return;
+    }
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap, datamap);
+}
