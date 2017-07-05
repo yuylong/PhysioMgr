@@ -52,9 +52,10 @@ CREATE TABLE `doctors` (
   `id` varchar(64) NOT NULL,
   `name` varchar(64) DEFAULT NULL,
   `isnurse` tinyint(4) DEFAULT NULL,
-  `phonenum` varchar(32) DEFAULT NULL,
+  `type` varchar(32) DEFAULT NULL,
   `depid` varchar(64) DEFAULT NULL,
   `depname` varchar(64) DEFAULT NULL,
+  `phonenum` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -219,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-05 14:04:35
+-- Dump completed on 2017-07-05 16:01:04
