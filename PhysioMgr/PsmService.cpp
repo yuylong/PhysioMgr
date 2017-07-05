@@ -135,6 +135,42 @@ void PsmService::refreshDepartmentList(QLabel *lbl, QTableWidget *tbl, QWidget *
     this->database.fillTableWidget(tbl, &query, colmap);
 }
 
+void PsmService::searchDepartment(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap;
+    if (colmap.isEmpty())
+        colmap << 0 << 1;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM departments "
+                       "WHERE UPPER(id) LIKE UPPER(:srchstr) OR name LIKE :srchstr;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(":srchstr", "%" + srchstr + "%");
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap);
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成科室信息检索。" + exterrstr);
+    return;
+}
+
 void PsmService::insertNewDepartment(const PsmSrvDepartment &dep, QWidget *window)
 {
     if (window == NULL)
@@ -271,4 +307,129 @@ void PsmService::refreshPhysioItemList(QLabel *lbl, QTableWidget *tbl, QWidget *
 
     lbl->setText(QString::number(query.size()));
     this->database.fillTableWidget(tbl, &query, colmap);
+}
+
+void PsmService::searchPhysioItem(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap;
+    if (colmap.isEmpty())
+        colmap << 0 << 1 << 2;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM physio_items "
+                       "WHERE UPPER(id) LIKE UPPER(:srchstr) OR name LIKE :srchstr;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(":srchstr", "%" + srchstr + "%");
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap);
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成理疗项目检索。" + exterrstr);
+    return;
+}
+
+void PsmService::insertNewPhysioItem(const PsmSrvPhysioItem &physio, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("INSERT INTO physio_items VALUES(?, ?, ?);");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, physio.id);
+    query.bindValue(1, physio.name);
+    query.bindValue(2, physio.price);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法添加新的理疗项目。" + exterrstr);
+    return;
+
+}
+
+void PsmService::updatePhysioItem(const PsmSrvPhysioItem &physio, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("UPDATE physio_items SET name=?, price=? WHERE id=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, physio.name);
+    query.bindValue(1, physio.price);
+    query.bindValue(2, physio.id);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成理疗项目信息更新。" + exterrstr);
+    return;
+}
+
+void PsmService::deletePhysioItem(const QString &physioid, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("DELETE FROM physio_items WHERE id=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, physioid);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法删除选定理疗项目。" + exterrstr);
+    return;
 }

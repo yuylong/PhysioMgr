@@ -40,16 +40,23 @@ public:
 
     bool init(QWidget *window = NULL);
 
+    /* Departments */
     bool readSelectedDepartment(QTableWidget *tbl, PsmSrvDepartment *dep);
     QString readSelectedDepartmentId(QTableWidget *tbl);
     void refreshDepartmentList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void searchDepartment(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertNewDepartment(const PsmSrvDepartment &dep, QWidget *window = NULL);
     void updateDepartment(const PsmSrvDepartment &dep, QWidget *window = NULL);
     void deleteDepartment(const QString &depid, QWidget *window = NULL);
 
+    /* Physio Items */
     bool readSelectedPhysioItem(QTableWidget *tbl, PsmSrvPhysioItem *physio);
     QString readSelectedPhysioItemId(QTableWidget *tbl);
     void refreshPhysioItemList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void searchPhysioItem(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void insertNewPhysioItem(const PsmSrvPhysioItem &physio, QWidget *window = NULL);
+    void updatePhysioItem(const PsmSrvPhysioItem &physio, QWidget *window = NULL);
+    void deletePhysioItem(const QString &physioid, QWidget *window = NULL);
 
 private:
     int getTableSelectedRow(QTableWidget *tbl);
