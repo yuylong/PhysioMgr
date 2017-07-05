@@ -11,6 +11,7 @@
 
 #include <QMessageBox>
 #include "PsmDlgDepartment.h"
+#include "PsmDlgPhysioItem.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -129,4 +130,65 @@ void MainWindow::on_pbDepartDel_clicked()
 
     this->service.deleteDepartment(dep.id);
     this->refreshDepartmentList();
+}
+
+void MainWindow::on_pbPhysioItemAdd_clicked()
+{
+    PsmDlgPhysioItem dialog(this);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    PsmSrvPhysioItem physio;
+    physio.id = dialog.getPhysioId();
+    physio.name = dialog.getPhysioName();
+    physio.price = dialog.getPhysioPrice();
+    if (physio.id.isEmpty() || physio.name.isEmpty())
+        return;
+
+    this->service.insertNewPhysioItem(physio);
+    this->refreshPhysioItemList();
+}
+
+void MainWindow::on_pbPhysioItemUpd_clicked()
+{
+    PsmSrvPhysioItem physio;
+    bool ok = this->service.readSelectedPhysioItem(ui->tblPhysioList, &physio);
+    if (!ok)
+        return;
+
+    PsmDlgPhysioItem dialog(this);
+    dialog.setPhysioId(physio.id);
+    dialog.setPhysioName(physio.name);
+    dialog.setPhysioPrice(physio.price);
+    dialog.lockPhysioId();
+
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    physio.name = dialog.getPhysioName();
+    physio.price = dialog.getPhysioPrice();
+    if (physio.name.isEmpty())
+        return;
+
+    this->service.updatePhysioItem(physio);
+    this->refreshPhysioItemList();
+}
+
+void MainWindow::on_pbPhysioItemDel_clicked()
+{
+    PsmSrvPhysioItem physio;
+    bool ok = this->service.readSelectedPhysioItem(ui->tblPhysioList, &physio);
+    if (!ok)
+        return;
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "删除确认",
+                                   "确认要删除理疗项目 " + physio.name + " (" + physio.id +")？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    this->service.deletePhysioItem(physio.id);
+    this->refreshPhysioItemList();
 }

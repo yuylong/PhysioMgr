@@ -920,7 +920,7 @@
              </column>
              <column>
               <property name="text">
-               <string>单价</string>
+               <string>单价（元）</string>
               </property>
              </column>
             </widget>

@@ -44,6 +44,12 @@ private slots:
 
     void on_pbDepartDel_clicked();
 
+    void on_pbPhysioItemAdd_clicked();
+
+    void on_pbPhysioItemUpd_clicked();
+
+    void on_pbPhysioItemDel_clicked();
+
 private:
     Ui::MainWindow *ui;
 
