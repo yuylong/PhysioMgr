@@ -147,7 +147,8 @@ QSqlQuery PsmDatabase::getQuery()
     return query;
 }
 
-void PsmDatabase::fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query, const QList<int> &colmap)
+void PsmDatabase::fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query,
+                                  const QList<int> &colmap, const QList<int> &datamap)
 {
     tblwdg->setRowCount(query->size());
     tblwdg->setColumnCount(colmap.size());
@@ -170,6 +171,9 @@ void PsmDatabase::fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query, const 
                 item = new QTableWidgetItem(valstr);
                 tblwdg->setItem(row, i, item);
             }
+
+            if (datamap.size() > i && datamap[i] > 0)
+                item->setData(Qt::UserRole, rec.value(datamap[i]));
         }
         row++;
     } while (query->next());

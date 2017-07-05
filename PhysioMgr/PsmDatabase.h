@@ -42,7 +42,8 @@ public:
     bool isDatabaseStarted() const;
 
     QSqlQuery getQuery();
-    void fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query, const QList<int> &colmap);
+    void fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query,
+                         const QList<int> &colmap, const QList<int> &datamap = QList<int>());
 };
 
 #endif // PSMDATABASE_H
