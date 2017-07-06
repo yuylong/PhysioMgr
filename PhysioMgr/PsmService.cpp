@@ -373,7 +373,6 @@ bad:
     }
     QMessageBox::warning(window, "数据库错误", "无法添加新的理疗项目。" + exterrstr);
     return;
-
 }
 
 void PsmService::updatePhysioItem(const PsmSrvPhysioItem &physio, QWidget *window)
@@ -490,4 +489,77 @@ void PsmService::refreshDoctorList(QLabel *lbl, QTableWidget *tbl, QWidget *wind
 
     lbl->setText(QString::number(query.size()));
     this->database.fillTableWidget(tbl, &query, colmap, datamap);
+}
+
+void PsmService::searchDoctor(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap, datamap;
+    if (colmap.isEmpty())
+        colmap << 0 << 1 << 3 << 5 << 6;
+    if (datamap.isEmpty())
+        datamap << -1 << -1 << 2 << 4 << -1;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM doctors "
+                       "WHERE UPPER(id) LIKE UPPER(:srchstr) OR name LIKE :srchstr OR "
+                             "depname LIKE :srchstr OR phonenum LIKE :srchstr;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(":srchstr", "%" + srchstr + "%");
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap, datamap);
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成医护人员检索。" + exterrstr);
+    return;
+}
+
+void PsmService::insertDoctor(const PsmSrvDoctor &doctor, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("INSERT INTO doctors VALUES(?, ?, ?, ?, ?, ?, ?);");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, doctor.id);
+    query.bindValue(1, doctor.name);
+    query.bindValue(2, doctor.isNurse);
+    query.bindValue(3, doctor.type);
+    query.bindValue(4, doctor.depId);
+    query.bindValue(5, doctor.depName);
+    query.bindValue(6, doctor.phone);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法添加新的医护人员。" + exterrstr);
+    return;
 }

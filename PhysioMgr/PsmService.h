@@ -72,6 +72,8 @@ public:
     bool readSelectedDoctor(QTableWidget *tbl, PsmSrvDoctor *doctor);
     QString readSelectedDoctorId(QTableWidget *tbl);
     void refreshDoctorList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void searchDoctor(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void insertDoctor(const PsmSrvDoctor &doctor, QWidget *window = NULL);
 
 private:
     int getTableSelectedRow(QTableWidget *tbl);
