@@ -37,19 +37,22 @@ SOURCES += main.cpp\
     PsmService.cpp \
     PsmDlgDepartment.cpp \
     PsmDlgPhysioItem.cpp \
-    PsmDlgDoctor.cpp
+    PsmDlgDoctor.cpp \
+    PsmDlgDepartSel.cpp
 
 HEADERS  += MainWindow.h \
     PsmDatabase.h \
     PsmService.h \
     PsmDlgDepartment.h \
     PsmDlgPhysioItem.h \
-    PsmDlgDoctor.h
+    PsmDlgDoctor.h \
+    PsmDlgDepartSel.h
 
 FORMS    += MainWindow.ui \
     PsmDlgDepartment.ui \
     PsmDlgPhysioItem.ui \
-    PsmDlgDoctor.ui
+    PsmDlgDoctor.ui \
+    PsmDlgDepartSel.ui
 
 DISTFILES += \
     PsmDbConfig.xml
