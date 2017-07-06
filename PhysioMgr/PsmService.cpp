@@ -563,3 +563,66 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法添加新的医护人员。" + exterrstr);
     return;
 }
+
+void PsmService::updateDoctor(const PsmSrvDoctor &doctor, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("UPDATE doctors SET name=?, isnurse=?, type=?, "
+                                          "depid=?, depname=?, phonenum=? WHERE id=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, doctor.name);
+    query.bindValue(1, doctor.isNurse);
+    query.bindValue(2, doctor.type);
+    query.bindValue(3, doctor.depId);
+    query.bindValue(4, doctor.depName);
+    query.bindValue(5, doctor.phone);
+    query.bindValue(6, doctor.id);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成医护人员信息更新。" + exterrstr);
+    return;
+}
+
+void PsmService::deleteDoctor(const QString &doctorid, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("DELETE FROM doctors WHERE id=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, doctorid);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法删除选定医护人员。" + exterrstr);
+    return;
+}

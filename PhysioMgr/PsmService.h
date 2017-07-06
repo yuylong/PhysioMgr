@@ -74,6 +74,8 @@ public:
     void refreshDoctorList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void searchDoctor(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertDoctor(const PsmSrvDoctor &doctor, QWidget *window = NULL);
+    void updateDoctor(const PsmSrvDoctor &doctor, QWidget *window = NULL);
+    void deleteDoctor(const QString &doctorid, QWidget *window = NULL);
 
 private:
     int getTableSelectedRow(QTableWidget *tbl);
