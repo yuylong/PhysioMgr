@@ -1,6 +1,8 @@
 #include "PsmDlgDoctor.h"
 #include "ui_PsmDlgDoctor.h"
 
+#include "PsmDlgDepartSel.h"
+
 PsmDlgDoctor::PsmDlgDoctor(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgDoctor)
@@ -51,10 +53,94 @@ QString PsmDlgDoctor::getDepartId() const
 
 QString PsmDlgDoctor::getDepartName() const
 {
-    return ui->pbDoctorDepart->text();
+    if (this->departId.isEmpty())
+        return QString();
+    else
+        return ui->pbDoctorDepart->text();
 }
 
 QString PsmDlgDoctor::getPhoneNum() const
 {
     return ui->leDoctorPhone->text();
+}
+
+void PsmDlgDoctor::setDoctorId(const QString &id)
+{
+    ui->leDoctorID->setText(id);
+}
+
+void PsmDlgDoctor::setDoctorName(const QString &name)
+{
+    ui->leDoctorName->setText(name);
+}
+
+void PsmDlgDoctor::setIsNurse(bool isnurse)
+{
+    if (isnurse)
+        ui->cmbDoctorType->setCurrentIndex(1);
+    else
+        ui->cmbDoctorType->setCurrentIndex(0);
+}
+
+void PsmDlgDoctor::setType(const QString &)
+{
+    return;
+}
+
+void PsmDlgDoctor::setDepartId(const QString &depid)
+{
+    this->departId = depid;
+}
+
+void PsmDlgDoctor::setDepartName(const QString &depname)
+{
+    ui->pbDoctorDepart->setText(depname);
+}
+
+void PsmDlgDoctor::setPhoneNum(const QString &phonenum)
+{
+    ui->leDoctorPhone->setText(phonenum);
+}
+
+void PsmDlgDoctor::lockDoctorId()
+{
+    ui->leDoctorID->setEnabled(false);
+}
+
+void PsmDlgDoctor::unlockDoctorId()
+{
+    ui->leDoctorID->setEnabled(true);
+}
+
+void PsmDlgDoctor::on_pbDoctorDepart_clicked()
+{
+    if (this->service == NULL)
+        return;
+
+    PsmDlgDepartSel dialog;
+    dialog.setService(this->service);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    PsmSrvDepartment dep;
+    bool ok = dialog.getSelectedDepart(&dep);
+    if (!ok)
+        return;
+
+    this->departId = dep.id;
+    ui->pbDoctorDepart->setText(dep.name);
+}
+
+void PsmDlgDoctor::on_buttonBox_accepted()
+{
+    if (ui->leDoctorID->text().isEmpty() || ui->leDoctorName->text().isEmpty()) {
+        QMessageBox::warning(this, "信息填写错误", "医生的编号和姓名必须填写。");
+        return;
+    }
+    if (this->departId.isEmpty()) {
+        QMessageBox::warning(this, "信息填写错误", "医生的科室信息必须填写。");
+        return;
+    }
+    this->accept();
 }

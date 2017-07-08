@@ -50,6 +50,8 @@ private slots:
 
     void on_pbPhysioItemDel_clicked();
 
+    void on_pbDoctorAdd_clicked();
+
 private:
     Ui::MainWindow *ui;
 

@@ -38,6 +38,11 @@ public:
     void lockDoctorId();
     void unlockDoctorId();
 
+private slots:
+    void on_pbDoctorDepart_clicked();
+
+    void on_buttonBox_accepted();
+
 private:
     Ui::PsmDlgDoctor *ui;
     PsmService *service;

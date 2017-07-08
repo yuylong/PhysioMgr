@@ -10,6 +10,7 @@
 #include "ui_MainWindow.h"
 
 #include <QMessageBox>
+#include "PsmDlgDoctor.h"
 #include "PsmDlgDepartment.h"
 #include "PsmDlgPhysioItem.h"
 
@@ -191,4 +192,9 @@ void MainWindow::on_pbPhysioItemDel_clicked()
 
     this->service.deletePhysioItem(physio.id);
     this->refreshPhysioItemList();
+}
+
+void MainWindow::on_pbDoctorAdd_clicked()
+{
+
 }
