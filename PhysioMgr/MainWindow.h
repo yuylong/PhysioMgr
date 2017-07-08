@@ -52,6 +52,8 @@ private slots:
 
     void on_pbDoctorAdd_clicked();
 
+    void on_pbDoctorRefrsh_clicked();
+
 private:
     Ui::MainWindow *ui;
 

@@ -633,7 +633,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="leDoctorCnt">
+           <widget class="QLabel" name="lblDoctorCnt">
             <property name="text">
              <string>0</string>
             </property>

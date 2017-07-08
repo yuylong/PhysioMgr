@@ -196,5 +196,27 @@ void MainWindow::on_pbPhysioItemDel_clicked()
 
 void MainWindow::on_pbDoctorAdd_clicked()
 {
+    PsmDlgDoctor dialog;
+    dialog.setService(&this->service);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
 
+    PsmSrvDoctor doctor;
+    doctor.id = dialog.getDoctorId();
+    doctor.name = dialog.getDoctorName();
+    doctor.isNurse = dialog.getIsNurse();
+    doctor.type = dialog.getType();
+    doctor.depId = dialog.getDepartId();
+    doctor.depName = dialog.getDepartName();
+    doctor.phone = dialog.getPhoneNum();
+    this->service.insertDoctor(doctor);
+}
+
+void MainWindow::on_pbDoctorRefrsh_clicked()
+{
+    if (ui->chbDoctorListAll->isChecked() || ui->leDoctorCond->text().isEmpty())
+        this->service.refreshDoctorList(ui->lblDoctorCnt, ui->tblDoctors);
+    else
+        this->service.searchDoctor(ui->leDoctorCond->text(), ui->lblDoctorCnt, ui->tblDoctors);
 }
