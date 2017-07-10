@@ -724,3 +724,36 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法完成患者信息检索。" + exterrstr);
     return;
 }
+
+void PsmService::insertPatient(const PsmSrvPatient &patient, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("INSERT INTO patients VALUES(?, ?, ?, ?, ?, ?);");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, patient.id);
+    query.bindValue(1, patient.name);
+    query.bindValue(2, patient.dob);
+    query.bindValue(3, patient.phone);
+    query.bindValue(4, patient.address);
+    query.bindValue(5, patient.comment);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法添加新的患者信息。" + exterrstr);
+    return;
+}
