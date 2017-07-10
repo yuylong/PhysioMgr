@@ -626,3 +626,101 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法删除选定医护人员。" + exterrstr);
     return;
 }
+
+bool PsmService::readSelectedPatient(QTableWidget *tbl, PsmSrvPatient *patient)
+{
+    int rowidx = this->getTableSelectedRow(tbl);
+    if (rowidx < 0)
+        return false;
+
+    QTableWidgetItem *itemid = tbl->item(rowidx, 0);
+    QTableWidgetItem *itemname = tbl->item(rowidx, 1);
+    QTableWidgetItem *itemdob = tbl->item(rowidx, 2);
+    QTableWidgetItem *itemphone = tbl->item(rowidx, 3);
+    QTableWidgetItem *itemaddr = tbl->item(rowidx, 4);
+    QTableWidgetItem *itemcomment = tbl->item(rowidx, 5);
+    if (itemid == NULL || itemname == NULL)
+        return false;
+
+    patient->id = itemid->text();
+    patient->name = itemname->text();
+    patient->dob = itemdob->data(Qt::UserRole).toDate();
+    patient->phone = itemphone->text();
+    patient->address = itemaddr->text();
+    patient->comment = itemcomment->text();
+    return true;
+}
+
+QString PsmService::readSelectedPatientId(QTableWidget *tbl)
+{
+    return this->readTableSelectedId(tbl, 0);
+}
+
+void PsmService::refreshPatientList(QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap, datamap;
+    if (colmap.isEmpty())
+        colmap << 0 << 1 << 2 << 3 << 4 << 5;
+    if (datamap.isEmpty())
+        datamap << -1 << -1 << 2 << -1 << -1 << -1;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.exec("SELECT * FROM patients;");
+    if (!ok) {
+        QSqlError sqlerr = query.lastError();
+        QString exterrstr;
+        if (sqlerr.isValid()) {
+            exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                        "数据库系统描述：" + sqlerr.text();
+        }
+        QMessageBox::warning(window, "数据库错误", "无法完成患者列表刷新。" + exterrstr);
+        return;
+    }
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap, datamap);
+
+}
+
+void PsmService::searchPatient(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap, datamap;
+    if (colmap.isEmpty())
+        colmap << 0 << 1 << 2 << 3 << 4 << 5;
+    if (datamap.isEmpty())
+        datamap << -1 << -1 << 2 << -1 << -1 << -1;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM patients "
+                       "WHERE UPPER(id) = UPPER(:instr) OR name LIKE :srchstr OR phonenum = :instr;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(":instr", srchstr);
+    query.bindValue(":srchstr", "%" + srchstr + "%");
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap, datamap);
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成患者信息检索。" + exterrstr);
+    return;
+}

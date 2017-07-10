@@ -26,8 +26,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-
 bool MainWindow::initService()
 {
     static QString dbConfigFile("PsmDbConfig.xml");

@@ -2,6 +2,7 @@
 #define PSMSERVICE_H
 
 #include <QString>
+#include <QDate>
 #include <QtSql>
 #include <QLabel>
 #include <QWidget>
@@ -29,6 +30,15 @@ struct PsmSrvDoctor {
     QString depId;
     QString depName;
     QString phone;
+};
+
+struct PsmSrvPatient {
+    QString id;
+    QString name;
+    QDate dob;
+    QString phone;
+    QString address;
+    QString comment;
 };
 
 class PsmService
@@ -68,7 +78,7 @@ public:
     void updatePhysioItem(const PsmSrvPhysioItem &physio, QWidget *window = NULL);
     void deletePhysioItem(const QString &physioid, QWidget *window = NULL);
 
-    /* Doctor */
+    /* Doctors */
     bool readSelectedDoctor(QTableWidget *tbl, PsmSrvDoctor *doctor);
     QString readSelectedDoctorId(QTableWidget *tbl);
     void refreshDoctorList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
@@ -76,6 +86,12 @@ public:
     void insertDoctor(const PsmSrvDoctor &doctor, QWidget *window = NULL);
     void updateDoctor(const PsmSrvDoctor &doctor, QWidget *window = NULL);
     void deleteDoctor(const QString &doctorid, QWidget *window = NULL);
+
+    /* Patients */
+    bool readSelectedPatient(QTableWidget *tbl, PsmSrvPatient *patient);
+    QString readSelectedPatientId(QTableWidget *tbl);
+    void refreshPatientList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void searchPatient(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
 
 private:
     int getTableSelectedRow(QTableWidget *tbl);
