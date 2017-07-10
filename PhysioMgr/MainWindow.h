@@ -54,12 +54,18 @@ private slots:
 
     void on_pbDoctorRefrsh_clicked();
 
+    void on_pbDoctorUpd_clicked();
+
+    void on_pbDoctorDel_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     static const QString dbConfigFile;
 
-    QList<int> departColMap, physioItemColMap;
+    QString curDoctorListCond;
+    void refreshDoctorList();
+
     void refreshDepartmentList();
     void refreshPhysioItemList();
 

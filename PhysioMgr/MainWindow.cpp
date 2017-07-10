@@ -194,6 +194,27 @@ void MainWindow::on_pbPhysioItemDel_clicked()
     this->refreshPhysioItemList();
 }
 
+void MainWindow::refreshDoctorList()
+{
+    if (this->curDoctorListCond.isNull())
+        return;
+    if (this->curDoctorListCond.isEmpty())
+        this->service.refreshDoctorList(ui->lblDoctorCnt, ui->tblDoctors);
+    else
+        this->service.searchDoctor(this->curDoctorListCond, ui->lblDoctorCnt, ui->tblDoctors);
+
+}
+
+void MainWindow::on_pbDoctorRefrsh_clicked()
+{
+    if (ui->chbDoctorListAll->isChecked() || ui->leDoctorCond->text().isEmpty())
+        this->curDoctorListCond = QString("");
+    else
+        this->curDoctorListCond = ui->leDoctorCond->text();
+
+    this->refreshDoctorList();
+}
+
 void MainWindow::on_pbDoctorAdd_clicked()
 {
     PsmDlgDoctor dialog;
@@ -211,12 +232,54 @@ void MainWindow::on_pbDoctorAdd_clicked()
     doctor.depName = dialog.getDepartName();
     doctor.phone = dialog.getPhoneNum();
     this->service.insertDoctor(doctor);
+    this->refreshDoctorList();
 }
 
-void MainWindow::on_pbDoctorRefrsh_clicked()
+void MainWindow::on_pbDoctorUpd_clicked()
 {
-    if (ui->chbDoctorListAll->isChecked() || ui->leDoctorCond->text().isEmpty())
-        this->service.refreshDoctorList(ui->lblDoctorCnt, ui->tblDoctors);
-    else
-        this->service.searchDoctor(ui->leDoctorCond->text(), ui->lblDoctorCnt, ui->tblDoctors);
+    PsmSrvDoctor doctor;
+    bool ok = this->service.readSelectedDoctor(ui->tblDoctors, &doctor);
+    if (!ok)
+        return;
+
+    PsmDlgDoctor dialog;
+    dialog.setService(&this->service);
+    dialog.setDoctorId(doctor.id);
+    dialog.setDoctorName(doctor.name);
+    dialog.setIsNurse(doctor.isNurse);
+    dialog.setType(doctor.type);
+    dialog.setDepartId(doctor.depId);
+    dialog.setDepartName(doctor.depName);
+    dialog.setPhoneNum(doctor.phone);
+    dialog.lockDoctorId();
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    doctor.id = dialog.getDoctorId();
+    doctor.name = dialog.getDoctorName();
+    doctor.isNurse = dialog.getIsNurse();
+    doctor.type = dialog.getType();
+    doctor.depId = dialog.getDepartId();
+    doctor.depName = dialog.getDepartName();
+    doctor.phone = dialog.getPhoneNum();
+    this->service.updateDoctor(doctor);
+    this->refreshDoctorList();
+}
+
+void MainWindow::on_pbDoctorDel_clicked()
+{
+    PsmSrvDoctor doctor;
+    bool ok = this->service.readSelectedDoctor(ui->tblDoctors, &doctor);
+    if (!ok)
+        return;
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "删除确认",
+                                   "确认要删除医护人员 " + doctor.name + " (编号：" + doctor.id +")？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    this->service.deleteDoctor(doctor.id);
+    this->refreshDoctorList();
 }
