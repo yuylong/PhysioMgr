@@ -93,6 +93,8 @@ public:
     void refreshPatientList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void searchPatient(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertPatient(const PsmSrvPatient &patient, QWidget *window = NULL);
+    void updatePatient(const PsmSrvPatient &patient, QWidget *window = NULL);
+    void deletePatient(const QString &patientid, QWidget *window = NULL);
 
 private:
     int getTableSelectedRow(QTableWidget *tbl);
