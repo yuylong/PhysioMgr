@@ -64,6 +64,8 @@ private slots:
 
     void on_pbPatientAdd_clicked();
 
+    void on_pbPatientDel_clicked();
+
 private:
     Ui::MainWindow *ui;
 

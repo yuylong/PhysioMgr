@@ -323,7 +323,47 @@ void MainWindow::on_pbPatientAdd_clicked()
 
 void MainWindow::on_pbPatientUdp_clicked()
 {
+    PsmSrvPatient patient;
+    bool ok = this->service.readSelectedPatient(ui->tblPatients, &patient);
+    if (!ok)
+        return;
 
+    PsmDlgPatient dialog;
+    dialog.setPatientId(patient.id);
+    dialog.setPatientName(patient.name);
+    dialog.setDob(patient.dob);
+    dialog.setPhoneNum(patient.phone);
+    dialog.setAddress(patient.address);
+    dialog.setComment(patient.comment);
+    dialog.lockPatientId();
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    patient.id = dialog.getPatientId();
+    patient.name = dialog.getPatientName();
+    patient.dob = dialog.getDob();
+    patient.phone = dialog.getPhoneNum();
+    patient.address = dialog.getAddress();
+    patient.comment = dialog.getComment();
+    this->service.updatePatient(patient);
+
+    this->refreshPatientList();
 }
 
+void MainWindow::on_pbPatientDel_clicked()
+{
+    PsmSrvPatient patient;
+    bool ok = this->service.readSelectedPatient(ui->tblPatients, &patient);
+    if (!ok)
+        return;
 
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "删除确认",
+                                   "确认要删除患者 " + patient.name + " (编号：" + patient.id +")？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    this->service.deletePatient(patient.id);
+    this->refreshPatientList();
+}
