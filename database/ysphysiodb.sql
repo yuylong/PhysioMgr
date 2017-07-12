@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `hospi_physio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hospi_physio` (
-  `hospi_id` bigint(20) NOT NULL,
+  `hospi_id` varchar(64) NOT NULL,
   `physio_id` varchar(64) DEFAULT NULL,
   `physio_name` varchar(64) DEFAULT NULL,
   `freq_day` int(11) DEFAULT NULL,
@@ -102,10 +102,13 @@ DROP TABLE IF EXISTS `hospi_records`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hospi_records` (
-  `id` bigint(20) NOT NULL,
+  `id` varchar(64) NOT NULL,
   `pati_id` varchar(64) DEFAULT NULL,
   `pati_name` varchar(64) DEFAULT NULL,
+  `dep_id` varchar(64) DEFAULT NULL,
+  `dep_name` varchar(64) DEFAULT NULL,
   `room_id` varchar(64) DEFAULT NULL,
+  `disease` varchar(128) DEFAULT NULL,
   `doct_id` varchar(64) DEFAULT NULL,
   `doct_name` varchar(64) DEFAULT NULL,
   `nurse_id` varchar(64) DEFAULT NULL,
@@ -220,4 +223,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-05 16:01:04
+-- Dump completed on 2017-07-12 14:53:15

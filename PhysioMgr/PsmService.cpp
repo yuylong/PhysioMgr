@@ -819,3 +819,54 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法删除选定患者。" + exterrstr);
     return;
 }
+
+void PsmService::searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
+                                QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap, datamap;
+    if (colmap.isEmpty())
+        colmap << 0 << 2 << 4 << 5 << 6 << 8 << 10 << 11 << 12;
+    if (datamap.isEmpty())
+        datamap << -1 << 1 << 3 << -1 << -1 << 7 << 9 << 11 << 12;
+
+    if (window == NULL)
+        window = this->parent;
+
+    QString dqstr = "";
+    if (startdate.isValid())
+        dqstr += " AND enddate >= :sdate";
+    if (enddate.isValid())
+        dqstr += " AND startdate <= :edate";
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM hospi_records "
+                       "WHERE (UPPER(id) = UPPER(:instr) OR UPPER(pati_id) = UPPER(:instr) OR "
+                              "pati_name LIKE :srchstr OR UPPER(room_id) = UPPER(:instr))" + dqstr + ";");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(":instr", srchstr);
+    query.bindValue(":srchstr", "%" + srchstr + "%");
+    if (startdate.isValid())
+        query.bindValue(":sdate", startdate);
+    if (enddate.isValid())
+        query.bindValue(":edate", enddate);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap, datamap);
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成住院信息检索。" + exterrstr);
+    return;
+}

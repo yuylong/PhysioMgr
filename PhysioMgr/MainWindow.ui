@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -355,7 +355,7 @@
                <item>
                 <widget class="QLabel" name="label_8">
                  <property name="text">
-                  <string>住院号/患者姓名/科室/床号/病种/医护：</string>
+                  <string>住院号/患者/床号：</string>
                  </property>
                 </widget>
                </item>
@@ -553,6 +553,16 @@
           <column>
            <property name="text">
             <string>护士</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>起始日期</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>结束日期</string>
            </property>
           </column>
          </widget>

@@ -96,6 +96,10 @@ public:
     void updatePatient(const PsmSrvPatient &patient, QWidget *window = NULL);
     void deletePatient(const QString &patientid, QWidget *window = NULL);
 
+    /* Hospi-records */
+    void searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
+                        QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+
 private:
     int getTableSelectedRow(QTableWidget *tbl);
     QString readTableSelectedId(QTableWidget *tbl, int idx);
