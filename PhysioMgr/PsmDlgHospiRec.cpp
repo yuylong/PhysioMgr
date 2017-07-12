@@ -89,3 +89,38 @@ QDate PsmDlgHospiRec::getEndDate() const
 {
     return ui->deEndDate->date();
 }
+
+void PsmDlgHospiRec::setHospiRecId(const QString &id)
+{
+    ui->leHospiRecId->setText(id);
+}
+
+void PsmDlgHospiRec::setPatientId(const QString &patientid)
+{
+    ui->lePatientId->setText(patientid);
+}
+
+void PsmDlgHospiRec::setPatientName(const QString &patientname)
+{
+    ui->lePatientName->setText(patientname);
+}
+
+void PsmDlgHospiRec::setDepartId(const QString &depid)
+{
+    this->depid = depid;
+}
+
+void PsmDlgHospiRec::setDepartName(const QString &depname)
+{
+    ui->pbDepart->setText(depname);
+}
+
+void PsmDlgHospiRec::setRoomId(const QString &roomid)
+{
+    ui->leRoomId->setText(roomid);
+}
+
+void PsmDlgHospiRec::setDisease(const QString &disease)
+{
+    ui->leDisease->setText(disease);
+}
