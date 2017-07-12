@@ -58,6 +58,12 @@ private slots:
 
     void on_pbDoctorDel_clicked();
 
+    void on_pbPatientUdp_clicked();
+
+    void on_pbPatientRefresh_clicked();
+
+    void on_pbPatientAdd_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -65,6 +71,8 @@ private:
 
     QString curDoctorListCond;
     void refreshDoctorList();
+    QString curPatientListCond;
+    void refreshPatientList();
 
     void refreshDepartmentList();
     void refreshPhysioItemList();

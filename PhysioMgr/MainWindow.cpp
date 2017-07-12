@@ -11,6 +11,7 @@
 
 #include <QMessageBox>
 #include "PsmDlgDoctor.h"
+#include "PsmDlgPatient.h"
 #include "PsmDlgDepartment.h"
 #include "PsmDlgPhysioItem.h"
 
@@ -281,3 +282,48 @@ void MainWindow::on_pbDoctorDel_clicked()
     this->service.deleteDoctor(doctor.id);
     this->refreshDoctorList();
 }
+
+void MainWindow::refreshPatientList()
+{
+    if (this->curPatientListCond.isEmpty())
+        return;
+
+    this->service.searchPatient(this->curPatientListCond, ui->lblPatientCnt, ui->tblPatients);
+}
+
+void MainWindow::on_pbPatientRefresh_clicked()
+{
+    if (ui->lePatientCond->text().isEmpty()) {
+        QMessageBox::warning(this, "缺少必要信息", "请务必输入检索关键字。");
+        return;
+    }
+
+    this->curPatientListCond = ui->lePatientCond->text();
+    this->refreshPatientList();
+}
+
+void MainWindow::on_pbPatientAdd_clicked()
+{
+    PsmDlgPatient dialog;
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    PsmSrvPatient patient;
+    patient.id = dialog.getPatientId();
+    patient.name = dialog.getPatientName();
+    patient.dob = dialog.getDob();
+    patient.phone = dialog.getPhoneNum();
+    patient.address = dialog.getAddress();
+    patient.comment = dialog.getComment();
+    this->service.insertPatient(patient);
+
+    this->refreshPatientList();
+}
+
+void MainWindow::on_pbPatientUdp_clicked()
+{
+
+}
+
+

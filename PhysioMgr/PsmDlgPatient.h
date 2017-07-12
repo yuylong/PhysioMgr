@@ -32,6 +32,9 @@ public:
     void lockPatientId();
     void unlockPatientId();
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     Ui::PsmDlgPatient *ui;
 };
