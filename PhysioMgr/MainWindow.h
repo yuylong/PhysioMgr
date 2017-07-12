@@ -66,6 +66,8 @@ private slots:
 
     void on_pbPatientDel_clicked();
 
+    void on_pbHospiRefrsh_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -75,6 +77,9 @@ private:
     void refreshDoctorList();
     QString curPatientListCond;
     void refreshPatientList();
+    QString curHospiRecListCond;
+    QDate curHospiRecStartDate, curHospiRecEndDate;
+    void refreshHospiRecList();
 
     void refreshDepartmentList();
     void refreshPhysioItemList();

@@ -367,3 +367,30 @@ void MainWindow::on_pbPatientDel_clicked()
     this->service.deletePatient(patient.id);
     this->refreshPatientList();
 }
+
+void MainWindow::refreshHospiRecList()
+{
+    if (this->curHospiRecListCond.isEmpty())
+        return;
+
+    this->service.searchHospiRec(this->curHospiRecListCond, this->curHospiRecStartDate, this->curHospiRecEndDate,
+                                 ui->lblHospiCnt, ui->tblHospiList);
+}
+
+void MainWindow::on_pbHospiRefrsh_clicked()
+{
+    if (ui->leHospiRecCond->text().isEmpty())
+        return;
+    this->curHospiRecListCond = ui->leHospiRecCond->text();
+
+    this->curHospiRecStartDate = QDate();
+    this->curHospiRecEndDate = QDate();
+    if (!ui->chbHospiStartHasDate->isChecked()) {
+        if (ui->chbHospiRecHasStartDate->isChecked())
+            this->curHospiRecStartDate = ui->deHospiRecStartDate->date();
+        if (ui->chbHospiRecHasEndDate->isChecked())
+            this->curHospiRecEndDate = ui->deHospiRecEndDate->date();
+    }
+
+    this->refreshHospiRecList();
+}

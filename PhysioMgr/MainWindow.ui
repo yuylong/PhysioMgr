@@ -360,7 +360,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit"/>
+                <widget class="QLineEdit" name="leHospiRecCond"/>
                </item>
               </layout>
              </item>
@@ -374,7 +374,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox">
+                <widget class="QCheckBox" name="chbHospiStartHasDate">
                  <property name="text">
                   <string>不限</string>
                  </property>
@@ -388,14 +388,14 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_2">
+                <widget class="QCheckBox" name="chbHospiRecHasStartDate">
                  <property name="text">
                   <string>从</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+                <widget class="QDateEdit" name="deHospiRecStartDate"/>
                </item>
                <item>
                 <spacer name="horizontalSpacer_9">
@@ -411,14 +411,14 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_3">
+                <widget class="QCheckBox" name="chbHospiRecHasEndDate">
                  <property name="text">
                   <string>到</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QDateTimeEdit" name="dateTimeEdit_2"/>
+                <widget class="QDateEdit" name="deHospiRecEndDate"/>
                </item>
                <item>
                 <spacer name="horizontalSpacer_8">
@@ -463,7 +463,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="leHospiCnt">
+           <widget class="QLabel" name="lblHospiCnt">
             <property name="text">
              <string>0</string>
             </property>
