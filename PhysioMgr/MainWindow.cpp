@@ -405,17 +405,36 @@ void MainWindow::on_pbPatientHospiAdd_clicked()
 
     PsmDlgHospiRec dialog;
     dialog.setService(&this->service);
-
     dialog.setPatientId(patient.id);
     dialog.setPatientName(patient.name);
-
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)
         return;
 
+    PsmSrvHospiRec hospirec;
+    hospirec.id = QString();
+    hospirec.patientid = dialog.getPatientId();
+    hospirec.patientname = dialog.getPatientName();
+    hospirec.depid = dialog.getDepartId();
+    hospirec.depname = dialog.getDepartName();
+    hospirec.roomid = dialog.getRoomId();
+    hospirec.disease = dialog.getDisease();
+    hospirec.doctorid = dialog.getDoctorId();
+    hospirec.doctorname = dialog.getDoctorName();
+    hospirec.nurseid = dialog.getNurseId();
+    hospirec.nursename = dialog.getNurseName();
+    hospirec.startdate = dialog.getStartDate();
+    hospirec.enddate = dialog.getEndDate();
+
+    QString hospirecid;
+    this->service.insertHospiRec(hospirec, &hospirecid);
+    if (hospirecid.isEmpty())
+        return;
+
     QMessageBox::StandardButton answer;
     answer = QMessageBox::question(this, "操作确认",
-                                   "住院信息创建成功！\n是否要继续添加住院期间的理疗项目？");
+                                   "住院信息创建成功（住院号：" + hospirecid + "）！\n"
+                                   "是否要继续添加住院期间的理疗项目？");
     if (answer != QMessageBox::Yes)
         return;
 

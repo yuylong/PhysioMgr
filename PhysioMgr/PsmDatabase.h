@@ -12,6 +12,7 @@
 #include <QString>
 #include <QList>
 #include <QtSql>
+#include <QtXml>
 #include <QTableWidget>
 
 
@@ -34,8 +35,10 @@ public:
     QString getPassword() const;
     QString getSchema() const;
     bool isConnectionConfigured() const;
-    void configConnection(QString host, QString username, QString password, QString schema);
-    void configConnectionFromFile(QString path);
+    void configConnection(const QString &host, const QString &username,
+                          const QString &password, const QString &schema);
+    void configConnectionFromDom(const QDomElement &docelem);
+    void configConnectionFromFile(const QString &path);
 
     bool startDatabase();
     void stopDatabase();

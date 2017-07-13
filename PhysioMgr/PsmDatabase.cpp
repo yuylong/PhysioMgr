@@ -10,7 +10,6 @@
 
 #include <QIODevice>
 #include <QFile>
-#include <QtXml>
 
 QString PsmDatabase::connectname("PsmDb");
 
@@ -48,7 +47,8 @@ bool PsmDatabase::isConnectionConfigured() const
     return !(this->host.isEmpty() || this->username.isEmpty() || this->password.isEmpty() || this->schema.isEmpty());
 }
 
-void PsmDatabase::configConnection(QString host, QString username, QString password, QString schema)
+void PsmDatabase::configConnection(const QString &host, const QString &username,
+                                   const QString &password, const QString &schema)
 {
     if (this->isStarted)
         return;
@@ -59,23 +59,10 @@ void PsmDatabase::configConnection(QString host, QString username, QString passw
     this->schema = schema;
 }
 
-void PsmDatabase::configConnectionFromFile(QString path)
+void PsmDatabase::configConnectionFromDom(const QDomElement &docelem)
 {
     if (this->isStarted)
         return;
-
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
-        return;
-
-    QDomDocument domdoc("PsmDbConfig");
-    if (!domdoc.setContent(&file)) {
-        file.close();
-        return;
-    }
-    file.close();
-
-    QDomElement docelem = domdoc.documentElement();
     if (QString::compare(docelem.tagName(), "database") != 0)
         return;
 
@@ -93,6 +80,26 @@ void PsmDatabase::configConnectionFromFile(QString path)
 
         domnode = domnode.nextSibling();
     }
+}
+
+void PsmDatabase::configConnectionFromFile(const QString &path)
+{
+    if (this->isStarted)
+        return;
+
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+
+    QDomDocument domdoc("PsmDbConfig");
+    if (!domdoc.setContent(&file)) {
+        file.close();
+        return;
+    }
+    file.close();
+
+    QDomElement docelem = domdoc.documentElement();
+    this->configConnectionFromDom(docelem);
 }
 
 bool PsmDatabase::startDatabase()

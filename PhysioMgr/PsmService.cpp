@@ -2,10 +2,12 @@
 
 #include <QList>
 #include <QApplication>
+#include <QtXml>
 
 PsmService::PsmService() :
     configfile(), database()
 {
+    hospiRecIdLen = 8;
 }
 
 QString PsmService::getConfigFile() const
@@ -38,6 +40,23 @@ PsmDatabase *PsmService::getDatabase()
     return &this->database;
 }
 
+void PsmService::initParametersFromDom(const QDomElement &docelem)
+{
+    if (QString::compare(docelem.tagName(), "database") != 0)
+        return;
+
+    QDomNode domnode = docelem.firstChild();
+    while (!domnode.isNull()) {
+        QDomElement domelem = domnode.toElement();
+        if (QString::compare(domelem.tagName(), "hospiRecIdLen") == 0) {
+            this->hospiRecIdLen = domelem.text().toInt();
+        }
+
+        domnode = domnode.nextSibling();
+    }
+
+}
+
 bool PsmService::init(QWidget *window)
 {
     if (window == NULL)
@@ -48,19 +67,34 @@ bool PsmService::init(QWidget *window)
         return false;
     }
 
+    QFile file(this->configfile);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(window, "致命错误", "数据库配置文件无法打开，请联系开发人员解决！");
+        return false;
+    }
 
-    this->database.configConnectionFromFile(this->configfile);
-    if ( !this->database.isConnectionConfigured() ) {
-        QMessageBox::critical(window, "致命错误", "无法打开数据库配置文件，请联系开发人员解决！");
-         return false;
+    QDomDocument domdoc("PsmDbConfig");
+    if (!domdoc.setContent(&file)) {
+        file.close();
+        QMessageBox::critical(window, "致命错误", "数据库配置文件无法解读，请联系开发人员解决！");
+        return false;
+    }
+    file.close();
+
+    QDomElement docelem = domdoc.documentElement();
+    this->database.configConnectionFromDom(docelem);
+    if (!this->database.isConnectionConfigured()) {
+        QMessageBox::critical(window, "致命错误", "配置文件无法成功配置数据库，请联系开发人员解决！");
+        return false;
     }
 
     this->database.startDatabase();
     if (!this->database.isDatabaseStarted()) {
-        QMessageBox::critical(window, "致命错误", "数据库无法完成配置工作，请联系开发人员解决！");
+        QMessageBox::critical(window, "致命错误", "数据库无法启动运转，请联系开发人员解决！");
         return false;
     }
 
+    this->initParametersFromDom(docelem);
     return true;
 }
 
@@ -870,3 +904,191 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法完成住院信息检索。" + exterrstr);
     return;
 }
+
+QString PsmService::getCurrentMaxHospiRecId()
+{
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT MAX(id) FROM hospi_records WHERE LENGTH(id) = ?;");
+    if (!ok)
+        return QString();
+
+    query.bindValue(0, this->hospiRecIdLen);
+    ok = query.exec();
+    if (!ok)
+        return QString();
+
+    if (query.size() < 1)
+        return QString();
+
+    ok = query.first();
+    if (!ok)
+        return QString();
+
+    QSqlRecord rec = query.record();
+    QString curid = rec.value(0).toString();
+    return curid;
+}
+
+bool PsmService::checkHospiRecId(const QString &curid, bool *hasletter)
+{
+    bool _hasletter = false;
+
+    for (int i = 0; i < curid.length(); i++) {
+        QChar ch = curid.at(i);
+        if (!ch.isDigit() && !ch.isUpper())
+            return false;
+        if (ch == 'I' || ch == 'O')
+            return false;
+
+        if (ch.isLetter())
+            _hasletter = true;
+    }
+    if (hasletter != NULL)
+        *hasletter = _hasletter;
+    return true;
+}
+
+bool PsmService::needWarningForHospiRecId(const QString &curid, bool hasletter)
+{
+    QChar warnletter;
+    int ignorecnt;
+    if (hasletter) {
+        warnletter = 'Z';
+        ignorecnt = 2;
+    } else {
+        warnletter = '9';
+        ignorecnt = 2;
+    }
+
+    for (int i = 0; i < curid.length() - ignorecnt; i++) {
+        if (curid.at(i) != warnletter)
+            return false;
+    }
+    return true;
+}
+
+QString PsmService::getNextHospiRecId(const QString &curid, bool *hasletter)
+{
+    bool _hasletter = false;
+    bool ok = this->checkHospiRecId(curid, &_hasletter);
+    if (!ok)
+        return QString();
+
+    QString nextid = curid;
+    for (int i = nextid.length() - 1; i >= 0; i--) {
+        char ch = nextid.at(i).toLatin1();
+        if ((ch >= '0' && ch < '9') || (ch >= 'A' && ch < 'Z') ) {
+            if (ch == 'I' - 1 || ch == 'O' - 1)
+                nextid.replace(i, 1, QChar::fromLatin1(ch + 2));
+            else
+                nextid.replace(i, 1, QChar::fromLatin1(ch + 1));
+            break;
+        } else if (ch == '9' && !_hasletter && i != 0) {
+            nextid.replace(i, 1, QChar::fromLatin1('0'));
+            continue;
+        } else if (ch == '9') {
+            nextid.replace(i, 1, QChar::fromLatin1('A'));
+            break;
+        } else if (ch == 'Z' && i != 0) {
+            nextid.replace(i, 1, QChar::fromLatin1('0'));
+            continue;
+        } else {
+            return QString();
+        }
+    }
+    if (hasletter != NULL)
+        *hasletter = _hasletter;
+    return nextid;
+}
+
+QString PsmService::getCurrentNextHostpiRecId(QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    QString curid = getCurrentMaxHospiRecId();
+    if (curid.isEmpty())
+        return QString("0").repeated(this->hospiRecIdLen - 1) + "1";
+
+    bool hasletter = false;
+    QString nextid = getNextHospiRecId(curid, &hasletter);
+    if (nextid.isEmpty()) {
+        QMessageBox::critical(window, "系统错误", "数据库无法继续生成住院号，请联系开发人员解决。");
+        return QString();
+    }
+
+    bool needwarn = this->needWarningForHospiRecId(nextid, hasletter);
+    if (needwarn) {
+        if (hasletter) {
+            QMessageBox::warning(window, "系统告警", "可用住院号已接近枯竭，请联系开发人员扩充号码池。");
+        } else {
+            QMessageBox::warning(window, "系统告警", "纯数字住院号已快用尽，用尽后将引入字母编号。\n"
+                                         "不希望使用字母编号，请联系开发人员扩充号码池。");
+        }
+    }
+    return nextid;
+}
+
+void PsmService::insertHospiRec(const PsmSrvHospiRec &hospirec, QString *hospirecid, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    if (!hospirec.id.isEmpty())
+        QMessageBox::warning(window, "警告", "住院号需自动生成，预置号码无效！");
+
+    bool ok;
+    QString nextid;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.exec("LOCK TABLES hospi_records WRITE;");
+    if (!ok)
+        goto bad_nolock;
+
+    nextid = this->getCurrentNextHostpiRecId(window);
+    if (nextid.isEmpty())
+        goto bad;
+
+    query = this->database.getQuery();
+    ok = query.prepare("INSERT INTO hospi_records VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, nextid);
+    query.bindValue(1, hospirec.patientid);
+    query.bindValue(2, hospirec.patientname);
+    query.bindValue(3, hospirec.depid);
+    query.bindValue(4, hospirec.depname);
+    query.bindValue(5, hospirec.roomid);
+    query.bindValue(6, hospirec.disease);
+    query.bindValue(7, hospirec.doctorid);
+    query.bindValue(8, hospirec.doctorname);
+    query.bindValue(9, hospirec.nurseid);
+    query.bindValue(10, hospirec.nursename);
+    query.bindValue(11, hospirec.startdate);
+    query.bindValue(12, hospirec.enddate);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    query = this->database.getQuery();
+    query.exec("UNLOCK TABLES;");
+
+    if (hospirecid != NULL)
+        *hospirecid = nextid;
+    return;
+
+bad:
+    query = this->database.getQuery();
+    query.exec("UNLOCK TABLES;");
+bad_nolock:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法添加新的住院信息。" + exterrstr);
+    return;
+}
+

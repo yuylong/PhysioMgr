@@ -4,4 +4,5 @@
     <username>root</username>
     <password>root</password>
     <schema>ysphysiodb</schema>
+    <hospiRecIdLen>8</hospiRecIdLen>
 </database>

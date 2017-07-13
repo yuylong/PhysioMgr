@@ -3,7 +3,9 @@
 
 #include <QString>
 #include <QDate>
+#include <QMap>
 #include <QtSql>
+#include <QtXml>
 #include <QLabel>
 #include <QWidget>
 #include <QTableWidget>
@@ -41,12 +43,31 @@ struct PsmSrvPatient {
     QString comment;
 };
 
+struct PsmSrvHospiRec {
+    QString id;
+    QString patientid;
+    QString patientname;
+    QString depid;
+    QString depname;
+    QString roomid;
+    QString disease;
+    QString doctorid;
+    QString doctorname;
+    QString nurseid;
+    QString nursename;
+    QDate startdate;
+    QDate enddate;
+};
+
 class PsmService
 {
 protected:
     QString configfile;
     PsmDatabase database;
     QMainWindow *parent;
+
+    int hospiRecIdLen;
+    void initParametersFromDom(const QDomElement &docelem);
 
 public:
     PsmService();
@@ -99,10 +120,17 @@ public:
     /* Hospi-records */
     void searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
                         QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    void insertHospiRec(const PsmSrvHospiRec &hospirec, QString *hospirecid = NULL, QWidget *window = NULL);
 
-private:
+private:    
     int getTableSelectedRow(QTableWidget *tbl);
     QString readTableSelectedId(QTableWidget *tbl, int idx);
+
+    QString getCurrentMaxHospiRecId();
+    bool checkHospiRecId(const QString &curid, bool *hasletter = NULL);
+    bool needWarningForHospiRecId(const QString &curid, bool hasletter);
+    QString getNextHospiRecId(const QString &curid, bool *hasletter = NULL);
+    QString getCurrentNextHostpiRecId(QWidget *window = NULL);
 };
 
 #endif // PSMSERVICE_H
