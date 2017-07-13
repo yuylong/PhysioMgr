@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>住院信息</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
    <item>
-    <layout class="QGridLayout" name="gridLayout">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,1" columnminimumwidth="0,1">
      <item row="5" column="1">
       <widget class="QLineEdit" name="leDisease"/>
      </item>
@@ -154,6 +154,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leHospiRecId</tabstop>
+  <tabstop>lePatientId</tabstop>
+  <tabstop>lePatientName</tabstop>
+  <tabstop>pbDepart</tabstop>
+  <tabstop>leRoomId</tabstop>
+  <tabstop>leDisease</tabstop>
+  <tabstop>pbDoctor</tabstop>
+  <tabstop>pbNurse</tabstop>
+  <tabstop>deStartDate</tabstop>
+  <tabstop>deEndDate</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -163,8 +175,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -179,8 +191,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

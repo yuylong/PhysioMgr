@@ -1,6 +1,8 @@
 #include "PsmDlgHospiRec.h"
 #include "ui_PsmDlgHospiRec.h"
 
+#include "PsmDlgDepartSel.h"
+
 PsmDlgHospiRec::PsmDlgHospiRec(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgHospiRec)
@@ -14,6 +16,16 @@ PsmDlgHospiRec::PsmDlgHospiRec(QWidget *parent) :
 PsmDlgHospiRec::~PsmDlgHospiRec()
 {
     delete ui;
+}
+
+PsmService *PsmDlgHospiRec::getService() const
+{
+    return this->service;
+}
+
+void PsmDlgHospiRec::setService(PsmService *service)
+{
+    this->service = service;
 }
 
 QString PsmDlgHospiRec::getHospiRecId() const
@@ -123,4 +135,51 @@ void PsmDlgHospiRec::setRoomId(const QString &roomid)
 void PsmDlgHospiRec::setDisease(const QString &disease)
 {
     ui->leDisease->setText(disease);
+}
+
+void PsmDlgHospiRec::setDoctorId(const QString &doctorid)
+{
+    this->doctorid = doctorid;
+}
+
+void PsmDlgHospiRec::setDoctorName(const QString &doctorname)
+{
+    ui->pbDoctor->setText(doctorname);
+}
+
+void PsmDlgHospiRec::setNurseId(const QString &nurseid)
+{
+    this->nurseid = nurseid;
+}
+
+void PsmDlgHospiRec::setNurseName(const QString &nursename)
+{
+    ui->pbNurse->setText(nursename);
+}
+
+void PsmDlgHospiRec::setStartDate(const QDate &date)
+{
+    ui->deStartDate->setDate(date);
+}
+
+void PsmDlgHospiRec::setEndDate(const QDate &date)
+{
+    ui->deEndDate->setDate(date);
+}
+
+void PsmDlgHospiRec::on_pbDepart_clicked()
+{
+    PsmDlgDepartSel dialog;
+    dialog.setService(this->service);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    PsmSrvDepartment depart;
+    bool ok = dialog.getSelectedDepart(&depart);
+    if (!ok)
+        return;
+
+    this->depid = depart.id;
+    ui->pbDepart->setText(depart.name);
 }

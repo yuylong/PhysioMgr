@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include "PsmDlgDoctor.h"
 #include "PsmDlgPatient.h"
+#include "PsmDlgHospiRec.h"
 #include "PsmDlgDepartment.h"
 #include "PsmDlgPhysioItem.h"
 
@@ -393,4 +394,30 @@ void MainWindow::on_pbHospiRefrsh_clicked()
     }
 
     this->refreshHospiRecList();
+}
+
+void MainWindow::on_pbPatientHospiAdd_clicked()
+{
+    PsmSrvPatient patient;
+    bool ok = this->service.readSelectedPatient(ui->tblPatients, &patient);
+    if (!ok)
+        return;
+
+    PsmDlgHospiRec dialog;
+    dialog.setService(&this->service);
+
+    dialog.setPatientId(patient.id);
+    dialog.setPatientName(patient.name);
+
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "操作确认",
+                                   "住院信息创建成功！\n是否要继续添加住院期间的理疗项目？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    // TODO: 进行理疗项目的输入。
 }

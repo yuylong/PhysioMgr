@@ -68,6 +68,8 @@ private slots:
 
     void on_pbHospiRefrsh_clicked();
 
+    void on_pbPatientHospiAdd_clicked();
+
 private:
     Ui::MainWindow *ui;
 

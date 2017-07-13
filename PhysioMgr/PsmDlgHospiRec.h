@@ -17,6 +17,9 @@ public:
     explicit PsmDlgHospiRec(QWidget *parent = 0);
     ~PsmDlgHospiRec();
 
+    PsmService *getService() const;
+    void setService(PsmService *service);
+
     QString getHospiRecId() const;
     QString getPatientId() const;
     QString getPatientName() const;
@@ -38,6 +41,15 @@ public:
     void setDepartName(const QString &depname);
     void setRoomId(const QString &roomid);
     void setDisease(const QString &disease);
+    void setDoctorId(const QString &doctorid);
+    void setDoctorName(const QString &doctorname);
+    void setNurseId(const QString &nurseid);
+    void setNurseName(const QString &nursename);
+    void setStartDate(const QDate &date);
+    void setEndDate(const QDate &date);
+
+private slots:
+    void on_pbDepart_clicked();
 
 private:
     Ui::PsmDlgHospiRec *ui;
