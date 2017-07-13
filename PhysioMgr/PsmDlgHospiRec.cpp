@@ -2,6 +2,7 @@
 #include "ui_PsmDlgHospiRec.h"
 
 #include "PsmDlgDepartSel.h"
+#include "PsmDlgDoctorSel.h"
 
 PsmDlgHospiRec::PsmDlgHospiRec(QWidget *parent) :
     QDialog(parent),
@@ -182,4 +183,38 @@ void PsmDlgHospiRec::on_pbDepart_clicked()
 
     this->depid = depart.id;
     ui->pbDepart->setText(depart.name);
+}
+
+void PsmDlgHospiRec::on_pbDoctor_clicked()
+{
+    PsmDlgDoctorSel dialog;
+    dialog.setService(this->service);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    PsmSrvDoctor doctor;
+    bool ok = dialog.getSelectedDoctor(&doctor);
+    if (!ok)
+        return;
+
+    this->doctorid = doctor.id;
+    ui->pbDoctor->setText(doctor.name);
+}
+
+void PsmDlgHospiRec::on_pbNurse_clicked()
+{
+    PsmDlgDoctorSel dialog;
+    dialog.setService(this->service);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    PsmSrvDoctor nurse;
+    bool ok = dialog.getSelectedDoctor(&nurse);
+    if (!ok)
+        return;
+
+    this->nurseid = nurse.id;
+    ui->pbNurse->setText(nurse.name);
 }

@@ -51,6 +51,10 @@ public:
 private slots:
     void on_pbDepart_clicked();
 
+    void on_pbDoctor_clicked();
+
+    void on_pbNurse_clicked();
+
 private:
     Ui::PsmDlgHospiRec *ui;
     PsmService *service;
