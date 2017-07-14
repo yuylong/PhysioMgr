@@ -440,3 +440,29 @@ void MainWindow::on_pbPatientHospiAdd_clicked()
 
     // TODO: 进行理疗项目的输入。
 }
+
+void MainWindow::on_pbHospiUpd_clicked()
+{
+    PsmSrvHospiRec hospirec;
+    bool ok = this->service.readSelectedHospiRec(ui->tblHospiList, &hospirec);
+    if (!ok)
+        return;
+
+    PsmDlgHospiRec dialog;
+    dialog.setHospiRecId(hospirec.id);
+    dialog.setPatientId(hospirec.patientid);
+    dialog.setPatientName(hospirec.patientname);
+    dialog.setDepartId(hospirec.depid);
+    dialog.setDepartName(hospirec.depname);
+    dialog.setRoomId(hospirec.roomid);
+    dialog.setDisease(hospirec.disease);
+    dialog.setDoctorId(hospirec.doctorid);
+    dialog.setDoctorName(hospirec.doctorname);
+    dialog.setNurseId(hospirec.nurseid);
+    dialog.setNurseName(hospirec.nursename);
+    dialog.setStartDate(hospirec.startdate);
+    dialog.setEndDate(hospirec.enddate);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+}

@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -454,7 +454,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0,0,1,0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0,0,1,0,0,0,0">
           <item>
            <widget class="QLabel" name="label_13">
             <property name="text">
@@ -485,7 +485,7 @@
           <item>
            <widget class="QLabel" name="label_14">
             <property name="text">
-             <string>请在患者管理页面新建住院信息。</string>
+             <string>请在患者管理页登记住院。</string>
             </property>
            </widget>
           </item>
@@ -493,6 +493,13 @@
            <widget class="QPushButton" name="pbHospiUpd">
             <property name="text">
              <string>查看/修改住院信息</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>查看/修改住院理疗</string>
             </property>
            </widget>
           </item>

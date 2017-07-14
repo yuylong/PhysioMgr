@@ -118,6 +118,8 @@ public:
     void deletePatient(const QString &patientid, QWidget *window = NULL);
 
     /* Hospi-records */
+    bool readSelectedHospiRec(QTableWidget *tbl, PsmSrvHospiRec *hospirec);
+    QString readSelectedHospiRecId(QTableWidget *tbl);
     void searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
                         QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertHospiRec(const PsmSrvHospiRec &hospirec, QString *hospirecid = NULL, QWidget *window = NULL);

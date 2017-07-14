@@ -854,6 +854,45 @@ bad:
     return;
 }
 
+bool PsmService::readSelectedHospiRec(QTableWidget *tbl, PsmSrvHospiRec *hospirec)
+{
+    int rowidx = this->getTableSelectedRow(tbl);
+    if (rowidx < 0)
+        return false;
+
+    QTableWidgetItem *itemid = tbl->item(rowidx, 0);
+    QTableWidgetItem *itempatient = tbl->item(rowidx, 1);
+    QTableWidgetItem *itemdep = tbl->item(rowidx, 2);
+    QTableWidgetItem *itemroomid = tbl->item(rowidx, 3);
+    QTableWidgetItem *itemdisease = tbl->item(rowidx, 4);
+    QTableWidgetItem *itemdoctor = tbl->item(rowidx, 5);
+    QTableWidgetItem *itemnurse = tbl->item(rowidx, 6);
+    QTableWidgetItem *itemstart = tbl->item(rowidx, 7);
+    QTableWidgetItem *itemend = tbl->item(rowidx, 8);
+    if (itemid == NULL || itempatient == NULL)
+        return false;
+
+    hospirec->id = itemid->text();
+    hospirec->patientid = itempatient->data(Qt::UserRole).toString();
+    hospirec->patientname = itempatient->text();
+    hospirec->depid = itemdep->data(Qt::UserRole).toString();
+    hospirec->depname = itemdep->text();
+    hospirec->roomid = itemroomid->text();
+    hospirec->disease = itemdisease->text();
+    hospirec->doctorid = itemdoctor->data(Qt::UserRole).toString();
+    hospirec->doctorname = itemdoctor->text();
+    hospirec->nurseid = itemnurse->data(Qt::UserRole).toString();
+    hospirec->nursename = itemnurse->text();
+    hospirec->startdate = itemstart->data(Qt::UserRole).toDate();
+    hospirec->enddate = itemend->data(Qt::UserRole).toDate();
+    return true;
+}
+
+QString PsmService::readSelectedHospiRecId(QTableWidget *tbl)
+{
+    return this->readTableSelectedId(tbl, 0);
+}
+
 void PsmService::searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
                                 QLabel *lbl, QTableWidget *tbl, QWidget *window)
 {
