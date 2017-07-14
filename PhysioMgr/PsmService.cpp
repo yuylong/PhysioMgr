@@ -1131,3 +1131,73 @@ bad_nolock:
     return;
 }
 
+void PsmService::updateHospiRec(const PsmSrvHospiRec &hospirec, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("UPDATE hospi_records "
+                       "SET pati_id=?, pati_name=?, dep_id=?, dep_name=?, room_id=?, disease=?, "
+                           "doct_id=?, doct_name=?, nurse_id=?, nurse_name=?, startdate=?, enddate=? "
+                       "WHERE id=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, hospirec.patientid);
+    query.bindValue(1, hospirec.patientname);
+    query.bindValue(2, hospirec.depid);
+    query.bindValue(3, hospirec.depname);
+    query.bindValue(4, hospirec.roomid);
+    query.bindValue(5, hospirec.disease);
+    query.bindValue(6, hospirec.doctorid);
+    query.bindValue(7, hospirec.doctorname);
+    query.bindValue(8, hospirec.nurseid);
+    query.bindValue(9, hospirec.nursename);
+    query.bindValue(10, hospirec.startdate);
+    query.bindValue(11, hospirec.enddate);
+    query.bindValue(12, hospirec.id);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成住院信息更新。" + exterrstr);
+    return;
+}
+
+void PsmService::deleteHospiRec(const QString &hospirecid, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("DELETE FROM hospi_records WHERE id=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, hospirecid);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法删除选定住院信息。" + exterrstr);
+    return;
+}

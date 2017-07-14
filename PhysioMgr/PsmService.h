@@ -123,6 +123,8 @@ public:
     void searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
                         QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertHospiRec(const PsmSrvHospiRec &hospirec, QString *hospirecid = NULL, QWidget *window = NULL);
+    void updateHospiRec(const PsmSrvHospiRec &hospirec, QWidget *window = NULL);
+    void deleteHospiRec(const QString &hospirecid, QWidget *window = NULL);
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);

@@ -465,4 +465,39 @@ void MainWindow::on_pbHospiUpd_clicked()
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)
         return;
+
+    hospirec.id = dialog.getHospiRecId();
+    hospirec.patientid = dialog.getPatientId();
+    hospirec.patientname = dialog.getPatientName();
+    hospirec.depid = dialog.getDepartId();
+    hospirec.depname = dialog.getDepartName();
+    hospirec.roomid = dialog.getRoomId();
+    hospirec.disease = dialog.getDisease();
+    hospirec.doctorid = dialog.getDoctorId();
+    hospirec.doctorname = dialog.getDoctorName();
+    hospirec.nurseid = dialog.getNurseId();
+    hospirec.nursename = dialog.getNurseName();
+    hospirec.startdate = dialog.getStartDate();
+    hospirec.enddate = dialog.getEndDate();
+
+    this->service.updateHospiRec(hospirec);
+    this->refreshHospiRecList();
+}
+
+void MainWindow::on_pbHospiDel_clicked()
+{
+    PsmSrvHospiRec hospirec;
+    bool ok = this->service.readSelectedHospiRec(ui->tblHospiList, &hospirec);
+    if (!ok)
+        return;
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "删除确认",
+                                   "确认要删除住院信息（住院号：" + hospirec.id +
+                                                    "，患者：" + hospirec.patientname + "）？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    this->service.deleteHospiRec(hospirec.id);
+    this->refreshHospiRecList();
 }

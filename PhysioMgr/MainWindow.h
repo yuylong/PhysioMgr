@@ -72,6 +72,8 @@ private slots:
 
     void on_pbHospiUpd_clicked();
 
+    void on_pbHospiDel_clicked();
+
 private:
     Ui::MainWindow *ui;
 
