@@ -59,6 +59,16 @@ struct PsmSrvHospiRec {
     QDate enddate;
 };
 
+struct PsmSrvHospiPhysio {
+    QString hospirecid;
+    QString physioId;
+    QString physioname;
+    QString freqperiod;
+    QString freqcount;
+    QDate startdate;
+    QDate enddate;
+};
+
 class PsmService
 {
 protected:
@@ -120,11 +130,15 @@ public:
     /* Hospi-records */
     bool readSelectedHospiRec(QTableWidget *tbl, PsmSrvHospiRec *hospirec);
     QString readSelectedHospiRecId(QTableWidget *tbl);
+    bool readOneHospiRec(const QString &hospirecid, PsmSrvHospiRec *hospirec);
     void searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
                         QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertHospiRec(const PsmSrvHospiRec &hospirec, QString *hospirecid = NULL, QWidget *window = NULL);
     void updateHospiRec(const PsmSrvHospiRec &hospirec, QWidget *window = NULL);
     void deleteHospiRec(const QString &hospirecid, QWidget *window = NULL);
+
+    /* Hospi-Physio-registration */
+    void listHospiPhysio(const QString &hospirecid, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);

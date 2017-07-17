@@ -893,6 +893,46 @@ QString PsmService::readSelectedHospiRecId(QTableWidget *tbl)
     return this->readTableSelectedId(tbl, 0);
 }
 
+bool PsmService::readOneHospiRec(const QString &hospirecid, PsmSrvHospiRec *hospirec)
+{
+    if (hospirecid.isEmpty() || hospirec == NULL)
+        return false;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM hospi_records WHERE UPPER(id) = UPPER(?);");
+    if (!ok)
+        return false;
+
+    query.bindValue(0, hospirecid);
+    ok = query.exec();
+    if (!ok)
+        return false;
+
+    if (query.size() < 1)
+        return false;
+
+    ok = query.first();
+    if (!ok)
+        return false;
+
+    QSqlRecord rec = query.record();
+    hospirec->id = rec.value(0).toString();
+    hospirec->patientid = rec.value(1).toString();
+    hospirec->patientname = rec.value(2).toString();
+    hospirec->depid = rec.value(3).toString();
+    hospirec->depname = rec.value(4).toString();
+    hospirec->roomid = rec.value(5).toString();
+    hospirec->disease = rec.value(6).toString();
+    hospirec->doctorid = rec.value(7).toString();
+    hospirec->doctorname = rec.value(8).toString();
+    hospirec->nurseid = rec.value(9).toString();
+    hospirec->nursename = rec.value(10).toString();
+    hospirec->startdate = rec.value(11).toDate();
+    hospirec->enddate = rec.value(12).toDate();
+    return true;
+}
+
 void PsmService::searchHospiRec(const QString &srchstr, const QDate &startdate, const QDate &enddate,
                                 QLabel *lbl, QTableWidget *tbl, QWidget *window)
 {
@@ -1199,5 +1239,42 @@ bad:
                     "数据库系统描述：" + sqlerr.text();
     }
     QMessageBox::warning(window, "数据库错误", "无法删除选定住院信息。" + exterrstr);
+    return;
+}
+
+void PsmService::listHospiPhysio(const QString &hospirecid, QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap, datamap;
+    if (colmap.isEmpty())
+        colmap << 2 << 3 << 4 << 5 << 6;
+    if (datamap.isEmpty())
+        datamap << 1 << 0 << -1 << 5 << 6;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM hospi_physio WHERE hospi_id = ?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, hospirecid);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap, datamap);
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成住院理疗项目信息检索。" + exterrstr);
     return;
 }

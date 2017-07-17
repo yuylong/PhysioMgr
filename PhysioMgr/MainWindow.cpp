@@ -217,7 +217,7 @@ void MainWindow::on_pbDoctorRefrsh_clicked()
 
 void MainWindow::on_pbDoctorAdd_clicked()
 {
-    PsmDlgDoctor dialog;
+    PsmDlgDoctor dialog(this);
     dialog.setService(&this->service);
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)
@@ -242,7 +242,7 @@ void MainWindow::on_pbDoctorUpd_clicked()
     if (!ok)
         return;
 
-    PsmDlgDoctor dialog;
+    PsmDlgDoctor dialog(this);
     dialog.setService(&this->service);
     dialog.setDoctorId(doctor.id);
     dialog.setDoctorName(doctor.name);
@@ -305,7 +305,7 @@ void MainWindow::on_pbPatientRefresh_clicked()
 
 void MainWindow::on_pbPatientAdd_clicked()
 {
-    PsmDlgPatient dialog;
+    PsmDlgPatient dialog(this);
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)
         return;
@@ -329,7 +329,7 @@ void MainWindow::on_pbPatientUdp_clicked()
     if (!ok)
         return;
 
-    PsmDlgPatient dialog;
+    PsmDlgPatient dialog(this);
     dialog.setPatientId(patient.id);
     dialog.setPatientName(patient.name);
     dialog.setDob(patient.dob);
@@ -403,7 +403,7 @@ void MainWindow::on_pbPatientHospiAdd_clicked()
     if (!ok)
         return;
 
-    PsmDlgHospiRec dialog;
+    PsmDlgHospiRec dialog(this);
     dialog.setService(&this->service);
     dialog.setPatientId(patient.id);
     dialog.setPatientName(patient.name);
@@ -448,7 +448,7 @@ void MainWindow::on_pbHospiUpd_clicked()
     if (!ok)
         return;
 
-    PsmDlgHospiRec dialog;
+    PsmDlgHospiRec dialog(this);
     dialog.setHospiRecId(hospirec.id);
     dialog.setPatientId(hospirec.patientid);
     dialog.setPatientName(hospirec.patientname);
