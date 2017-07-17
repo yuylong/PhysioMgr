@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `ysphysiodb` /*!40100 DEFAULT CHARACTER SET utf8 
 USE `ysphysiodb`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 10.3.3.157    Database: ysphysiodb
+-- Host: localhost    Database: ysphysiodb
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -81,9 +81,7 @@ CREATE TABLE `hospi_physio` (
   `physio_id` varchar(64) DEFAULT NULL,
   `physio_name` varchar(64) DEFAULT NULL,
   `freq_day` int(11) DEFAULT NULL,
-  `freq_cnt` int(11) DEFAULT NULL,
-  `startdate` date DEFAULT NULL,
-  `enddate` date DEFAULT NULL
+  `freq_cnt` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -194,6 +192,8 @@ CREATE TABLE `physio_rec` (
   `pati_name` varchar(64) DEFAULT NULL,
   `physio_id` varchar(64) NOT NULL,
   `physio_name` varchar(64) DEFAULT NULL,
+  `nurse_id` varchar(64) DEFAULT NULL,
+  `nurse_name` varchar(64) DEFAULT NULL,
   `optime` datetime NOT NULL,
   PRIMARY KEY (`pati_id`,`physio_id`,`optime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -225,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-12 14:53:15
+-- Dump completed on 2017-07-17 21:33:58
