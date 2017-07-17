@@ -82,6 +82,8 @@ CREATE TABLE `hospi_physio` (
   `physio_name` varchar(64) DEFAULT NULL,
   `freq_day` int(11) DEFAULT NULL,
   `freq_cnt` int(11) DEFAULT NULL
+  `startdate` date DEFAULT NULL,
+  `enddate` date DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
