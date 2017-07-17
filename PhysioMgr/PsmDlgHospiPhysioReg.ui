@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>211</height>
+    <height>204</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,14 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,1,1,1,1" columnstretch="0,1" rowminimumheight="1,1,1,1,1,1" columnminimumwidth="0,1">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
      <item row="3" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,1,0">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetFixedSize</enum>
+       </property>
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
@@ -74,20 +80,17 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QDateEdit" name="deStartDate"/>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lePatientName">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>频率：</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="pbPhysio">
-       <property name="text">
-        <string>[选择理疗项目]</string>
        </property>
       </widget>
      </item>
@@ -105,19 +108,8 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="leHospiRecId">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lePatientName">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
+     <item row="5" column="1">
+      <widget class="QDateEdit" name="deEndDate"/>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
@@ -126,6 +118,9 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="1">
+      <widget class="QDateEdit" name="deStartDate"/>
+     </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_9">
        <property name="text">
@@ -133,8 +128,19 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QDateEdit" name="deEndDate"/>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="leHospiRecId">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pbPhysio">
+       <property name="text">
+        <string>[选择理疗项目]</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

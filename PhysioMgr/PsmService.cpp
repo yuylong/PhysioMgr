@@ -1278,3 +1278,37 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法完成住院理疗项目信息检索。" + exterrstr);
     return;
 }
+
+void PsmService::insertHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("INSERT INTO hospi_physio VALUES(?, ?, ?, ?, ?, ?, ?);");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, hospiphysio.hospirecid);
+    query.bindValue(1, hospiphysio.physioid);
+    query.bindValue(2, hospiphysio.physioname);
+    query.bindValue(3, hospiphysio.freqperiod);
+    query.bindValue(4, hospiphysio.freqcount);
+    query.bindValue(5, hospiphysio.startdate);
+    query.bindValue(6, hospiphysio.enddate);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法添加住院理疗项目信息。" + exterrstr);
+    return;
+}

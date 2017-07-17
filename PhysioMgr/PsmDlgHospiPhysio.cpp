@@ -1,6 +1,8 @@
 #include "PsmDlgHospiPhysio.h"
 #include "ui_PsmDlgHospiPhysio.h"
 
+#include "PsmDlgHospiPhysioReg.h"
+
 PsmDlgHospiPhysio::PsmDlgHospiPhysio(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgHospiPhysio)
@@ -40,6 +42,7 @@ void PsmDlgHospiPhysio::setHospiRecId(const QString hospirecid)
     if (!ok)
         return;
 
+    this->hospirec = hospirec;
     ui->lePatientName->setText(hospirec.patientname);
     ui->leDepartName->setText(hospirec.depname);
     ui->leRoomId->setText(hospirec.roomid);
@@ -49,11 +52,12 @@ void PsmDlgHospiPhysio::setHospiRecId(const QString hospirecid)
     ui->leDates->setText(hospirec.startdate.toString(Qt::ISODate) + " - " +
                          hospirec.enddate.toString(Qt::ISODate));
 
-    this->service->listHospiPhysio(hospirecid, ui->lblCount, ui->tableWidget, this);
+    this->refreshPhysioList();
 }
 
 void PsmDlgHospiPhysio::clearHospiRecId()
 {
+    this->hospirec.id = QString();
     ui->leHospiRecId->setText("");
     ui->lePatientName->setText("");
     ui->leDepartName->setText("");
@@ -65,4 +69,45 @@ void PsmDlgHospiPhysio::clearHospiRecId()
     ui->lblCount->setText("0");
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
+}
+
+void PsmDlgHospiPhysio::refreshPhysioList()
+{
+    if (this->service == NULL)
+        return;
+
+    this->service->listHospiPhysio(ui->leHospiRecId->text(), ui->lblCount, ui->tableWidget, this);
+}
+
+void PsmDlgHospiPhysio::on_pbRefresh_clicked()
+{
+    this->refreshPhysioList();
+}
+
+void PsmDlgHospiPhysio::on_pbAdd_clicked()
+{
+    if (this->service == NULL)
+        return;
+
+    PsmDlgHospiPhysioReg dialog(this);
+    dialog.setService(this->service);
+    dialog.setHospiRecId(this->hospirec.id);
+    dialog.setPatientName(this->hospirec.patientname);
+    dialog.setStartDate(this->hospirec.startdate);
+    dialog.setEndDate(this->hospirec.enddate);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)\
+        return;
+
+    PsmSrvHospiPhysio hospiphysio;
+    hospiphysio.hospirecid = this->hospirec.id;
+    hospiphysio.physioid = dialog.getPhysioId();
+    hospiphysio.physioname = dialog.getPhysioName();
+    hospiphysio.freqperiod = dialog.getFreqPeriod();
+    hospiphysio.freqcount = dialog.getFreqCount();
+    hospiphysio.startdate = dialog.getStartDate();
+    hospiphysio.enddate = dialog.getEndDate();
+
+    this->service->insertHospiPhysio(hospiphysio, this);
+    this->refreshPhysioList();
 }

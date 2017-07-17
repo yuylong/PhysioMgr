@@ -294,7 +294,7 @@
      </column>
      <column>
       <property name="text">
-       <string>单位时间周期</string>
+       <string>每周期天数</string>
       </property>
      </column>
      <column>

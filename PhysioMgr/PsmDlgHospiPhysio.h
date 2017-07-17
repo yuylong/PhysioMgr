@@ -23,9 +23,17 @@ public:
     void setHospiRecId(const QString hospirecid);
     void clearHospiRecId();
 
+    void refreshPhysioList();
+
+private slots:
+    void on_pbRefresh_clicked();
+
+    void on_pbAdd_clicked();
+
 private:
     Ui::PsmDlgHospiPhysio *ui;
     PsmService *service;
+    PsmSrvHospiRec hospirec;
 };
 
 #endif // PSMDLGHOSPIPHYSIO_H
