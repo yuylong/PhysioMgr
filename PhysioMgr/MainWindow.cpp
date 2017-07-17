@@ -503,7 +503,7 @@ void MainWindow::on_pbHospiDel_clicked()
     this->refreshHospiRecList();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pbHospiPhysio_clicked()
 {
     QString hospirecid = this->service.readSelectedHospiRecId(ui->tblHospiList);
     if (hospirecid.isEmpty())

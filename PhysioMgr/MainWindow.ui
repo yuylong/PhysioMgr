@@ -497,7 +497,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="pbHospiPhysio">
             <property name="text">
              <string>查看/修改住院理疗</string>
             </property>

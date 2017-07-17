@@ -74,7 +74,7 @@ private slots:
 
     void on_pbHospiDel_clicked();
 
-    void on_pushButton_clicked();
+    void on_pbHospiPhysio_clicked();
 
 private:
     Ui::MainWindow *ui;
