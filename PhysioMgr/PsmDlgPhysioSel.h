@@ -16,6 +16,16 @@ public:
     explicit PsmDlgPhysioSel(QWidget *parent = 0);
     ~PsmDlgPhysioSel();
 
+    PsmService *getService() const;
+    void setService(PsmService *service);
+
+    bool getSelectedPhysioItem(PsmSrvPhysioItem *physio);
+
+private slots:
+    void on_pbRefresh_clicked();
+
+    void on_tableWidget_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::PsmDlgPhysioSel *ui;
     PsmService *service;
