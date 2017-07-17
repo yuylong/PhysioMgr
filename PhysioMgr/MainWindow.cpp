@@ -13,6 +13,7 @@
 #include "PsmDlgDoctor.h"
 #include "PsmDlgPatient.h"
 #include "PsmDlgHospiRec.h"
+#include "PsmDlgHospiPhysio.h"
 #include "PsmDlgDepartment.h"
 #include "PsmDlgPhysioItem.h"
 
@@ -500,4 +501,16 @@ void MainWindow::on_pbHospiDel_clicked()
 
     this->service.deleteHospiRec(hospirec.id);
     this->refreshHospiRecList();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString hospirecid = this->service.readSelectedHospiRecId(ui->tblHospiList);
+    if (hospirecid.isEmpty())
+        return;
+
+    PsmDlgHospiPhysio dialog(this);
+    dialog.setService(&this->service);
+    dialog.setHospiRecId(hospirecid);
+    dialog.exec();
 }
