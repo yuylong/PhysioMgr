@@ -143,7 +143,8 @@ public:
     bool readSelectedHospiPhysio(QTableWidget *tbl, PsmSrvHospiPhysio *hospiphysio);
     void listHospiPhysio(const QString &hospirecid, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window = NULL);
-    void updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window = NULL);
+    void updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio,
+                           const QDate &oldstartdate = QDate(), QWidget *window = NULL);
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);

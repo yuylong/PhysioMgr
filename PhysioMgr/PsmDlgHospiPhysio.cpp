@@ -117,9 +117,12 @@ void PsmDlgHospiPhysio::on_pbAdd_clicked()
 void PsmDlgHospiPhysio::on_pbUpdate_clicked()
 {
     PsmSrvHospiPhysio hospiphysio;
+    QDate oldstartdate;
     bool ok = this->service->readSelectedHospiPhysio(ui->tableWidget, &hospiphysio);
     if (!ok)
         return;
+
+    oldstartdate = hospiphysio.startdate;
 
     PsmDlgHospiPhysioReg dialog(this);
     dialog.setService(this->service);
@@ -146,6 +149,6 @@ void PsmDlgHospiPhysio::on_pbUpdate_clicked()
     hospiphysio.startdate = dialog.getStartDate();
     hospiphysio.enddate = dialog.getEndDate();
 
-    this->service->updateHospiPhysio(hospiphysio, this);
+    this->service->updateHospiPhysio(hospiphysio, oldstartdate, this);
     this->refreshPhysioList();
 }

@@ -1343,9 +1343,41 @@ bad:
     return;
 }
 
-void PsmService::updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window)
+void PsmService::updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio,
+                                   const QDate &oldstartdate, QWidget *window)
 {
     if (window == NULL)
         window = this->parent;
 
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("UPDATE hospi_physio "
+                       "SET pati_id=?, pati_name=?, freq_day=?, freq_cnt=?, startdate=?, endate=? "
+                       "WHERE hospi_id=? AND physio_id=? AND startdate=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, hospiphysio.patientid);
+    query.bindValue(1, hospiphysio.patientname);
+    query.bindValue(2, hospiphysio.freqperiod);
+    query.bindValue(3, hospiphysio.freqcount);
+    query.bindValue(4, hospiphysio.startdate);
+    query.bindValue(5, hospiphysio.enddate);
+    query.bindValue(6, hospiphysio.hospirecid);
+    query.bindValue(7, hospiphysio.physioid);
+    query.bindValue(8, (oldstartdate.isValid() ? oldstartdate : hospiphysio.startdate));
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法更新住院理疗项目信息。" + exterrstr);
+    return;
 }

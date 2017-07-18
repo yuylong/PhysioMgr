@@ -80,10 +80,13 @@ CREATE TABLE `hospi_physio` (
   `hospi_id` varchar(64) NOT NULL,
   `pati_id` varchar(64) DEFAULT NULL,
   `pati_name` varchar(64) DEFAULT NULL,
-  `physio_id` varchar(64) DEFAULT NULL,
+  `physio_id` varchar(64) NOT NULL,
   `physio_name` varchar(64) DEFAULT NULL,
   `freq_day` int(11) DEFAULT NULL,
-  `freq_cnt` int(11) DEFAULT NULL
+  `freq_cnt` int(11) DEFAULT NULL,
+  `startdate` date NOT NULL,
+  `enddate` date DEFAULT NULL,
+  PRIMARY KEY (`hospi_id`,`physio_id`,`startdate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
