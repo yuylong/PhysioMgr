@@ -25,6 +25,9 @@ public:
 
     void refreshPhysioList();
 
+private slots:
+    void on_pbRefresh_clicked();
+
 private:
     Ui::PsmDlgPhysioList *ui;
     PsmService *service;

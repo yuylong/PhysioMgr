@@ -32,6 +32,10 @@ private slots:
 
     void on_pbUpdate_clicked();
 
+    void on_pbDelete_clicked();
+
+    void on_pbShowList_clicked();
+
 private:
     Ui::PsmDlgHospiPhysio *ui;
     PsmService *service;

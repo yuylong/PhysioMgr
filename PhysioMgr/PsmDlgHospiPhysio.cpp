@@ -2,6 +2,7 @@
 #include "ui_PsmDlgHospiPhysio.h"
 
 #include "PsmDlgHospiPhysioReg.h"
+#include "PsmDlgPhysioList.h"
 
 PsmDlgHospiPhysio::PsmDlgHospiPhysio(QWidget *parent) :
     QDialog(parent),
@@ -116,13 +117,15 @@ void PsmDlgHospiPhysio::on_pbAdd_clicked()
 
 void PsmDlgHospiPhysio::on_pbUpdate_clicked()
 {
+    if (this->service == NULL)
+        return;
+
     PsmSrvHospiPhysio hospiphysio;
-    QDate oldstartdate;
     bool ok = this->service->readSelectedHospiPhysio(ui->tableWidget, &hospiphysio);
     if (!ok)
         return;
 
-    oldstartdate = hospiphysio.startdate;
+    QDate oldstartdate = hospiphysio.startdate;
 
     PsmDlgHospiPhysioReg dialog(this);
     dialog.setService(this->service);
@@ -151,4 +154,40 @@ void PsmDlgHospiPhysio::on_pbUpdate_clicked()
 
     this->service->updateHospiPhysio(hospiphysio, oldstartdate, this);
     this->refreshPhysioList();
+}
+
+void PsmDlgHospiPhysio::on_pbDelete_clicked()
+{
+    if (this->service == NULL)
+        return;
+
+    PsmSrvHospiPhysio hospiphysio;
+    bool ok = this->service->readSelectedHospiPhysio(ui->tableWidget, &hospiphysio);
+    if (!ok)
+        return;
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "删除确认", "确认要删除住院号 " + hospiphysio.hospirecid +
+                                                     " 的理疗项目 " + hospiphysio.physioname +"？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    this->service->deleteHospiPhysio(hospiphysio, this);
+    this->refreshPhysioList();
+}
+
+void PsmDlgHospiPhysio::on_pbShowList_clicked()
+{
+    if (this->service == NULL)
+        return;
+
+    PsmSrvHospiPhysio hospiphysio;
+    bool ok = this->service->readSelectedHospiPhysio(ui->tableWidget, &hospiphysio);
+    if (!ok)
+        return;
+
+    PsmDlgPhysioList dialog(this);
+    dialog.setService(this->service);
+    dialog.setHospiPhysio(hospiphysio);
+    dialog.exec();
 }

@@ -1381,3 +1381,75 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法更新住院理疗项目信息。" + exterrstr);
     return;
 }
+
+void PsmService::deleteHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("DELETE FROM hospi_physio WHERE hospi_id=? AND physio_id=? AND startdate=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, hospiphysio.hospirecid);
+    query.bindValue(1, hospiphysio.physioid);
+    query.bindValue(2, hospiphysio.startdate);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法删除选定住院理疗项目信息。" + exterrstr);
+    return;
+}
+
+void PsmService::listHospiPhysioLog(const PsmSrvHospiPhysio &hospiphysio,
+                                    QLabel *lbl, QTableWidget *tbl, QWidget *window)
+{
+    static QList<int> colmap, datamap;
+    if (colmap.isEmpty())
+        colmap << 1 << 3 << 5 << 6;
+    if (datamap.isEmpty())
+        datamap << 0 << 2 << 4 << 6;
+
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM physio_rec WHERE pati_id=? AND physio_id=? AND "
+                                                      "DATE(optime)>=? AND DATE(optime)<=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, hospiphysio.patientid);
+    query.bindValue(1, hospiphysio.physioid);
+    query.bindValue(2, hospiphysio.startdate);
+    query.bindValue(3, hospiphysio.enddate);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    lbl->setText(QString::number(query.size()));
+    this->database.fillTableWidget(tbl, &query, colmap, datamap);
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成理疗记录检索。" + exterrstr);
+    return;
+}

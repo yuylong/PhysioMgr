@@ -51,4 +51,10 @@ void PsmDlgPhysioList::refreshPhysioList()
     if (this->service == NULL || this->hospiphysio.hospirecid.isEmpty())
         return;
 
+    this->service->listHospiPhysioLog(this->hospiphysio, ui->lblCount, ui->tableWidget, this);
+}
+
+void PsmDlgPhysioList::on_pbRefresh_clicked()
+{
+    this->refreshPhysioList();
 }

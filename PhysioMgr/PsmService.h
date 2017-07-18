@@ -145,6 +145,11 @@ public:
     void insertHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window = NULL);
     void updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio,
                            const QDate &oldstartdate = QDate(), QWidget *window = NULL);
+    void deleteHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window = NULL);
+
+    /* Physio Logs */
+    void listHospiPhysioLog(const PsmSrvHospiPhysio &hospiphysio,
+                            QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);
