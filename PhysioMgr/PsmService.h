@@ -150,6 +150,11 @@ public:
     /* Physio Logs */
     void listHospiPhysioLog(const PsmSrvHospiPhysio &hospiphysio,
                             QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    QList<PsmSrvHospiPhysio> getNowPermitPhysio(const QString &patientid, const QString &physioid,
+                                                const QDate &checkdate);
+    bool checkPhysioPermitNow(const QDate &checkdate, const PsmSrvHospiPhysio &hospiphysio);
+    bool checkPhysioPermitNow(const QDate &checkdate, const QList<PsmSrvHospiPhysio> &hplist);
+
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);
@@ -160,6 +165,8 @@ private:
     bool needWarningForHospiRecId(const QString &curid, bool hasletter);
     QString getNextHospiRecId(const QString &curid, bool *hasletter = NULL);
     QString getCurrentNextHostpiRecId(QWidget *window = NULL);
+
+    QDate getDateBucket(const QDate &startdate, const QDate &checkdate, int period);
 };
 
 #endif // PSMSERVICE_H

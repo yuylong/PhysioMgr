@@ -1453,3 +1453,102 @@ bad:
     QMessageBox::warning(window, "数据库错误", "无法完成理疗记录检索。" + exterrstr);
     return;
 }
+
+QList<PsmSrvHospiPhysio> PsmService::getNowPermitPhysio(const QString &patientid, const QString &physioid,
+                                                        const QDate &checkdate)
+{
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT * FROM hospi_physio WHERE pati_id=? AND physio_id=? AND "
+                                                        "startdate<=? AND endate>=?;");
+    if (!ok)
+        return QList<PsmSrvHospiPhysio>();
+
+    query.bindValue(0, patientid);
+    query.bindValue(1, physioid);
+    query.bindValue(2, checkdate);
+    query.bindValue(3, checkdate);
+    ok = query.exec();
+    if (!ok)
+        return QList<PsmSrvHospiPhysio>();
+
+    if (query.size() < 1)
+        return QList<PsmSrvHospiPhysio>();
+
+    ok = query.first();
+    if (!ok)
+        return QList<PsmSrvHospiPhysio>();
+
+    QList<PsmSrvHospiPhysio> retlist;
+    do {
+        QSqlRecord rec = query.record();
+        PsmSrvHospiPhysio hospiphysio;
+
+        hospiphysio.hospirecid = rec.value(0).toString();
+        hospiphysio.patientid = rec.value(1).toString();
+        hospiphysio.patientname = rec.value(2).toString();
+        hospiphysio.physioid = rec.value(3).toString();
+        hospiphysio.physioname = rec.value(4).toString();
+        hospiphysio.freqperiod = rec.value(5).toInt();
+        hospiphysio.freqcount = rec.value(6).toInt();
+        hospiphysio.startdate = rec.value(7).toDate();
+        hospiphysio.enddate = rec.value(8).toDate();
+
+        retlist.append(hospiphysio);
+    } while (query.next());
+
+    return retlist;
+}
+
+QDate PsmService::getDateBucket(const QDate &startdate, const QDate &checkdate, int period)
+{
+    int detdays = (int)startdate.daysTo(checkdate);
+    int basedays = detdays - (detdays % period);
+    return startdate.addDays(basedays);
+}
+
+bool PsmService::checkPhysioPermitNow(const QDate &checkdate, const PsmSrvHospiPhysio &hospiphysio)
+{
+    QDate bucketstart = this->getDateBucket(hospiphysio.startdate, checkdate, hospiphysio.freqperiod);
+    QDate bucketend = bucketstart.addDays(hospiphysio.freqperiod - 1);
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT COUNT(*) FROM physio_rec WHERE pati_id=? AND physio_id=? AND "
+                                                             "DATE(optime)>=? AND DATE(optime)<=?;");
+    if (!ok)
+        return false;
+
+    query.bindValue(0, hospiphysio.patientid);
+    query.bindValue(1, hospiphysio.physioid);
+    query.bindValue(2, bucketstart);
+    query.bindValue(3, bucketend);
+    ok = query.exec();
+    if (!ok)
+        return false;
+
+    if (query.size() < 1)
+        return false;
+
+    ok = query.first();
+    if (!ok)
+        return false;
+
+    QSqlRecord rec = query.record();
+    int physiocnt = rec.value(0).toInt();
+    if (physiocnt < hospiphysio.freqcount)
+        return true;
+    else
+        return false;
+}
+
+bool PsmService::checkPhysioPermitNow(const QDate &checkdate, const QList<PsmSrvHospiPhysio> &hplist)
+{
+    PsmSrvHospiPhysio hospiphysio;
+    foreach (hospiphysio, hplist) {
+        bool res = this->checkPhysioPermitNow(checkdate, hospiphysio);
+        if (res)
+            return true;
+    }
+    return false;
+}
