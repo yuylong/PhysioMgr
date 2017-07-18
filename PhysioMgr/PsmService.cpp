@@ -1242,13 +1242,41 @@ bad:
     return;
 }
 
+bool PsmService::readSelectedHospiPhysio(QTableWidget *tbl, PsmSrvHospiPhysio *hospiphysio)
+{
+    int rowidx = this->getTableSelectedRow(tbl);
+    if (rowidx < 0)
+        return false;
+
+    QTableWidgetItem *itemhospirecid = tbl->item(rowidx, 0);
+    QTableWidgetItem *itempatient = tbl->item(rowidx, 1);
+    QTableWidgetItem *itemphysio = tbl->item(rowidx, 2);
+    QTableWidgetItem *itemfreqperiod = tbl->item(rowidx, 3);
+    QTableWidgetItem *itemfreqcount = tbl->item(rowidx, 4);
+    QTableWidgetItem *itemstartdate = tbl->item(rowidx, 5);
+    QTableWidgetItem *itemenddate = tbl->item(rowidx, 6);
+    if (itemhospirecid == NULL)
+        return false;
+
+    hospiphysio->hospirecid = itemhospirecid->text();
+    hospiphysio->patientid = itempatient->data(Qt::UserRole).toString();
+    hospiphysio->patientname = itempatient->text();
+    hospiphysio->physioid = itemphysio->data(Qt::UserRole).toString();
+    hospiphysio->physioname = itemphysio->text();
+    hospiphysio->freqperiod = itemfreqperiod->data(Qt::UserRole).toInt();
+    hospiphysio->freqcount = itemfreqcount->data(Qt::UserRole).toInt();
+    hospiphysio->startdate = itemstartdate->data(Qt::UserRole).toDate();
+    hospiphysio->enddate = itemenddate->data(Qt::UserRole).toDate();
+    return true;
+}
+
 void PsmService::listHospiPhysio(const QString &hospirecid, QLabel *lbl, QTableWidget *tbl, QWidget *window)
 {
     static QList<int> colmap, datamap;
     if (colmap.isEmpty())
-        colmap << 2 << 3 << 4 << 5 << 6;
+        colmap << 0 << 2 << 4 << 5 << 6 << 7 << 8;
     if (datamap.isEmpty())
-        datamap << 1 << 0 << -1 << 5 << 6;
+        datamap << -1 << 1 << 3 << 5 << 6 << 7 << 8;
 
     if (window == NULL)
         window = this->parent;
@@ -1286,17 +1314,19 @@ void PsmService::insertHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget
 
     bool ok;
     QSqlQuery query = this->database.getQuery();
-    ok = query.prepare("INSERT INTO hospi_physio VALUES(?, ?, ?, ?, ?, ?, ?);");
+    ok = query.prepare("INSERT INTO hospi_physio VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);");
     if (!ok)
         goto bad;
 
     query.bindValue(0, hospiphysio.hospirecid);
-    query.bindValue(1, hospiphysio.physioid);
-    query.bindValue(2, hospiphysio.physioname);
-    query.bindValue(3, hospiphysio.freqperiod);
-    query.bindValue(4, hospiphysio.freqcount);
-    query.bindValue(5, hospiphysio.startdate);
-    query.bindValue(6, hospiphysio.enddate);
+    query.bindValue(1, hospiphysio.patientid);
+    query.bindValue(2, hospiphysio.patientname);
+    query.bindValue(3, hospiphysio.physioid);
+    query.bindValue(4, hospiphysio.physioname);
+    query.bindValue(5, hospiphysio.freqperiod);
+    query.bindValue(6, hospiphysio.freqcount);
+    query.bindValue(7, hospiphysio.startdate);
+    query.bindValue(8, hospiphysio.enddate);
     ok = query.exec();
     if (!ok)
         goto bad;
@@ -1311,4 +1341,11 @@ bad:
     }
     QMessageBox::warning(window, "数据库错误", "无法添加住院理疗项目信息。" + exterrstr);
     return;
+}
+
+void PsmService::updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
 }

@@ -30,6 +30,8 @@ private slots:
 
     void on_pbAdd_clicked();
 
+    void on_pbUpdate_clicked();
+
 private:
     Ui::PsmDlgHospiPhysio *ui;
     PsmService *service;

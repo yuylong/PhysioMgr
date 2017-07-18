@@ -61,6 +61,8 @@ struct PsmSrvHospiRec {
 
 struct PsmSrvHospiPhysio {
     QString hospirecid;
+    QString patientid;
+    QString patientname;
     QString physioid;
     QString physioname;
     int freqperiod;
@@ -138,8 +140,10 @@ public:
     void deleteHospiRec(const QString &hospirecid, QWidget *window = NULL);
 
     /* Hospi-Physio-registration */
+    bool readSelectedHospiPhysio(QTableWidget *tbl, PsmSrvHospiPhysio *hospiphysio);
     void listHospiPhysio(const QString &hospirecid, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void insertHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window = NULL);
+    void updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window = NULL);
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);

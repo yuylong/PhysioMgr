@@ -101,6 +101,8 @@ void PsmDlgHospiPhysio::on_pbAdd_clicked()
 
     PsmSrvHospiPhysio hospiphysio;
     hospiphysio.hospirecid = this->hospirec.id;
+    hospiphysio.patientid = this->hospirec.patientid;
+    hospiphysio.patientname = this->hospirec.patientname;
     hospiphysio.physioid = dialog.getPhysioId();
     hospiphysio.physioname = dialog.getPhysioName();
     hospiphysio.freqperiod = dialog.getFreqPeriod();
@@ -109,5 +111,41 @@ void PsmDlgHospiPhysio::on_pbAdd_clicked()
     hospiphysio.enddate = dialog.getEndDate();
 
     this->service->insertHospiPhysio(hospiphysio, this);
+    this->refreshPhysioList();
+}
+
+void PsmDlgHospiPhysio::on_pbUpdate_clicked()
+{
+    PsmSrvHospiPhysio hospiphysio;
+    bool ok = this->service->readSelectedHospiPhysio(ui->tableWidget, &hospiphysio);
+    if (!ok)
+        return;
+
+    PsmDlgHospiPhysioReg dialog(this);
+    dialog.setService(this->service);
+    dialog.setHospiRecId(this->hospirec.id);
+    dialog.setPatientName(this->hospirec.patientname);
+    dialog.setPhysioId(hospiphysio.physioid);
+    dialog.setPhysioName(hospiphysio.physioname);
+    dialog.setFreqPeriod(hospiphysio.freqperiod);
+    dialog.setFreqCount(hospiphysio.freqcount);
+    dialog.setStartDate(hospiphysio.startdate);
+    dialog.setEndDate(hospiphysio.enddate);
+    dialog.lockPhysioSel();
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)\
+        return;
+
+    hospiphysio.hospirecid = this->hospirec.id;
+    hospiphysio.patientid = this->hospirec.patientid;
+    hospiphysio.patientname = this->hospirec.patientname;
+    hospiphysio.physioid = dialog.getPhysioId();
+    hospiphysio.physioname = dialog.getPhysioName();
+    hospiphysio.freqperiod = dialog.getFreqPeriod();
+    hospiphysio.freqcount = dialog.getFreqCount();
+    hospiphysio.startdate = dialog.getStartDate();
+    hospiphysio.enddate = dialog.getEndDate();
+
+    this->service->updateHospiPhysio(hospiphysio, this);
     this->refreshPhysioList();
 }

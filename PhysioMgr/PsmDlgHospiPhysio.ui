@@ -231,7 +231,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0,0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0,0,0,0,0">
      <item>
       <widget class="QLabel" name="label_9">
        <property name="text">
@@ -250,6 +250,13 @@
       <widget class="QPushButton" name="pbRefresh">
        <property name="text">
         <string>刷新</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbShowList">
+       <property name="text">
+        <string>查看理疗记录</string>
        </property>
       </widget>
      </item>
@@ -287,6 +294,16 @@
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <column>
+      <property name="text">
+       <string>住院号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>患者</string>
+      </property>
+     </column>
      <column>
       <property name="text">
        <string>理疗项目</string>

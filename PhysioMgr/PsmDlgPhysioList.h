@@ -2,6 +2,7 @@
 #define PSMDLGPHYSIOLIST_H
 
 #include <QDialog>
+#include "PsmService.h"
 
 namespace Ui {
 class PsmDlgPhysioList;
@@ -15,8 +16,19 @@ public:
     explicit PsmDlgPhysioList(QWidget *parent = 0);
     ~PsmDlgPhysioList();
 
+    PsmService *getService() const;
+    void setService(PsmService *service);
+
+    const PsmSrvHospiPhysio &getHospiPhysio() const;
+    PsmSrvHospiPhysio &getHospiPhysio();
+    void setHospiPhysio(const PsmSrvHospiPhysio &hospiphysio);
+
+    void refreshPhysioList();
+
 private:
     Ui::PsmDlgPhysioList *ui;
+    PsmService *service;
+    PsmSrvHospiPhysio hospiphysio;
 };
 
 #endif // PSMDLGPHYSIOLIST_H

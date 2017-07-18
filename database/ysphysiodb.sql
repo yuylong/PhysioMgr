@@ -78,6 +78,8 @@ DROP TABLE IF EXISTS `hospi_physio`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hospi_physio` (
   `hospi_id` varchar(64) NOT NULL,
+  `pati_id` varchar(64) DEFAULT NULL,
+  `pati_name` varchar(64) DEFAULT NULL,
   `physio_id` varchar(64) DEFAULT NULL,
   `physio_name` varchar(64) DEFAULT NULL,
   `freq_day` int(11) DEFAULT NULL,
