@@ -11,11 +11,13 @@
 
 #include <QMessageBox>
 #include "PsmDlgDoctor.h"
+#include "PsmDlgDoctorSel.h"
 #include "PsmDlgPatient.h"
 #include "PsmDlgHospiRec.h"
 #include "PsmDlgHospiPhysio.h"
 #include "PsmDlgDepartment.h"
 #include "PsmDlgPhysioItem.h"
+#include "PsmDlgPhysioSel.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -517,5 +519,34 @@ void MainWindow::on_pbHospiPhysio_clicked()
 
 void MainWindow::on_pbLogPhysioSel_clicked()
 {
+    PsmDlgPhysioSel dialog(this);
+    dialog.setService(&this->service);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
 
+    PsmSrvPhysioItem physio;
+    bool ok = dialog.getSelectedPhysioItem(&physio);
+    if (!ok)
+        return;
+
+    this->logPhysioId = physio.id;
+    ui->pbLogPhysioSel->setText(physio.name);
+}
+
+void MainWindow::on_pbLogNurseSel_clicked()
+{
+    PsmDlgDoctorSel dialog(this);
+    dialog.setService(&this->service);
+    dialog.exec();
+    if (dialog.result() != QDialog::Accepted)
+        return;
+
+    PsmSrvDoctor nurse;
+    bool ok = dialog.getSelectedDoctor(&nurse);
+    if (!ok)
+        return;
+
+    this->logNurseId = nurse.id;
+    ui->pbLogNurseSel->setText(nurse.name);
 }
