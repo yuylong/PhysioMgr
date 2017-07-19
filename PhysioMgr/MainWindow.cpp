@@ -550,3 +550,53 @@ void MainWindow::on_pbLogNurseSel_clicked()
     this->logNurseId = nurse.id;
     ui->pbLogNurseSel->setText(nurse.name);
 }
+
+void MainWindow::on_pbPhysioLog_clicked()
+{
+    if (this->logPhysioId.isEmpty() || this->logNurseId.isEmpty()) {
+        QMessageBox::warning(this, "缺少信息", "必须填选当前打卡的理疗项目和护士。");
+        return;
+    }
+
+    if (ui->leLogPatientID->text().isEmpty()) {
+        QMessageBox::warning(this, "缺少信息", "打卡必须填写患者检索信息。");
+        return;
+    }
+
+    int patientcnt = this->service.getPatientCount(ui->leLogPatientID->text());
+    PsmSrvPatient patient;
+    if (patientcnt < 1) {
+        QMessageBox::warning(this, "缺少信息", "无法找到指定编号或检索信息下的患者信息。");
+        return;
+    } else if (patientcnt == 1) {
+        bool ok = this->service.getFirstPatient(ui->leLogPatientID->text(), &patient);
+        if (!ok)
+            return;
+    } else {
+        // TODO: Open a dialog, and let user to select one patient.
+        bool ok = this->service.getFirstPatient(ui->leLogPatientID->text(), &patient);
+        if (!ok)
+            return;
+    }
+
+    if (patient.id.isEmpty()) {
+        QMessageBox::warning(this, "缺少信息", "检索到无效的患者信息。");
+        return;
+    }
+
+    PsmSrvPhysioLog physiolog;
+    physiolog.patientid = patient.id;
+    physiolog.patientname = patient.name;
+    physiolog.physioid = this->logPhysioId;
+    physiolog.physioname = ui->pbLogPhysioSel->text();
+    physiolog.nurseid = this->logNurseId;
+    physiolog.nursename = ui->pbLogNurseSel->text();
+    physiolog.machineid = this->service.getMachineId();
+    physiolog.optime = this->service.getDbTime();
+
+    bool ok = this->service.tryAddPhysioLog(physiolog);
+    if (!ok)
+        return;
+
+    this->service.insertPhysioLogToTable(physiolog, ui->tblPhysioLog);
+}

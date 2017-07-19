@@ -83,6 +83,8 @@ private slots:
 
     void on_pbLogNurseSel_clicked();
 
+    void on_pbPhysioLog_clicked();
+
 private:
     Ui::MainWindow *ui;
 

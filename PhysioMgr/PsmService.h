@@ -140,6 +140,8 @@ public:
     QString readSelectedPatientId(QTableWidget *tbl);
     void refreshPatientList(QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     void searchPatient(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
+    int getPatientCount(const QString &srchstr);
+    bool getFirstPatient(const QString &srchstr, PsmSrvPatient *patient, QWidget *window = NULL);
     void insertPatient(const PsmSrvPatient &patient, QWidget *window = NULL);
     void updatePatient(const PsmSrvPatient &patient, QWidget *window = NULL);
     void deletePatient(const QString &patientid, QWidget *window = NULL);

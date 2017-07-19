@@ -766,6 +766,79 @@ bad:
     return;
 }
 
+int PsmService::getPatientCount(const QString &srchstr)
+{
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("SELECT COUNT(*) FROM patients "
+                       "WHERE UPPER(id) = UPPER(:instr) OR name LIKE :srchstr OR phonenum = :instr;");
+    if (!ok)
+        return 0;
+
+    query.bindValue(":instr", srchstr);
+    query.bindValue(":srchstr", "%" + srchstr + "%");
+    ok = query.exec();
+    if (!ok)
+        return 0;
+
+    ok = query.first();
+    if (!ok)
+        return 0;
+
+    QSqlRecord rec = query.record();
+    return rec.value(0).toInt();
+}
+
+bool PsmService::getFirstPatient(const QString &srchstr, PsmSrvPatient *patient, QWidget *window)
+{
+    if (patient == NULL)
+        return false;
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    QSqlRecord rec;
+    ok = query.prepare("SELECT * FROM patients "
+                       "WHERE UPPER(id) = UPPER(:instr) OR name LIKE :srchstr OR phonenum = :instr;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(":instr", srchstr);
+    query.bindValue(":srchstr", "%" + srchstr + "%");
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+
+    if (query.size() < 1) {
+        QMessageBox::warning(window, "信息未找到", "所输入的检索条件下无对应患者信息。");
+        return false;
+    }
+
+    ok = query.first();
+    if (!ok)
+        goto bad;
+
+    rec = query.record();
+    patient->id = rec.value(0).toString();
+    patient->name = rec.value(1).toString();
+    patient->dob = rec.value(2).toDate();
+    patient->phone = rec.value(3).toString();
+    patient->address = rec.value(4).toString();
+    patient->comment = rec.value(5).toString();
+    return true;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法完成患者信息检索。" + exterrstr);
+    return false;
+}
+
 void PsmService::insertPatient(const PsmSrvPatient &patient, QWidget *window)
 {
     if (window == NULL)
