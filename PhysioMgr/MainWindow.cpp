@@ -13,6 +13,7 @@
 #include "PsmDlgDoctor.h"
 #include "PsmDlgDoctorSel.h"
 #include "PsmDlgPatient.h"
+#include "PsmDlgPatientSel.h"
 #include "PsmDlgHospiRec.h"
 #include "PsmDlgHospiPhysio.h"
 #include "PsmDlgDepartment.h"
@@ -24,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->deHospiRecStartDate->setDate(QDate::currentDate().addDays(-7));
+    ui->deHospiRecEndDate->setDate(QDate::currentDate());
+    ui->chbHospiStartHasDate->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -61,10 +66,6 @@ void MainWindow::refreshPhysioItemList()
     this->service.refreshPhysioItemList(ui->lblPhysioItemCnt, ui->tblPhysioList);
 }
 
-void MainWindow::on_tabWidget_currentChanged(int index)
-{
-}
-
 void MainWindow::on_pbDepartRefrsh_clicked()
 {
     this->refreshDepartmentList();
@@ -73,10 +74,6 @@ void MainWindow::on_pbDepartRefrsh_clicked()
 void MainWindow::on_pbPhysioItemRefrsh_clicked()
 {
     this->refreshPhysioItemList();
-}
-
-void MainWindow::showEvent(QShowEvent *event)
-{
 }
 
 void MainWindow::on_pbDepartAdd_clicked()
@@ -573,8 +570,14 @@ void MainWindow::on_pbPhysioLog_clicked()
         if (!ok)
             return;
     } else {
-        // TODO: Open a dialog, and let user to select one patient.
-        bool ok = this->service.getFirstPatient(ui->leLogPatientID->text(), &patient);
+        PsmDlgPatientSel dialog(this);
+        dialog.setService(&this->service);
+        dialog.setAndRefreshCond(ui->leLogPatientID->text());
+        dialog.exec();
+        if (dialog.result() != QDialog::Accepted)
+            return;
+
+        bool ok = dialog.getSelectedPatient(&patient);
         if (!ok)
             return;
     }
@@ -599,4 +602,34 @@ void MainWindow::on_pbPhysioLog_clicked()
         return;
 
     this->service.insertPhysioLogToTable(physiolog, ui->tblPhysioLog);
+}
+
+void MainWindow::on_chbHospiStartHasDate_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked) {
+        ui->chbHospiRecHasStartDate->setChecked(false);
+        ui->chbHospiRecHasEndDate->setChecked(false);
+    }
+}
+
+void MainWindow::on_chbHospiRecHasStartDate_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked)
+        ui->chbHospiStartHasDate->setChecked(false);
+}
+
+void MainWindow::on_chbHospiRecHasEndDate_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked)
+        ui->chbHospiStartHasDate->setChecked(false);
+}
+
+void MainWindow::on_deHospiRecStartDate_userDateChanged(const QDate &)
+{
+    ui->chbHospiRecHasStartDate->setChecked(true);
+}
+
+void MainWindow::on_deHospiRecEndDate_userDateChanged(const QDate &)
+{
+    ui->chbHospiRecHasEndDate->setChecked(true);
 }

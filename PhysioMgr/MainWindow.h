@@ -35,8 +35,6 @@ public:
     bool initService();
 
 private slots:
-    void on_tabWidget_currentChanged(int index);
-
     void on_pbDepartRefrsh_clicked();
 
     void on_pbPhysioItemRefrsh_clicked();
@@ -85,6 +83,16 @@ private slots:
 
     void on_pbPhysioLog_clicked();
 
+    void on_chbHospiStartHasDate_stateChanged(int arg1);
+
+    void on_chbHospiRecHasStartDate_stateChanged(int arg1);
+
+    void on_chbHospiRecHasEndDate_stateChanged(int arg1);
+
+    void on_deHospiRecStartDate_userDateChanged(const QDate &date);
+
+    void on_deHospiRecEndDate_userDateChanged(const QDate &date);
+
 private:
     Ui::MainWindow *ui;
 
@@ -100,9 +108,6 @@ private:
 
     void refreshDepartmentList();
     void refreshPhysioItemList();
-
-protected:
-    virtual void showEvent(QShowEvent *event);
 };
 
 #endif // MAINWINDOW_H

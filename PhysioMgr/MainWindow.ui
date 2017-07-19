@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -296,6 +296,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tblPatients">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -306,9 +309,14 @@
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="rowCount">
-           <number>1</number>
+           <number>0</number>
           </property>
-          <row/>
+          <attribute name="horizontalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>40</number>
+          </attribute>
           <column>
            <property name="text">
             <string>卡号</string>
@@ -526,6 +534,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tblHospiList">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -536,9 +547,14 @@
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="rowCount">
-           <number>1</number>
+           <number>0</number>
           </property>
-          <row/>
+          <attribute name="horizontalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>40</number>
+          </attribute>
           <column>
            <property name="text">
             <string>住院号</string>
@@ -609,6 +625,9 @@
             <widget class="QCheckBox" name="chbDoctorListAll">
              <property name="text">
               <string>全部</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
