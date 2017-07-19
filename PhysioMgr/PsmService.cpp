@@ -50,6 +50,8 @@ void PsmService::initParametersFromDom(const QDomElement &docelem)
         QDomElement domelem = domnode.toElement();
         if (QString::compare(domelem.tagName(), "hospiRecIdLen") == 0) {
             this->hospiRecIdLen = domelem.text().toInt();
+        } else if (QString::compare(domelem.tagName(), "machineId") == 0) {
+            this->machineid = domelem.text();
         }
 
         domnode = domnode.nextSibling();
@@ -96,6 +98,11 @@ bool PsmService::init(QWidget *window)
 
     this->initParametersFromDom(docelem);
     return true;
+}
+
+QString PsmService::getMachineId() const
+{
+    return this->machineid;
 }
 
 int PsmService::getTableSelectedRow(QTableWidget *tbl)
@@ -1417,9 +1424,9 @@ void PsmService::listHospiPhysioLog(const PsmSrvHospiPhysio &hospiphysio,
 {
     static QList<int> colmap, datamap;
     if (colmap.isEmpty())
-        colmap << 1 << 3 << 5 << 6;
+        colmap << 1 << 3 << 5 << 6 << 7;
     if (datamap.isEmpty())
-        datamap << 0 << 2 << 4 << 6;
+        datamap << 0 << 2 << 4 << -1 << 7;
 
     if (window == NULL)
         window = this->parent;
@@ -1551,4 +1558,55 @@ bool PsmService::checkPhysioPermitNow(const QDate &checkdate, const QList<PsmSrv
             return true;
     }
     return false;
+}
+
+void PsmService::insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("INSERT INTO physio_rec VALUES(?, ?, ?, ?, ?, ?, ?, ?);");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, physiolog.patientid);
+    query.bindValue(1, physiolog.patientname);
+    query.bindValue(2, physiolog.physioid);
+    query.bindValue(3, physiolog.physioname);
+    query.bindValue(4, physiolog.nurseid);
+    query.bindValue(5, physiolog.nursename);
+    query.bindValue(6, this->machineid);
+    query.bindValue(7, physiolog.optime);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法向数据库添加理疗记录。" + exterrstr);
+    return;
+}
+
+QDateTime PsmService::getDbTime()
+{
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.exec("SELECT NOW();");
+    if (!ok)
+        return QDateTime::currentDateTime();
+
+    ok = query.first();
+    if (!ok)
+        return QDateTime::currentDateTime();
+
+    QSqlRecord rec = query.record();
+    return rec.value(0).toDateTime();
 }

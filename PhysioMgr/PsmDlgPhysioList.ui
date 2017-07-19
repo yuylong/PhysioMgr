@@ -189,6 +189,11 @@
      </column>
      <column>
       <property name="text">
+       <string>终端号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>打卡时间</string>
       </property>
      </column>

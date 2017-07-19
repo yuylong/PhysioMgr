@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QDate>
+#include <QDateTime>
 #include <QMap>
 #include <QtSql>
 #include <QtXml>
@@ -71,6 +72,17 @@ struct PsmSrvHospiPhysio {
     QDate enddate;
 };
 
+struct PsmSrvPhysioLog {
+    QString patientid;
+    QString patientname;
+    QString physioid;
+    QString physioname;
+    QString nurseid;
+    QString nursename;
+    QString machineid;
+    QDateTime optime;
+};
+
 class PsmService
 {
 protected:
@@ -79,6 +91,7 @@ protected:
     QMainWindow *parent;
 
     int hospiRecIdLen;
+    QString machineid;
     void initParametersFromDom(const QDomElement &docelem);
 
 public:
@@ -92,6 +105,8 @@ public:
     PsmDatabase *getDatabase();
 
     bool init(QWidget *window = NULL);
+
+    QString getMachineId() const;
 
     /* Departments */
     bool readSelectedDepartment(QTableWidget *tbl, PsmSrvDepartment *dep);
@@ -154,7 +169,8 @@ public:
                                                 const QDate &checkdate);
     bool checkPhysioPermitNow(const QDate &checkdate, const PsmSrvHospiPhysio &hospiphysio);
     bool checkPhysioPermitNow(const QDate &checkdate, const QList<PsmSrvHospiPhysio> &hplist);
-
+    void insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window = NULL);
+    QDateTime getDbTime();
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);

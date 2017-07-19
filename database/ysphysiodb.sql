@@ -199,6 +199,7 @@ CREATE TABLE `physio_rec` (
   `physio_name` varchar(64) DEFAULT NULL,
   `nurse_id` varchar(64) DEFAULT NULL,
   `nurse_name` varchar(64) DEFAULT NULL,
+  `machineid` varchar(64) DEFAULT NULL,
   `optime` datetime NOT NULL,
   PRIMARY KEY (`pati_id`,`physio_id`,`optime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
