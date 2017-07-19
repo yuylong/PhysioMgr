@@ -25,6 +25,9 @@ class MainWindow : public QMainWindow
 protected:
     PsmService service;
 
+    QString logPhysioId;
+    QString logNurseId;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -75,6 +78,8 @@ private slots:
     void on_pbHospiDel_clicked();
 
     void on_pbHospiPhysio_clicked();
+
+    void on_pbLogPhysioSel_clicked();
 
 private:
     Ui::MainWindow *ui;

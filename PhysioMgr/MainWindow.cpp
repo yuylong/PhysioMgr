@@ -514,3 +514,8 @@ void MainWindow::on_pbHospiPhysio_clicked()
     dialog.setHospiRecId(hospirecid);
     dialog.exec();
 }
+
+void MainWindow::on_pbLogPhysioSel_clicked()
+{
+
+}

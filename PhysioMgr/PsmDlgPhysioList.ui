@@ -174,7 +174,12 @@
      </property>
      <column>
       <property name="text">
-       <string>患者</string>
+       <string>患者卡号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>患者姓名</string>
       </property>
      </column>
      <column>

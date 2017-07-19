@@ -1424,9 +1424,9 @@ void PsmService::listHospiPhysioLog(const PsmSrvHospiPhysio &hospiphysio,
 {
     static QList<int> colmap, datamap;
     if (colmap.isEmpty())
-        colmap << 1 << 3 << 5 << 6 << 7;
+        colmap << 0 << 1 << 3 << 5 << 6 << 7;
     if (datamap.isEmpty())
-        datamap << 0 << 2 << 4 << -1 << 7;
+        datamap << -1 << 0 << 2 << 4 << -1 << 7;
 
     if (window == NULL)
         window = this->parent;
@@ -1560,7 +1560,7 @@ bool PsmService::checkPhysioPermitNow(const QDate &checkdate, const QList<PsmSrv
     return false;
 }
 
-void PsmService::insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window)
+bool PsmService::insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window)
 {
     if (window == NULL)
         window = this->parent;
@@ -1582,7 +1582,7 @@ void PsmService::insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *wind
     ok = query.exec();
     if (!ok)
         goto bad;
-    return;
+    return true;
 
 bad:
     QSqlError sqlerr = query.lastError();
@@ -1592,7 +1592,33 @@ bad:
                     "数据库系统描述：" + sqlerr.text();
     }
     QMessageBox::warning(window, "数据库错误", "无法向数据库添加理疗记录。" + exterrstr);
-    return;
+    return false;
+}
+
+bool PsmService::tryAddPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    QDate logdate = physiolog.optime.date();
+    QList<PsmSrvHospiPhysio> hplist = this->getNowPermitPhysio(physiolog.patientid, physiolog.physioid, logdate);
+    if (hplist.size() < 1) {
+        QMessageBox::warning(window, "打卡操作拒绝", "无法找到患者当前时间打卡对应的住院等级或理疗登记。");
+        return false;
+    }
+
+    bool allow = this->checkPhysioPermitNow(logdate, hplist);
+    if (!allow) {
+        QMessageBox::warning(window, "打卡操作拒绝", "患者已完成今日该项理疗的住院登记要求，不再接受打卡。");
+        return false;
+    }
+
+    bool ok = this->insertPhysioLog(physiolog, window);
+    if (!ok)
+        return false;
+
+    QMessageBox::information(window, "打卡操作成功", "患者打卡已完成，可以为其进行理疗操作！");
+    return true;
 }
 
 QDateTime PsmService::getDbTime()
@@ -1609,4 +1635,70 @@ QDateTime PsmService::getDbTime()
 
     QSqlRecord rec = query.record();
     return rec.value(0).toDateTime();
+}
+
+void PsmService::insertPhysioLogToTable(const PsmSrvPhysioLog &physiolog, QTableWidget *tbl)
+{
+    tbl->insertRow(0);
+    while (tbl->rowCount() > 100)
+        tbl->removeRow(tbl->rowCount() - 1);
+
+    /* Patient ID */
+    QTableWidgetItem *item;
+    item = tbl->item(0, 0);
+    if (item != NULL) {
+        item->setText(physiolog.patientid);
+    } else {
+        item = new QTableWidgetItem(physiolog.patientid);
+        tbl->setItem(0, 0, item);
+    }
+
+    /* Patient name */
+    item = tbl->item(0, 1);
+    if (item != NULL) {
+        item->setText(physiolog.patientname);
+    } else {
+        item = new QTableWidgetItem(physiolog.patientname);
+        tbl->setItem(0, 1, item);
+    }
+    item->setData(Qt::UserRole, physiolog.patientid);
+
+    /* Physio item */
+    item = tbl->item(0, 2);
+    if (item != NULL) {
+        item->setText(physiolog.physioname);
+    } else {
+        item = new QTableWidgetItem(physiolog.physioname);
+        tbl->setItem(0, 2, item);
+    }
+    item->setData(Qt::UserRole, physiolog.physioid);
+
+    /* Nurse */
+    item = tbl->item(0, 3);
+    if (item != NULL) {
+        item->setText(physiolog.nursename);
+    } else {
+        item = new QTableWidgetItem(physiolog.nursename);
+        tbl->setItem(0, 3, item);
+    }
+    item->setData(Qt::UserRole, physiolog.nurseid);
+
+    /* Machine Id */
+    item = tbl->item(0, 4);
+    if (item != NULL) {
+        item->setText(this->machineid);
+    } else {
+        item = new QTableWidgetItem(this->machineid);
+        tbl->setItem(0, 4, item);
+    }
+
+    /* Optime */
+    item = tbl->item(0, 5);
+    if (item != NULL) {
+        item->setText(physiolog.optime.toString(Qt::ISODate));
+    } else {
+        item = new QTableWidgetItem(physiolog.optime.toString(Qt::ISODate));
+        tbl->setItem(0, 5, item);
+    }
+    item->setData(Qt::UserRole, physiolog.optime);
 }

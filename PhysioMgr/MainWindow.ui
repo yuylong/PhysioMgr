@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -67,7 +67,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmbPhysioSel"/>
+                <widget class="QPushButton" name="pbLogPhysioSel">
+                 <property name="text">
+                  <string>[选择理疗项目]</string>
+                 </property>
+                </widget>
                </item>
                <item>
                 <spacer name="horizontalSpacer">
@@ -90,7 +94,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmbNurseSel"/>
+                <widget class="QPushButton" name="pbLogNurseSel">
+                 <property name="text">
+                  <string>[选择护士]</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -99,19 +107,19 @@
                <item>
                 <widget class="QLabel" name="label">
                  <property name="text">
-                  <string>患者卡号：</string>
+                  <string>患者卡号/姓名/电话：</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lePatientID"/>
+                <widget class="QLineEdit" name="leLogPatientID"/>
                </item>
               </layout>
              </item>
             </layout>
            </item>
            <item>
-            <widget class="QPushButton" name="pbPhysioOp">
+            <widget class="QPushButton" name="pbPhysioLog">
              <property name="minimumSize">
               <size>
                <width>75</width>
@@ -141,7 +149,7 @@
            <number>1</number>
           </property>
           <property name="columnCount">
-           <number>5</number>
+           <number>6</number>
           </property>
           <row/>
           <column>
@@ -162,6 +170,11 @@
           <column>
            <property name="text">
             <string>护士</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>终端号</string>
            </property>
           </column>
           <column>

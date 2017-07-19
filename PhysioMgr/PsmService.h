@@ -169,8 +169,11 @@ public:
                                                 const QDate &checkdate);
     bool checkPhysioPermitNow(const QDate &checkdate, const PsmSrvHospiPhysio &hospiphysio);
     bool checkPhysioPermitNow(const QDate &checkdate, const QList<PsmSrvHospiPhysio> &hplist);
-    void insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window = NULL);
+    bool insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window = NULL);
+    bool tryAddPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window = NULL);
+
     QDateTime getDbTime();
+    void insertPhysioLogToTable(const PsmSrvPhysioLog &physiolog, QTableWidget *tbl);
 
 private:    
     int getTableSelectedRow(QTableWidget *tbl);
