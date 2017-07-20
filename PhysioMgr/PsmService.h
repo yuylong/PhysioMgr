@@ -165,6 +165,7 @@ public:
     void deleteHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget *window = NULL);
 
     /* Physio Logs */
+    bool readSelectedPhysioLog(QTableWidget *tbl, PsmSrvPhysioLog *physiolog);
     void listHospiPhysioLog(const PsmSrvHospiPhysio &hospiphysio,
                             QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     QList<PsmSrvHospiPhysio> getNowPermitPhysio(const QString &patientid, const QString &physioid,
@@ -173,6 +174,7 @@ public:
     bool checkPhysioPermitNow(const QDate &checkdate, const QList<PsmSrvHospiPhysio> &hplist);
     bool insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window = NULL);
     bool tryAddPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window = NULL);
+    bool deletePhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window = NULL);
 
     QDateTime getDbTime();
     void insertPhysioLogToTable(const PsmSrvPhysioLog &physiolog, QTableWidget *tbl);

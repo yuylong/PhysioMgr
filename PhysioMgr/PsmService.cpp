@@ -1492,6 +1492,31 @@ bad:
     return;
 }
 
+bool PsmService::readSelectedPhysioLog(QTableWidget *tbl, PsmSrvPhysioLog *physiolog)
+{
+    int rowidx = this->getTableSelectedRow(tbl);
+    if (rowidx < 0)
+        return false;
+
+    QTableWidgetItem *itempatient = tbl->item(rowidx, 1);
+    QTableWidgetItem *itemphysio = tbl->item(rowidx, 2);
+    QTableWidgetItem *itemnurse = tbl->item(rowidx, 3);
+    QTableWidgetItem *itemmachineid = tbl->item(rowidx, 4);
+    QTableWidgetItem *itemoptime = tbl->item(rowidx, 5);
+    if (itempatient == NULL || itemphysio == NULL || itemoptime == NULL)
+        return false;
+
+    physiolog->patientid = itempatient->data(Qt::UserRole).toString();
+    physiolog->patientname = itempatient->text();
+    physiolog->physioid = itemphysio->data(Qt::UserRole).toString();
+    physiolog->physioname = itemphysio->text();
+    physiolog->nurseid = itemnurse->data(Qt::UserRole).toString();
+    physiolog->nursename = itemnurse->text();
+    physiolog->machineid = itemmachineid->text();
+    physiolog->optime = itemoptime->data(Qt::UserRole).toDateTime();
+    return true;
+}
+
 void PsmService::listHospiPhysioLog(const PsmSrvHospiPhysio &hospiphysio,
                                     QLabel *lbl, QTableWidget *tbl, QWidget *window)
 {
@@ -1692,6 +1717,37 @@ bool PsmService::tryAddPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *wind
 
     QMessageBox::information(window, "打卡操作成功", "患者打卡已完成，可以为其进行理疗操作！");
     return true;
+}
+
+bool PsmService::deletePhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok;
+    QSqlQuery query = this->database.getQuery();
+    ok = query.prepare("DELETE FROM physio_rec WHERE pati_id=? AND physio_id=? AND optime=?;");
+    if (!ok)
+        goto bad;
+
+    query.bindValue(0, physiolog.patientid);
+    query.bindValue(1, physiolog.physioid);
+    query.bindValue(2, physiolog.optime);
+    ok = query.exec();
+    if (!ok)
+        goto bad;
+    return true;
+
+bad:
+    QSqlError sqlerr = query.lastError();
+    QString exterrstr;
+    if (sqlerr.isValid()) {
+        exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
+                    "数据库系统描述：" + sqlerr.text();
+    }
+    QMessageBox::warning(window, "数据库错误", "无法删除理疗记录。" + exterrstr);
+    return false;
+
 }
 
 QDateTime PsmService::getDbTime()
