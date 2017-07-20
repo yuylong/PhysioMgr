@@ -58,3 +58,22 @@ void PsmDlgPhysioList::on_pbRefresh_clicked()
 {
     this->refreshPhysioList();
 }
+
+void PsmDlgPhysioList::on_pbDelete_clicked()
+{
+    PsmSrvPhysioLog physiolog;
+    bool ok = this->service->readSelectedPhysioLog(ui->tableWidget, &physiolog);
+    if (!ok)
+        return;
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "删除确认",
+                                   "确认要删除理疗记录（患者：" + physiolog.patientname +
+                                   "，理疗项目：" + physiolog.physioname +
+                                   "，操作时间：" + physiolog.optime.toString(Qt::ISODate) + "）？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    this->service->deletePhysioLog(physiolog, this);
+    this->refreshPhysioList();
+}

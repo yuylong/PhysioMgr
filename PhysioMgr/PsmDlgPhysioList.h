@@ -28,6 +28,8 @@ public:
 private slots:
     void on_pbRefresh_clicked();
 
+    void on_pbDelete_clicked();
+
 private:
     Ui::PsmDlgPhysioList *ui;
     PsmService *service;

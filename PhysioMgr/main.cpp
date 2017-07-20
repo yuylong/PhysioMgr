@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     //QTextCodec::setCodecForCStrings(codec);
 
     MainWindow w;
-    w.show();
+    w.showMaximized();
     if (!w.initService())
         return -1;
 

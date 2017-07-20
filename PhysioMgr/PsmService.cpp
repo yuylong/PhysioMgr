@@ -1498,15 +1498,17 @@ bool PsmService::readSelectedPhysioLog(QTableWidget *tbl, PsmSrvPhysioLog *physi
     if (rowidx < 0)
         return false;
 
+    QTableWidgetItem *itempatientid = tbl->item(rowidx, 0);
     QTableWidgetItem *itempatient = tbl->item(rowidx, 1);
     QTableWidgetItem *itemphysio = tbl->item(rowidx, 2);
     QTableWidgetItem *itemnurse = tbl->item(rowidx, 3);
     QTableWidgetItem *itemmachineid = tbl->item(rowidx, 4);
     QTableWidgetItem *itemoptime = tbl->item(rowidx, 5);
-    if (itempatient == NULL || itemphysio == NULL || itemoptime == NULL)
+    if (itempatientid == NULL || itempatient == NULL|| itemphysio == NULL || itemnurse == NULL ||
+            itemmachineid == NULL || itemoptime == NULL)
         return false;
 
-    physiolog->patientid = itempatient->data(Qt::UserRole).toString();
+    physiolog->patientid = itempatientid->text();
     physiolog->patientname = itempatient->text();
     physiolog->physioid = itemphysio->data(Qt::UserRole).toString();
     physiolog->physioname = itemphysio->text();
@@ -1747,14 +1749,13 @@ bad:
     }
     QMessageBox::warning(window, "数据库错误", "无法删除理疗记录。" + exterrstr);
     return false;
-
 }
 
 QDateTime PsmService::getDbTime()
 {
     bool ok;
     QSqlQuery query = this->database.getQuery();
-    ok = query.exec("SELECT NOW();");
+    ok = query.exec("SELECT NOW(0);");
     if (!ok)
         return QDateTime::currentDateTime();
 

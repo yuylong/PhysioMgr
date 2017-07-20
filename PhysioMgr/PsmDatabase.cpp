@@ -179,7 +179,7 @@ void PsmDatabase::fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query,
                 tblwdg->setItem(row, i, item);
             }
 
-            if (datamap.size() > i && datamap[i] > 0)
+            if (datamap.size() > i && datamap[i] >= 0)
                 item->setData(Qt::UserRole, rec.value(datamap[i]));
         }
         row++;
