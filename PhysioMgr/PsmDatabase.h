@@ -47,6 +47,8 @@ public:
     QSqlQuery getQuery();
     void fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query,
                          const QList<int> &colmap, const QList<int> &datamap = QList<int>());
+
+    bool dumpDatabase(const QString &dumpexec, const QString &outfile);
 };
 
 #endif // PSMDATABASE_H

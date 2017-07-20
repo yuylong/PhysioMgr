@@ -1022,14 +1022,14 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,0,1">
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="pbDBExport">
              <property name="text">
               <string>数据导出（备份）</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="pbDBImport">
              <property name="text">
               <string>数据导入（恢复）</string>
              </property>

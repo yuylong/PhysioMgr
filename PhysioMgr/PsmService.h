@@ -179,6 +179,8 @@ public:
     QDateTime getDbTime();
     void insertPhysioLogToTable(const PsmSrvPhysioLog &physiolog, QTableWidget *tbl);
 
+    void exportDatabase(const QString &dumpexec, const QString &outfile, QWidget *window = NULL);
+
 private:    
     int getTableSelectedRow(QTableWidget *tbl);
     QString readTableSelectedId(QTableWidget *tbl, int idx);

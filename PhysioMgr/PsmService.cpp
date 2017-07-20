@@ -1832,3 +1832,17 @@ void PsmService::insertPhysioLogToTable(const PsmSrvPhysioLog &physiolog, QTable
     }
     item->setData(Qt::UserRole, physiolog.optime);
 }
+
+void PsmService::exportDatabase(const QString &dumpexec, const QString &outfile, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok = this->database.dumpDatabase(dumpexec, outfile);
+    if (!ok) {
+        QMessageBox::warning(window, "数据库导出失败", "数据库导出失败！");
+        return;
+    }
+
+    QMessageBox::information(window, "数据库导出成功", "数据库导出成功！");
+}

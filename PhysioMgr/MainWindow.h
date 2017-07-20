@@ -93,6 +93,8 @@ private slots:
 
     void on_deHospiRecEndDate_userDateChanged(const QDate &date);
 
+    void on_pbDBExport_clicked();
+
 private:
     Ui::MainWindow *ui;
 

@@ -185,3 +185,28 @@ void PsmDatabase::fillTableWidget(QTableWidget *tblwdg, QSqlQuery *query,
         row++;
     } while (query->next());
 }
+
+bool PsmDatabase::dumpDatabase(const QString &dumpexec, const QString &outfile)
+{
+    QFile f(outfile);
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Text))
+        return false;
+
+    QTextStream fots(&f);
+    fots << "CREATE DATABASE IF NOT EXISTS `" + this->schema + "` /*!40100 DEFAULT CHARACTER SET utf8 */;" << endl;
+    fots << "USE `" + this->schema + "`;" << endl;
+    f.close();
+
+    QProcess mysqldump;
+    mysqldump.setStandardOutputFile(outfile, QIODevice::Append);
+
+    QStringList arglist;
+    arglist << "--user=" + this->username << "--host=" + this->host << "--password=" + this->password <<
+               "--protocol=tcp" << "--port=3306" << "--default-character-set=utf8" <<
+               "--routines" << "--events" << this->schema;
+    mysqldump.start(dumpexec, arglist);
+    if (!mysqldump.waitForFinished())
+        return false;
+
+    return true;
+}

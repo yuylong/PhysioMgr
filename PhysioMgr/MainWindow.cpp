@@ -10,6 +10,7 @@
 #include "ui_MainWindow.h"
 
 #include <QMessageBox>
+#include <QFileDialog>
 #include "PsmDlgDoctor.h"
 #include "PsmDlgDoctorSel.h"
 #include "PsmDlgPatient.h"
@@ -632,4 +633,23 @@ void MainWindow::on_deHospiRecStartDate_userDateChanged(const QDate &)
 void MainWindow::on_deHospiRecEndDate_userDateChanged(const QDate &)
 {
     ui->chbHospiRecHasEndDate->setChecked(true);
+}
+
+void MainWindow::on_pbDBExport_clicked()
+{
+    static QString dumpexefn("mysqldump.exe");
+    QString appdir = qGuiApp->applicationDirPath();
+    QString dumpexepath = appdir + "/" + dumpexefn;
+
+    if (!QFile::exists(dumpexepath)) {
+        QMessageBox::warning(this, "系统错误", "数据导出无法完成，缺少系统支持软件，请与开发人员联系。");
+        return;
+    }
+
+    QString outfilename = QFileDialog::getSaveFileName(this, "选择导出文件", QDir::homePath(),
+                                                       "可移植的数据库脚本 (*.sql)");
+    if (outfilename.isEmpty())
+        return;
+
+    this->service.exportDatabase(dumpexepath, outfilename);
 }
