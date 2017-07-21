@@ -99,6 +99,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leCond</tabstop>
+  <tabstop>pbRefresh</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

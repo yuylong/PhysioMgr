@@ -216,6 +216,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leHospiRecId</tabstop>
+  <tabstop>lePatientName</tabstop>
+  <tabstop>lePhysioName</tabstop>
+  <tabstop>leDate</tabstop>
+  <tabstop>pbRefresh</tabstop>
+  <tabstop>pbDelete</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

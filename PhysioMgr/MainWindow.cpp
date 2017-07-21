@@ -765,7 +765,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         ui->leHospiRecCond->setFocus();
         break;
 
-    case 4: /* Doctor List */
+    case 3: /* Doctor List */
         ui->leDoctorCond->selectAll();
         ui->leDoctorCond->setFocus();
         break;

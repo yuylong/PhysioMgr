@@ -95,6 +95,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leDoctorID</tabstop>
+  <tabstop>leDoctorName</tabstop>
+  <tabstop>cmbDoctorType</tabstop>
+  <tabstop>pbDoctorDepart</tabstop>
+  <tabstop>leDoctorPhone</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

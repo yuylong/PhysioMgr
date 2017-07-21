@@ -1091,6 +1091,51 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>pbLogPhysioSel</tabstop>
+  <tabstop>pbLogNurseSel</tabstop>
+  <tabstop>leLogPatientID</tabstop>
+  <tabstop>pbPhysioLog</tabstop>
+  <tabstop>tblPhysioLog</tabstop>
+  <tabstop>lePatientCond</tabstop>
+  <tabstop>pbPatientRefresh</tabstop>
+  <tabstop>pbPatientAdd</tabstop>
+  <tabstop>pbPatientHospiAdd</tabstop>
+  <tabstop>pbPatientUdp</tabstop>
+  <tabstop>pbPatientDel</tabstop>
+  <tabstop>tblPatients</tabstop>
+  <tabstop>leHospiRecCond</tabstop>
+  <tabstop>chbHospiStartHasDate</tabstop>
+  <tabstop>chbHospiRecHasStartDate</tabstop>
+  <tabstop>deHospiRecStartDate</tabstop>
+  <tabstop>chbHospiRecHasEndDate</tabstop>
+  <tabstop>deHospiRecEndDate</tabstop>
+  <tabstop>pbHospiRefrsh</tabstop>
+  <tabstop>pbHospiUpd</tabstop>
+  <tabstop>pbHospiPhysio</tabstop>
+  <tabstop>pbHospiDel</tabstop>
+  <tabstop>tblHospiList</tabstop>
+  <tabstop>chbDoctorListAll</tabstop>
+  <tabstop>leDoctorCond</tabstop>
+  <tabstop>pbDoctorRefrsh</tabstop>
+  <tabstop>pbDoctorAdd</tabstop>
+  <tabstop>pbDoctorUpd</tabstop>
+  <tabstop>pbDoctorDel</tabstop>
+  <tabstop>tblDoctors</tabstop>
+  <tabstop>pbDepartRefrsh</tabstop>
+  <tabstop>pbDepartAdd</tabstop>
+  <tabstop>pbDepartUpd</tabstop>
+  <tabstop>pbDepartDel</tabstop>
+  <tabstop>tblDepartments</tabstop>
+  <tabstop>pbPhysioItemRefrsh</tabstop>
+  <tabstop>pbPhysioItemAdd</tabstop>
+  <tabstop>pbPhysioItemUpd</tabstop>
+  <tabstop>pbPhysioItemDel</tabstop>
+  <tabstop>tblPhysioList</tabstop>
+  <tabstop>pbDBExport</tabstop>
+  <tabstop>pbDBImport</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

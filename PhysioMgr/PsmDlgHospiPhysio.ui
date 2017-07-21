@@ -343,6 +343,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leHospiRecId</tabstop>
+  <tabstop>lePatientName</tabstop>
+  <tabstop>leDepartName</tabstop>
+  <tabstop>leRoomId</tabstop>
+  <tabstop>leDisease</tabstop>
+  <tabstop>leDoctorName</tabstop>
+  <tabstop>leNurseName</tabstop>
+  <tabstop>leDates</tabstop>
+  <tabstop>pbRefresh</tabstop>
+  <tabstop>pbShowList</tabstop>
+  <tabstop>pbAdd</tabstop>
+  <tabstop>pbUpdate</tabstop>
+  <tabstop>pbDelete</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

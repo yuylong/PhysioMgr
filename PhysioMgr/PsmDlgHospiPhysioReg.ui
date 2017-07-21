@@ -156,6 +156,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leHospiRecId</tabstop>
+  <tabstop>lePatientName</tabstop>
+  <tabstop>pbPhysio</tabstop>
+  <tabstop>sbFreqPeriod</tabstop>
+  <tabstop>sbFreqCount</tabstop>
+  <tabstop>deStartDate</tabstop>
+  <tabstop>deEndDate</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
