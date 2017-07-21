@@ -46,16 +46,19 @@ private slots:
     void on_pbPhysioItemDel_clicked();
 
     void on_pbDoctorRefrsh_clicked();
+    void on_leDoctorCond_returnPressed();
     void on_pbDoctorAdd_clicked();
     void on_pbDoctorUpd_clicked();
     void on_pbDoctorDel_clicked();
 
     void on_pbPatientRefresh_clicked();
+    void on_lePatientCond_returnPressed();
     void on_pbPatientAdd_clicked();
     void on_pbPatientUdp_clicked();
     void on_pbPatientDel_clicked();
 
     void on_pbHospiRefrsh_clicked();
+    void on_leHospiRecCond_returnPressed();
     void on_pbPatientHospiAdd_clicked();
     void on_pbHospiUpd_clicked();
     void on_pbHospiDel_clicked();
@@ -72,8 +75,9 @@ private slots:
     void on_deHospiRecStartDate_userDateChanged(const QDate &date);
     void on_deHospiRecEndDate_userDateChanged(const QDate &date);
 
-    void on_pbDBExport_clicked();
+    void on_leDoctorCond_textChanged(const QString &arg1);
 
+    void on_pbDBExport_clicked();
     void on_pbDBImport_clicked();
 
     void on_tabWidget_currentChanged(int index);

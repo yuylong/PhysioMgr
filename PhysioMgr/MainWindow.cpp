@@ -202,11 +202,14 @@ void MainWindow::refreshDoctorList()
 {
     if (this->curDoctorListCond.isNull())
         return;
+
     if (this->curDoctorListCond.isEmpty())
         this->service.refreshDoctorList(ui->lblDoctorCnt, ui->tblDoctors);
     else
         this->service.searchDoctor(this->curDoctorListCond, ui->lblDoctorCnt, ui->tblDoctors);
 
+    ui->leDoctorCond->selectAll();
+    ui->leDoctorCond->setFocus();
 }
 
 void MainWindow::on_pbDoctorRefrsh_clicked()
@@ -217,6 +220,11 @@ void MainWindow::on_pbDoctorRefrsh_clicked()
         this->curDoctorListCond = ui->leDoctorCond->text();
 
     this->refreshDoctorList();
+}
+
+void MainWindow::on_leDoctorCond_returnPressed()
+{
+    this->on_pbDoctorRefrsh_clicked();
 }
 
 void MainWindow::on_pbDoctorAdd_clicked()
@@ -294,6 +302,9 @@ void MainWindow::refreshPatientList()
         return;
 
     this->service.searchPatient(this->curPatientListCond, ui->lblPatientCnt, ui->tblPatients);
+
+    ui->lePatientCond->selectAll();
+    ui->lePatientCond->setFocus();
 }
 
 void MainWindow::on_pbPatientRefresh_clicked()
@@ -305,6 +316,11 @@ void MainWindow::on_pbPatientRefresh_clicked()
 
     this->curPatientListCond = ui->lePatientCond->text();
     this->refreshPatientList();
+}
+
+void MainWindow::on_lePatientCond_returnPressed()
+{
+    this->on_pbPatientRefresh_clicked();
 }
 
 void MainWindow::on_pbPatientAdd_clicked()
@@ -380,6 +396,9 @@ void MainWindow::refreshHospiRecList()
 
     this->service.searchHospiRec(this->curHospiRecListCond, this->curHospiRecStartDate, this->curHospiRecEndDate,
                                  ui->lblHospiCnt, ui->tblHospiList);
+
+    ui->leHospiRecCond->selectAll();
+    ui->leHospiRecCond->setFocus();
 }
 
 void MainWindow::on_pbHospiRefrsh_clicked()
@@ -398,6 +417,11 @@ void MainWindow::on_pbHospiRefrsh_clicked()
     }
 
     this->refreshHospiRecList();
+}
+
+void MainWindow::on_leHospiRecCond_returnPressed()
+{
+    this->on_pbHospiRefrsh_clicked();
 }
 
 void MainWindow::on_pbPatientHospiAdd_clicked()
@@ -670,6 +694,12 @@ void MainWindow::on_deHospiRecStartDate_userDateChanged(const QDate &)
 void MainWindow::on_deHospiRecEndDate_userDateChanged(const QDate &)
 {
     ui->chbHospiRecHasEndDate->setChecked(true);
+}
+
+void MainWindow::on_leDoctorCond_textChanged(const QString &arg1)
+{
+    if (!arg1.isEmpty())
+        ui->chbDoctorListAll->setChecked(false);
 }
 
 void MainWindow::on_pbDBExport_clicked()
