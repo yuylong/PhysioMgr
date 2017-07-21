@@ -117,7 +117,7 @@ void PsmDlgDoctor::on_pbDoctorDepart_clicked()
     if (this->service == NULL)
         return;
 
-    PsmDlgDepartSel dialog;
+    PsmDlgDepartSel dialog(this);
     dialog.setService(this->service);
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)

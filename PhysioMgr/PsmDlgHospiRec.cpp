@@ -170,7 +170,7 @@ void PsmDlgHospiRec::setEndDate(const QDate &date)
 
 void PsmDlgHospiRec::on_pbDepart_clicked()
 {
-    PsmDlgDepartSel dialog;
+    PsmDlgDepartSel dialog(this);
     dialog.setService(this->service);
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)
@@ -187,7 +187,7 @@ void PsmDlgHospiRec::on_pbDepart_clicked()
 
 void PsmDlgHospiRec::on_pbDoctor_clicked()
 {
-    PsmDlgDoctorSel dialog;
+    PsmDlgDoctorSel dialog(this);
     dialog.setService(this->service);
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)
@@ -204,7 +204,7 @@ void PsmDlgHospiRec::on_pbDoctor_clicked()
 
 void PsmDlgHospiRec::on_pbNurse_clicked()
 {
-    PsmDlgDoctorSel dialog;
+    PsmDlgDoctorSel dialog(this);
     dialog.setService(this->service);
     dialog.exec();
     if (dialog.result() != QDialog::Accepted)
