@@ -7,6 +7,7 @@ PsmDlgPatientSel::PsmDlgPatientSel(QWidget *parent) :
 {
     ui->setupUi(this);
     this->service = NULL;
+    ui->leCond->setFocus();
 }
 
 PsmDlgPatientSel::~PsmDlgPatientSel()
@@ -47,6 +48,14 @@ void PsmDlgPatientSel::on_pbRefresh_clicked()
         this->service->refreshPatientList(ui->lblCount, ui->tableWidget, this);
     else
         this->service->searchPatient(ui->leCond->text(), ui->lblCount, ui->tableWidget, this);
+
+    ui->leCond->selectAll();
+    ui->leCond->setFocus();
+}
+
+void PsmDlgPatientSel::on_leCond_returnPressed()
+{
+    this->on_pbRefresh_clicked();
 }
 
 void PsmDlgPatientSel::on_tableWidget_doubleClicked(const QModelIndex &index)

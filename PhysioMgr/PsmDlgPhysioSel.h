@@ -23,6 +23,7 @@ public:
 
 private slots:
     void on_pbRefresh_clicked();
+    void on_leCond_returnPressed();
 
     void on_tableWidget_doubleClicked(const QModelIndex &index);
 

@@ -7,6 +7,7 @@ PsmDlgPhysioSel::PsmDlgPhysioSel(QWidget *parent) :
 {
     ui->setupUi(this);
     this->service = NULL;
+    ui->leCond->setFocus();
 }
 
 PsmDlgPhysioSel::~PsmDlgPhysioSel()
@@ -41,6 +42,14 @@ void PsmDlgPhysioSel::on_pbRefresh_clicked()
         this->service->refreshPhysioItemList(ui->lblCount, ui->tableWidget, this);
     else
         this->service->searchPhysioItem(ui->leCond->text(), ui->lblCount, ui->tableWidget, this);
+
+    ui->leCond->selectAll();
+    ui->leCond->setFocus();
+}
+
+void PsmDlgPhysioSel::on_leCond_returnPressed()
+{
+    this->on_pbRefresh_clicked();
 }
 
 void PsmDlgPhysioSel::on_tableWidget_doubleClicked(const QModelIndex &index)

@@ -7,6 +7,7 @@ PsmDlgDepartSel::PsmDlgDepartSel(QWidget *parent) :
 {
     ui->setupUi(this);
     this->service = NULL;
+    ui->leCond->setFocus();
 }
 
 PsmDlgDepartSel::~PsmDlgDepartSel()
@@ -41,6 +42,9 @@ void PsmDlgDepartSel::on_pushButton_clicked()
         this->service->refreshDepartmentList(ui->lblCnt, ui->tableWidget, this);
     else
         this->service->searchDepartment(ui->leCond->text(), ui->lblCnt, ui->tableWidget, this);
+
+    ui->leCond->selectAll();
+    ui->leCond->setFocus();
 }
 
 void PsmDlgDepartSel::on_leCond_returnPressed()

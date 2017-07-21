@@ -7,6 +7,7 @@ PsmDlgDoctorSel::PsmDlgDoctorSel(QWidget *parent) :
 {
     ui->setupUi(this);
     this->service = NULL;
+    ui->leCond->setFocus();
 }
 
 PsmDlgDoctorSel::~PsmDlgDoctorSel()
@@ -41,6 +42,14 @@ void PsmDlgDoctorSel::on_pbRefresh_clicked()
         this->service->refreshDoctorList(ui->lblCnt, ui->tableWidget, this);
     else
         this->service->searchDoctor(ui->leCond->text(), ui->lblCnt, ui->tableWidget, this);
+
+    ui->leCond->selectAll();
+    ui->leCond->setFocus();
+}
+
+void PsmDlgDoctorSel::on_leCond_returnPressed()
+{
+    this->on_pbRefresh_clicked();
 }
 
 void PsmDlgDoctorSel::on_tableWidget_doubleClicked(const QModelIndex &index)
