@@ -49,6 +49,7 @@ public:
                          const QList<int> &colmap, const QList<int> &datamap = QList<int>());
 
     bool dumpDatabase(const QString &dumpexec, const QString &outfile);
+    bool importDatabase(const QString &sqlexec, const QString &infile);
 };
 
 #endif // PSMDATABASE_H

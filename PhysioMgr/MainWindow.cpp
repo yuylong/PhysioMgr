@@ -688,3 +688,28 @@ void MainWindow::on_pbDBExport_clicked()
     this->service.exportDatabase(dumpexepath, outfilename);
 }
 
+
+void MainWindow::on_pbDBImport_clicked()
+{
+    static QString sqlexefn("mysql.exe");
+    QString appdir = qGuiApp->applicationDirPath();
+    QString sqlexepath = appdir + "/" + sqlexefn;
+
+    if (!QFile::exists(sqlexepath)) {
+        QMessageBox::warning(this, "系统错误", "数据导入无法完成，缺少系统支持软件，请与开发人员联系。");
+        return;
+    }
+
+    QMessageBox::StandardButton answer;
+    answer = QMessageBox::question(this, "导入操作确认",
+                                   "导入操作会先清空所有当前数据，存在风险，确认是否要进行操作？");
+    if (answer != QMessageBox::Yes)
+        return;
+
+    QString infilename = QFileDialog::getOpenFileName(this, "选择导入文件", QDir::homePath(),
+                                                      "可移植的数据库脚本 (*.sql)");
+    if (infilename.isEmpty())
+        return;
+
+    this->service.importDatabase(sqlexepath, infilename);
+}

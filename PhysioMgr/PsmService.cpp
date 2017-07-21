@@ -1846,3 +1846,17 @@ void PsmService::exportDatabase(const QString &dumpexec, const QString &outfile,
 
     QMessageBox::information(window, "数据库导出成功", "数据库导出成功！");
 }
+
+void PsmService::importDatabase(const QString &sqlexec, const QString &infile, QWidget *window)
+{
+    if (window == NULL)
+        window = this->parent;
+
+    bool ok = this->database.importDatabase(sqlexec, infile);
+    if (!ok) {
+        QMessageBox::warning(window, "数据库导入失败", "数据库导入失败！");
+        return;
+    }
+
+    QMessageBox::information(window, "数据库导入成功", "数据库导入成功！");
+}

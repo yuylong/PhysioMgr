@@ -205,8 +205,35 @@ bool PsmDatabase::dumpDatabase(const QString &dumpexec, const QString &outfile)
                "--protocol=tcp" << "--port=3306" << "--default-character-set=utf8" <<
                "--routines" << "--events" << this->schema;
     mysqldump.start(dumpexec, arglist);
-    if (!mysqldump.waitForFinished())
+    if (!mysqldump.waitForFinished(3 * 60 * 1000))
         return false;
 
+    qDebug() << mysqldump.readAllStandardError();
+    if (mysqldump.exitCode() != 0) {
+        qDebug() << "Exit Code:" << mysqldump.exitCode();
+        return false;
+    }
+    return true;
+}
+
+bool PsmDatabase::importDatabase(const QString &sqlexec, const QString &infile)
+{
+    QProcess mysql;
+    mysql.setStandardInputFile(infile);
+
+    QStringList arglist;
+    arglist << "--host=" + this->host << "--user=" + this->username << "--password=" + this->password <<
+               "--protocol=tcp" << "--port=3306" << "--default-character-set=utf8" << "--comments";
+
+    mysql.start(sqlexec, arglist);
+    if (!mysql.waitForFinished(3 * 60 * 1000))
+        return false;
+
+    qDebug() << mysql.readAllStandardError();
+
+    if (mysql.exitCode() != 0) {
+        qDebug() << "Exit Code:" << mysql.exitCode();
+        return false;
+    }
     return true;
 }

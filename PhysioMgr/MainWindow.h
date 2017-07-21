@@ -74,6 +74,8 @@ private slots:
 
     void on_pbDBExport_clicked();
 
+    void on_pbDBImport_clicked();
+
 private:
     Ui::MainWindow *ui;
 
