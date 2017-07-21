@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -151,6 +151,12 @@
           <property name="columnCount">
            <number>6</number>
           </property>
+          <attribute name="horizontalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>40</number>
+          </attribute>
           <column>
            <property name="text">
             <string>患者卡号</string>
@@ -735,12 +741,17 @@
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="rowCount">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="columnCount">
            <number>5</number>
           </property>
-          <row/>
+          <attribute name="horizontalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>40</number>
+          </attribute>
           <column>
            <property name="text">
             <string>编号</string>
@@ -852,12 +863,17 @@
               <enum>QAbstractItemView::SelectRows</enum>
              </property>
              <property name="rowCount">
-              <number>1</number>
+              <number>0</number>
              </property>
              <property name="columnCount">
               <number>2</number>
              </property>
-             <row/>
+             <attribute name="horizontalHeaderHighlightSections">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="horizontalHeaderMinimumSectionSize">
+              <number>40</number>
+             </attribute>
              <column>
               <property name="text">
                <string>编号</string>
@@ -950,12 +966,17 @@
               <enum>QAbstractItemView::SelectRows</enum>
              </property>
              <property name="rowCount">
-              <number>1</number>
+              <number>0</number>
              </property>
              <property name="columnCount">
               <number>3</number>
              </property>
-             <row/>
+             <attribute name="horizontalHeaderHighlightSections">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="horizontalHeaderMinimumSectionSize">
+              <number>40</number>
+             </attribute>
              <column>
               <property name="text">
                <string>编号</string>

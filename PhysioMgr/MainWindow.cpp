@@ -751,18 +751,22 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
     switch (index) {
     case 0: /* Physio Log */
+        ui->leLogPatientID->selectAll();
         ui->leLogPatientID->setFocus();
         break;
 
     case 1: /* Patient */
+        ui->lePatientCond->selectAll();
         ui->lePatientCond->setFocus();
         break;
 
     case 2: /* Hospi Records */
+        ui->leHospiRecCond->selectAll();
         ui->leHospiRecCond->setFocus();
         break;
 
     case 4: /* Doctor List */
+        ui->leDoctorCond->selectAll();
         ui->leDoctorCond->setFocus();
         break;
 
