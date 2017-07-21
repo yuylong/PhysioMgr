@@ -230,7 +230,6 @@ bool PsmDatabase::importDatabase(const QString &sqlexec, const QString &infile)
         return false;
 
     qDebug() << mysql.readAllStandardError();
-
     if (mysql.exitCode() != 0) {
         qDebug() << "Exit Code:" << mysql.exitCode();
         return false;
