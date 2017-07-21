@@ -25,6 +25,8 @@ private slots:
     void on_pushButton_clicked();
     void on_tableWidget_doubleClicked(const QModelIndex &index);
 
+    void on_leCond_returnPressed();
+
 private:
     Ui::PsmDlgDepartSel *ui;
     PsmService *service;

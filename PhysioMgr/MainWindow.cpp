@@ -515,21 +515,32 @@ void MainWindow::on_pbHospiPhysio_clicked()
     dialog.exec();
 }
 
+void MainWindow::clearPhysioLogPatientId()
+{
+    ui->leLogPatientID->clear();
+    ui->leLogPatientID->setFocus();
+}
+
 void MainWindow::on_pbLogPhysioSel_clicked()
 {
     PsmDlgPhysioSel dialog(this);
     dialog.setService(&this->service);
     dialog.exec();
-    if (dialog.result() != QDialog::Accepted)
+    if (dialog.result() != QDialog::Accepted) {
+        clearPhysioLogPatientId();
         return;
+    }
 
     PsmSrvPhysioItem physio;
     bool ok = dialog.getSelectedPhysioItem(&physio);
-    if (!ok)
+    if (!ok) {
+        clearPhysioLogPatientId();
         return;
+    }
 
     this->logPhysioId = physio.id;
     ui->pbLogPhysioSel->setText(physio.name);
+    clearPhysioLogPatientId();
 }
 
 void MainWindow::on_pbLogNurseSel_clicked()
@@ -537,27 +548,34 @@ void MainWindow::on_pbLogNurseSel_clicked()
     PsmDlgDoctorSel dialog(this);
     dialog.setService(&this->service);
     dialog.exec();
-    if (dialog.result() != QDialog::Accepted)
+    if (dialog.result() != QDialog::Accepted) {
+        clearPhysioLogPatientId();
         return;
+    }
 
     PsmSrvDoctor nurse;
     bool ok = dialog.getSelectedDoctor(&nurse);
-    if (!ok)
+    if (!ok) {
+        clearPhysioLogPatientId();
         return;
+    }
 
     this->logNurseId = nurse.id;
     ui->pbLogNurseSel->setText(nurse.name);
+    clearPhysioLogPatientId();
 }
 
 void MainWindow::on_pbPhysioLog_clicked()
 {
     if (this->logPhysioId.isEmpty() || this->logNurseId.isEmpty()) {
         QMessageBox::warning(this, "缺少信息", "必须填选当前打卡的理疗项目和护士。");
+        clearPhysioLogPatientId();
         return;
     }
 
     if (ui->leLogPatientID->text().isEmpty()) {
         QMessageBox::warning(this, "缺少信息", "打卡必须填写患者检索信息。");
+        clearPhysioLogPatientId();
         return;
     }
 
@@ -565,26 +583,34 @@ void MainWindow::on_pbPhysioLog_clicked()
     PsmSrvPatient patient;
     if (patientcnt < 1) {
         QMessageBox::warning(this, "缺少信息", "无法找到指定编号或检索信息下的患者信息。");
+        clearPhysioLogPatientId();
         return;
     } else if (patientcnt == 1) {
         bool ok = this->service.getFirstPatient(ui->leLogPatientID->text(), &patient);
-        if (!ok)
+        if (!ok) {
+            clearPhysioLogPatientId();
             return;
+        }
     } else {
         PsmDlgPatientSel dialog(this);
         dialog.setService(&this->service);
         dialog.setAndRefreshCond(ui->leLogPatientID->text());
         dialog.exec();
-        if (dialog.result() != QDialog::Accepted)
+        if (dialog.result() != QDialog::Accepted) {
+            clearPhysioLogPatientId();
             return;
+        }
 
         bool ok = dialog.getSelectedPatient(&patient);
-        if (!ok)
+        if (!ok) {
+            clearPhysioLogPatientId();
             return;
+        }
     }
 
     if (patient.id.isEmpty()) {
         QMessageBox::warning(this, "缺少信息", "检索到无效的患者信息。");
+        clearPhysioLogPatientId();
         return;
     }
 
@@ -599,10 +625,18 @@ void MainWindow::on_pbPhysioLog_clicked()
     physiolog.optime = this->service.getDbTime();
 
     bool ok = this->service.tryAddPhysioLog(physiolog);
-    if (!ok)
+    if (!ok) {
+        clearPhysioLogPatientId();
         return;
+    }
 
     this->service.insertPhysioLogToTable(physiolog, ui->tblPhysioLog);
+    clearPhysioLogPatientId();
+}
+
+void MainWindow::on_leLogPatientID_returnPressed()
+{
+    this->on_pbPhysioLog_clicked();
 }
 
 void MainWindow::on_chbHospiStartHasDate_stateChanged(int arg1)
@@ -653,3 +687,4 @@ void MainWindow::on_pbDBExport_clicked()
 
     this->service.exportDatabase(dumpexepath, outfilename);
 }
+

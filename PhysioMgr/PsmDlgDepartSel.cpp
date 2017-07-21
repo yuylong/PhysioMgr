@@ -43,6 +43,11 @@ void PsmDlgDepartSel::on_pushButton_clicked()
         this->service->searchDepartment(ui->leCond->text(), ui->lblCnt, ui->tableWidget, this);
 }
 
+void PsmDlgDepartSel::on_leCond_returnPressed()
+{
+    this->on_pushButton_clicked();
+}
+
 void PsmDlgDepartSel::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
     ui->tableWidget->selectRow(index.row());

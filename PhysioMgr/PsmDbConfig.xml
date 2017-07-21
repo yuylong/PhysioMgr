@@ -5,4 +5,5 @@
     <password>root</password>
     <schema>ysphysiodb</schema>
     <hospiRecIdLen>8</hospiRecIdLen>
+    <machineId>ABC123</machineId>
 </database>
