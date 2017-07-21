@@ -76,6 +76,8 @@ private slots:
 
     void on_pbDBImport_clicked();
 
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::MainWindow *ui;
 

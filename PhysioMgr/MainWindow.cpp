@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->deHospiRecStartDate->setDate(QDate::currentDate().addDays(-7));
     ui->deHospiRecEndDate->setDate(QDate::currentDate());
     ui->chbHospiStartHasDate->setChecked(true);
+
+    ui->tabWidget->setCurrentIndex(0);
+    ui->leLogPatientID->setFocus();
 }
 
 MainWindow::~MainWindow()
@@ -712,4 +715,28 @@ void MainWindow::on_pbDBImport_clicked()
         return;
 
     this->service.importDatabase(sqlexepath, infilename);
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    switch (index) {
+    case 0: /* Physio Log */
+        ui->leLogPatientID->setFocus();
+        break;
+
+    case 1: /* Patient */
+        ui->lePatientCond->setFocus();
+        break;
+
+    case 2: /* Hospi Records */
+        ui->leHospiRecCond->setFocus();
+        break;
+
+    case 4: /* Doctor List */
+        ui->leDoctorCond->setFocus();
+        break;
+
+    default:
+        break;
+    }
 }
