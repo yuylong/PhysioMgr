@@ -1432,7 +1432,7 @@ void PsmService::updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio,
     bool ok;
     QSqlQuery query = this->database.getQuery();
     ok = query.prepare("UPDATE hospi_physio "
-                       "SET pati_id=?, pati_name=?, freq_day=?, freq_cnt=?, startdate=?, endate=? "
+                       "SET pati_id=?, pati_name=?, freq_day=?, freq_cnt=?, startdate=?, enddate=? "
                        "WHERE hospi_id=? AND physio_id=? AND startdate=?;");
     if (!ok)
         goto bad;
@@ -1567,7 +1567,7 @@ QList<PsmSrvHospiPhysio> PsmService::getNowPermitPhysio(const QString &patientid
     bool ok;
     QSqlQuery query = this->database.getQuery();
     ok = query.prepare("SELECT * FROM hospi_physio WHERE pati_id=? AND physio_id=? AND "
-                                                        "startdate<=? AND endate>=?;");
+                                                        "startdate<=? AND enddate>=?;");
     if (!ok)
         return QList<PsmSrvHospiPhysio>();
 
@@ -1703,7 +1703,7 @@ bool PsmService::tryAddPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *wind
     QDate logdate = physiolog.optime.date();
     QList<PsmSrvHospiPhysio> hplist = this->getNowPermitPhysio(physiolog.patientid, physiolog.physioid, logdate);
     if (hplist.size() < 1) {
-        QMessageBox::warning(window, "打卡操作拒绝", "无法找到患者当前时间打卡对应的住院等级或理疗登记。");
+        QMessageBox::warning(window, "打卡操作拒绝", "无法找到患者当前时间打卡对应的住院登记或理疗登记。");
         return false;
     }
 
