@@ -40,14 +40,20 @@ public:
 
 private slots:
     void on_pbDoctorDepart_clicked();
-
     void on_buttonBox_accepted();
+
+    void on_leDoctorID_returnPressed();
+    void on_leDoctorName_returnPressed();
+    void on_leDoctorPhone_returnPressed();
 
 private:
     Ui::PsmDlgDoctor *ui;
     PsmService *service;
 
     QString departId;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *ev);
 };
 
 #endif // PSMDLGDOCTOR_H

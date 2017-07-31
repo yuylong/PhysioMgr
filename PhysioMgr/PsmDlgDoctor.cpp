@@ -9,11 +9,26 @@ PsmDlgDoctor::PsmDlgDoctor(QWidget *parent) :
 {
     ui->setupUi(this);
     this->service = NULL;
+
+    this->installEventFilter(this);
 }
 
 PsmDlgDoctor::~PsmDlgDoctor()
 {
     delete ui;
+}
+
+bool PsmDlgDoctor::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( obj == this ) {
+        if ( event->type() == QEvent::KeyPress ) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
+                return true;
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
 
 PsmService *PsmDlgDoctor::getService() const
@@ -130,6 +145,8 @@ void PsmDlgDoctor::on_pbDoctorDepart_clicked()
 
     this->departId = dep.id;
     ui->pbDoctorDepart->setText(dep.name);
+
+    ui->leDoctorPhone->setFocus();
 }
 
 void PsmDlgDoctor::on_buttonBox_accepted()
@@ -143,4 +160,19 @@ void PsmDlgDoctor::on_buttonBox_accepted()
         return;
     }
     this->accept();
+}
+
+void PsmDlgDoctor::on_leDoctorID_returnPressed()
+{
+    ui->leDoctorName->setFocus();
+}
+
+void PsmDlgDoctor::on_leDoctorName_returnPressed()
+{
+    ui->cmbDoctorType->setFocus();
+}
+
+void PsmDlgDoctor::on_leDoctorPhone_returnPressed()
+{
+    emit (ui->buttonBox->accepted());
 }
