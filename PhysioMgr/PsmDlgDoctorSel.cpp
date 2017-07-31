@@ -7,12 +7,31 @@ PsmDlgDoctorSel::PsmDlgDoctorSel(QWidget *parent) :
 {
     ui->setupUi(this);
     this->service = NULL;
+    this->keyPressedInLe = false;
+
+    this->installEventFilter(this);
     ui->leCond->setFocus();
 }
 
 PsmDlgDoctorSel::~PsmDlgDoctorSel()
 {
     delete ui;
+}
+
+bool PsmDlgDoctorSel::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( obj == this ) {
+        if ( event->type() == QEvent::KeyPress ) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if ( this->keyPressedInLe &&
+                 (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) ) {
+                this->keyPressedInLe = false;
+                return true;
+            }
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
 
 PsmService *PsmDlgDoctorSel::getService() const
@@ -44,11 +63,17 @@ void PsmDlgDoctorSel::on_pbRefresh_clicked()
         this->service->searchDoctor(ui->leCond->text(), ui->lblCnt, ui->tableWidget, this);
 
     ui->leCond->selectAll();
-    ui->leCond->setFocus();
+    if ( ui->tableWidget->rowCount() > 0 ) {
+        ui->tableWidget->selectRow(0);
+        ui->tableWidget->setFocus();
+    } else {
+        ui->leCond->setFocus();
+    }
 }
 
 void PsmDlgDoctorSel::on_leCond_returnPressed()
 {
+    this->keyPressedInLe = true;
     this->on_pbRefresh_clicked();
 }
 
