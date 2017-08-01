@@ -34,7 +34,7 @@ private:
     bool keyPressedInLe;
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *ev);
+    bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // PSMDLGDOCTORSEL_H

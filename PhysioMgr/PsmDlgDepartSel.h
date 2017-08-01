@@ -30,6 +30,11 @@ private slots:
 private:
     Ui::PsmDlgDepartSel *ui;
     PsmService *service;
+
+    bool keyPressedInLe;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // PSMDLGDEPARTSEL_H

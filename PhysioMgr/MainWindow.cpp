@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->chbHospiStartHasDate->setChecked(true);
 
     ui->tabWidget->setCurrentIndex(0);
-    ui->leLogPatientID->setFocus();
+    this->clearPhysioLogPatientId();
 }
 
 MainWindow::~MainWindow()
@@ -545,7 +545,14 @@ void MainWindow::on_pbHospiPhysio_clicked()
 void MainWindow::clearPhysioLogPatientId()
 {
     ui->leLogPatientID->clear();
-    ui->leLogPatientID->setFocus();
+
+    if (this->logPhysioId.isEmpty()) {
+        ui->pbLogPhysioSel->setFocus();
+    } else if (this->logNurseId.isEmpty()) {
+        ui->pbLogNurseSel->setFocus();
+    } else {
+        ui->leLogPatientID->setFocus();
+    }
 }
 
 void MainWindow::on_pbLogPhysioSel_clicked()
@@ -751,8 +758,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
     switch (index) {
     case 0: /* Physio Log */
-        ui->leLogPatientID->selectAll();
-        ui->leLogPatientID->setFocus();
+        this->clearPhysioLogPatientId();
         break;
 
     case 1: /* Patient */
