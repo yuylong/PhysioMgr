@@ -1,6 +1,8 @@
 #include "PsmDlgDoctorSel.h"
 #include "ui_PsmDlgDoctorSel.h"
 
+#include <QKeyEvent>
+
 PsmDlgDoctorSel::PsmDlgDoctorSel(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgDoctorSel)

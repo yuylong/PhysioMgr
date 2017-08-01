@@ -1,6 +1,8 @@
 #include "PsmDlgDoctor.h"
 #include "ui_PsmDlgDoctor.h"
 
+#include <QKeyEvent>
+
 #include "PsmDlgDepartSel.h"
 
 PsmDlgDoctor::PsmDlgDoctor(QWidget *parent) :

@@ -1,6 +1,8 @@
 #include "PsmDlgDepartSel.h"
 #include "ui_PsmDlgDepartSel.h"
 
+#include <QKeyEvent>
+
 PsmDlgDepartSel::PsmDlgDepartSel(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgDepartSel)

@@ -23,8 +23,16 @@ public:
     void lockDepartID();
     void unlockDepartID();
 
+private slots:
+    void on_leDepartID_returnPressed();
+
+    void on_leDepartName_returnPressed();
+
 private:
     Ui::PsmDlgDepartment *ui;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *ev);
 };
 
 #endif // PSMDLGDEPARTMENT_H
