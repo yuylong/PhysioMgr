@@ -31,6 +31,10 @@ private slots:
 private:
     Ui::PsmDlgPatientSel *ui;
     PsmService *service;
+    bool keyPressedInLe;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // PSMDLGPATIENTSEL_H

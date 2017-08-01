@@ -1,18 +1,39 @@
 #include "PsmDlgPatientSel.h"
 #include "ui_PsmDlgPatientSel.h"
 
+#include <QKeyEvent>
+
 PsmDlgPatientSel::PsmDlgPatientSel(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgPatientSel)
 {
     ui->setupUi(this);
     this->service = NULL;
+    this->keyPressedInLe = false;
+
+    this->installEventFilter(this);
     ui->leCond->setFocus();
 }
 
 PsmDlgPatientSel::~PsmDlgPatientSel()
 {
     delete ui;
+}
+
+bool PsmDlgPatientSel::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( obj == this ) {
+        if ( event->type() == QEvent::KeyPress ) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if ( this->keyPressedInLe &&
+                 (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) ) {
+                this->keyPressedInLe = false;
+                return true;
+            }
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
 
 PsmService *PsmDlgPatientSel::getService() const
@@ -50,11 +71,17 @@ void PsmDlgPatientSel::on_pbRefresh_clicked()
         this->service->searchPatient(ui->leCond->text(), ui->lblCount, ui->tableWidget, this);
 
     ui->leCond->selectAll();
-    ui->leCond->setFocus();
+    if ( ui->tableWidget->rowCount() > 0 ) {
+        ui->tableWidget->selectRow(0);
+        ui->tableWidget->setFocus();
+    } else {
+        ui->leCond->setFocus();
+    }
 }
 
 void PsmDlgPatientSel::on_leCond_returnPressed()
 {
+    this->keyPressedInLe = true;
     this->on_pbRefresh_clicked();
 }
 
