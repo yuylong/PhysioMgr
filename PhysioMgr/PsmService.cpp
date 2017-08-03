@@ -228,6 +228,9 @@ void PsmService::insertNewDepartment(const PsmSrvDepartment &dep, QWidget *windo
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "科室信息添加成功。科室：" + dep.name + "（ID：" + dep.id +"）");
     return;
 
 bad:
@@ -257,6 +260,9 @@ void PsmService::updateDepartment(const PsmSrvDepartment &dep, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "科室信息更新成功。科室：" + dep.name + "（ID：" + dep.id +"）");
     return;
 
 bad:
@@ -285,6 +291,8 @@ void PsmService::deleteDepartment(const QString &depid, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "科室信息删除成功。");
     return;
 
 bad:
@@ -403,6 +411,9 @@ void PsmService::insertNewPhysioItem(const PsmSrvPhysioItem &physio, QWidget *wi
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "理疗项目信息添加成功。项目：" + physio.name + "（ID：" + physio.id +"）");
     return;
 
 bad:
@@ -433,6 +444,9 @@ void PsmService::updatePhysioItem(const PsmSrvPhysioItem &physio, QWidget *windo
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "理疗项目信息更新成功。项目：" + physio.name + "（ID：" + physio.id +"）");
     return;
 
 bad:
@@ -461,6 +475,8 @@ void PsmService::deletePhysioItem(const QString &physioid, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "理疗项目信息删除成功。");
     return;
 
 bad:

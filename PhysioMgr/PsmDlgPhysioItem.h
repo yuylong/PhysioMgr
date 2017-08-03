@@ -27,6 +27,12 @@ public:
 
 private:
     Ui::PsmDlgPhysioItem *ui;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+private slots:
+    void on_lePhysioId_returnPressed();
+    void on_lePhysioName_returnPressed();
 };
 
 #endif // PSMDLGPHYSIOITEM_H
