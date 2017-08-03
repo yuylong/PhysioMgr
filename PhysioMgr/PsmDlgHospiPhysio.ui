@@ -231,7 +231,14 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0,0,0,0,0">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0,0,0,0,0,0,0">
      <item>
       <widget class="QLabel" name="label_9">
        <property name="text">
@@ -247,16 +254,19 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pbRefresh">
-       <property name="text">
-        <string>刷新</string>
+      <widget class="Line" name="line_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pbShowList">
+      <widget class="QPushButton" name="pbRefresh">
        <property name="text">
-        <string>查看理疗记录</string>
+        <string>刷新</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -264,6 +274,20 @@
       <widget class="QPushButton" name="pbAdd">
        <property name="text">
         <string>添加</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbShowList">
+       <property name="text">
+        <string>查看理疗记录</string>
        </property>
       </widget>
      </item>
@@ -353,8 +377,8 @@
   <tabstop>leNurseName</tabstop>
   <tabstop>leDates</tabstop>
   <tabstop>pbRefresh</tabstop>
-  <tabstop>pbShowList</tabstop>
   <tabstop>pbAdd</tabstop>
+  <tabstop>pbShowList</tabstop>
   <tabstop>pbUpdate</tabstop>
   <tabstop>pbDelete</tabstop>
   <tabstop>tableWidget</tabstop>

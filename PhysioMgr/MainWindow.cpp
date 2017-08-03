@@ -466,7 +466,10 @@ void MainWindow::on_pbPatientHospiAdd_clicked()
     if (answer != QMessageBox::Yes)
         return;
 
-    // TODO: 进行理疗项目的输入。
+    PsmDlgHospiPhysio physiodialog(this);
+    physiodialog.setService(&this->service);
+    physiodialog.setHospiRecId(hospirecid);
+    physiodialog.exec();
 }
 
 void MainWindow::on_pbHospiUpd_clicked()

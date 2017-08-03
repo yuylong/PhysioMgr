@@ -10,11 +10,27 @@ PsmDlgHospiPhysio::PsmDlgHospiPhysio(QWidget *parent) :
 {
     ui->setupUi(this);
     this->service = NULL;
+
+    this->installEventFilter(this);
+    ui->pbRefresh->setFocus();
 }
 
 PsmDlgHospiPhysio::~PsmDlgHospiPhysio()
 {
     delete ui;
+}
+
+bool PsmDlgHospiPhysio::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( obj == this ) {
+        if ( event->type() == QEvent::KeyPress ) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
+                return true;
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
 
 PsmService *PsmDlgHospiPhysio::getService() const

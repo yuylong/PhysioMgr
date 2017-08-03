@@ -53,7 +53,7 @@ private:
     QString departId;
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *ev);
+    bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // PSMDLGDOCTOR_H

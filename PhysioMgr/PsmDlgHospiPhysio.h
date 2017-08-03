@@ -27,19 +27,18 @@ public:
 
 private slots:
     void on_pbRefresh_clicked();
-
     void on_pbAdd_clicked();
-
     void on_pbUpdate_clicked();
-
     void on_pbDelete_clicked();
-
     void on_pbShowList_clicked();
 
 private:
     Ui::PsmDlgHospiPhysio *ui;
     PsmService *service;
     PsmSrvHospiRec hospirec;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // PSMDLGHOSPIPHYSIO_H
