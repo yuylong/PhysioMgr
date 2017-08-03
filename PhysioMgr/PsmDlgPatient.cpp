@@ -2,17 +2,34 @@
 #include "ui_PsmDlgPatient.h"
 
 #include <QMessageBox>
+#include <QKeyEvent>
 
 PsmDlgPatient::PsmDlgPatient(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgPatient)
 {
     ui->setupUi(this);
+    ui->lePatientId->setFocus();
+
+    this->installEventFilter(this);
 }
 
 PsmDlgPatient::~PsmDlgPatient()
 {
     delete ui;
+}
+
+bool PsmDlgPatient::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( obj == this ) {
+        if ( event->type() == QEvent::KeyPress ) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
+                return true;
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
 
 QString PsmDlgPatient::getPatientId() const
@@ -93,4 +110,29 @@ void PsmDlgPatient::on_buttonBox_accepted()
     }
 
     this->accept();
+}
+
+void PsmDlgPatient::on_lePatientId_returnPressed()
+{
+    ui->lePatientName->setFocus();
+}
+
+void PsmDlgPatient::on_lePatientName_returnPressed()
+{
+    ui->deDob->setFocus();
+}
+
+void PsmDlgPatient::on_lePhoneNum_returnPressed()
+{
+    ui->leAddress->setFocus();
+}
+
+void PsmDlgPatient::on_leAddress_returnPressed()
+{
+    ui->leComment->setFocus();
+}
+
+void PsmDlgPatient::on_leComment_returnPressed()
+{
+    emit (ui->buttonBox->accepted());
 }

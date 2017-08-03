@@ -35,8 +35,17 @@ public:
 private slots:
     void on_buttonBox_accepted();
 
+    void on_lePatientId_returnPressed();
+    void on_lePatientName_returnPressed();
+    void on_lePhoneNum_returnPressed();
+    void on_leAddress_returnPressed();
+    void on_leComment_returnPressed();
+
 private:
     Ui::PsmDlgPatient *ui;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // PSMDLGPATIENT_H
