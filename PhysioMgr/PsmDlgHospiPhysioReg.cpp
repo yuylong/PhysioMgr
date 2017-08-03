@@ -134,6 +134,8 @@ void PsmDlgHospiPhysioReg::on_pbPhysio_clicked()
 
     this->physioId = physio.id;
     ui->pbPhysio->setText(physio.name);
+
+    ui->sbFreqPeriod->setFocus();
 }
 
 void PsmDlgHospiPhysioReg::on_buttonBox_accepted()

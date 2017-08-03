@@ -50,10 +50,11 @@ public:
 
 private slots:
     void on_pbDepart_clicked();
-
     void on_pbDoctor_clicked();
-
     void on_pbNurse_clicked();
+
+    void on_leRoomId_returnPressed();
+    void on_leDisease_returnPressed();
 
 private:
     Ui::PsmDlgHospiRec *ui;
@@ -62,6 +63,10 @@ private:
     QString depid;
     QString doctorid;
     QString nurseid;
+
+protected:
+    bool returnFiltered;
+    bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // PSMDLGHOSPIREC_H

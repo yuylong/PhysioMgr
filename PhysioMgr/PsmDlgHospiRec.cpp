@@ -1,6 +1,8 @@
 #include "PsmDlgHospiRec.h"
 #include "ui_PsmDlgHospiRec.h"
 
+#include <QKeyEvent>
+
 #include "PsmDlgDepartSel.h"
 #include "PsmDlgDoctorSel.h"
 
@@ -12,11 +14,31 @@ PsmDlgHospiRec::PsmDlgHospiRec(QWidget *parent) :
 
     ui->deStartDate->setDate(QDate::currentDate());
     ui->deEndDate->setDate(QDate::currentDate().addDays(7));
+    ui->pbDepart->setFocus();
+
+    this->returnFiltered = false;
+    this->installEventFilter(this);
 }
 
 PsmDlgHospiRec::~PsmDlgHospiRec()
 {
     delete ui;
+}
+
+bool PsmDlgHospiRec::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( obj == this ) {
+        if ( event->type() == QEvent::KeyPress ) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if ( this->returnFiltered &&
+                 (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) ) {
+                this->returnFiltered = false;
+                return true;
+            }
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
 
 PsmService *PsmDlgHospiRec::getService() const
@@ -183,6 +205,20 @@ void PsmDlgHospiRec::on_pbDepart_clicked()
 
     this->depid = depart.id;
     ui->pbDepart->setText(depart.name);
+
+    ui->leRoomId->setFocus();
+}
+
+void PsmDlgHospiRec::on_leRoomId_returnPressed()
+{
+    this->returnFiltered = true;
+    ui->leDisease->setFocus();
+}
+
+void PsmDlgHospiRec::on_leDisease_returnPressed()
+{
+    this->returnFiltered = true;
+    ui->pbDoctor->setFocus();
 }
 
 void PsmDlgHospiRec::on_pbDoctor_clicked()
@@ -200,6 +236,8 @@ void PsmDlgHospiRec::on_pbDoctor_clicked()
 
     this->doctorid = doctor.id;
     ui->pbDoctor->setText(doctor.name);
+
+    ui->pbNurse->setFocus();
 }
 
 void PsmDlgHospiRec::on_pbNurse_clicked()
@@ -217,4 +255,6 @@ void PsmDlgHospiRec::on_pbNurse_clicked()
 
     this->nurseid = nurse.id;
     ui->pbNurse->setText(nurse.name);
+
+    ui->deStartDate->setFocus();
 }
