@@ -608,6 +608,9 @@ void PsmService::insertDoctor(const PsmSrvDoctor &doctor, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "医护人员信息添加成功。姓名：" + doctor.name + "（ID：" + doctor.id +"）");
     return;
 
 bad:
@@ -643,6 +646,9 @@ void PsmService::updateDoctor(const PsmSrvDoctor &doctor, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "医护人员信息更新成功。姓名：" + doctor.name + "（ID：" + doctor.id +"）");
     return;
 
 bad:
@@ -671,6 +677,8 @@ void PsmService::deleteDoctor(const QString &doctorid, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "医护人员信息删除成功。");
     return;
 
 bad:
@@ -875,6 +883,9 @@ void PsmService::insertPatient(const PsmSrvPatient &patient, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "患者信息添加成功。姓名：" + patient.name + "（ID：" + patient.id +"）");
     return;
 
 bad:
@@ -909,6 +920,9 @@ void PsmService::updatePatient(const PsmSrvPatient &patient, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "患者信息更新成功。姓名：" + patient.name + "（ID：" + patient.id +"）");
     return;
 
 bad:
@@ -937,6 +951,8 @@ void PsmService::deletePatient(const QString &patientid, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "患者信息删除成功。");
     return;
 
 bad:
@@ -1184,7 +1200,7 @@ QString PsmService::getCurrentNextHostpiRecId(QWidget *window)
 
     QString curid = getCurrentMaxHospiRecId();
     if (curid.isEmpty())
-        return QString("0").repeated(this->hospiRecIdLen - 1) + "1";
+        return "1" + QString("0").repeated(this->hospiRecIdLen - 1);
 
     bool hasletter = false;
     QString nextid = getNextHospiRecId(curid, &hasletter);
@@ -1251,6 +1267,7 @@ void PsmService::insertHospiRec(const PsmSrvHospiRec &hospirec, QString *hospire
 
     if (hospirecid != NULL)
         *hospirecid = nextid;
+
     return;
 
 bad:
@@ -1297,6 +1314,9 @@ void PsmService::updateHospiRec(const PsmSrvHospiRec &hospirec, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功",
+                             "住院信息更新成功。住院号：" + hospirec.id);
     return;
 
 bad:
@@ -1317,7 +1337,7 @@ void PsmService::deleteHospiRec(const QString &hospirecid, QWidget *window)
 
     bool ok;
     QSqlQuery query = this->database.getQuery();
-    ok = query.prepare("DELETE FROM hospi_records WHERE id=?;");
+    ok = query.prepare("DELETE FROM hospi_physio WHERE id=?;");
     if (!ok)
         goto bad;
 
@@ -1325,6 +1345,18 @@ void PsmService::deleteHospiRec(const QString &hospirecid, QWidget *window)
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    query = this->database.getQuery();
+    ok = query.prepare("DELETE FROM hospi_records WHERE hospi_id=?;");
+    if (!ok)
+        goto out;
+
+    query.bindValue(0, hospirecid);
+    query.exec();
+
+out:
+    QMessageBox::information(window, "操作成功",
+                             "住院信息删除成功。住院号：" + hospirecid);
     return;
 
 bad:
@@ -1426,6 +1458,8 @@ void PsmService::insertHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "理疗登记信息添加成功。");
     return;
 
 bad:
@@ -1465,6 +1499,8 @@ void PsmService::updateHospiPhysio(const PsmSrvHospiPhysio &hospiphysio,
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "理疗登记信息更新成功。");
     return;
 
 bad:
@@ -1495,6 +1531,8 @@ void PsmService::deleteHospiPhysio(const PsmSrvHospiPhysio &hospiphysio, QWidget
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "理疗登记信息删除成功。");
     return;
 
 bad:
@@ -1698,6 +1736,8 @@ bool PsmService::insertPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *wind
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "打卡操作成功", "患者打卡已完成，可以为其进行理疗操作！");
     return true;
 
 bad:
@@ -1707,7 +1747,7 @@ bad:
         exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
                     "数据库系统描述：" + sqlerr.text();
     }
-    QMessageBox::warning(window, "数据库错误", "无法向数据库添加理疗记录。" + exterrstr);
+    QMessageBox::warning(window, "数据库错误", "无法向数据库添加理疗打卡记录。" + exterrstr);
     return false;
 }
 
@@ -1733,7 +1773,6 @@ bool PsmService::tryAddPhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *wind
     if (!ok)
         return false;
 
-    QMessageBox::information(window, "打卡操作成功", "患者打卡已完成，可以为其进行理疗操作！");
     return true;
 }
 
@@ -1754,6 +1793,8 @@ bool PsmService::deletePhysioLog(const PsmSrvPhysioLog &physiolog, QWidget *wind
     ok = query.exec();
     if (!ok)
         goto bad;
+
+    QMessageBox::information(window, "操作成功", "理疗打卡记录删除成功！");
     return true;
 
 bad:
@@ -1763,7 +1804,7 @@ bad:
         exterrstr = "错误码：" + sqlerr.nativeErrorCode() + "\n" +
                     "数据库系统描述：" + sqlerr.text();
     }
-    QMessageBox::warning(window, "数据库错误", "无法删除理疗记录。" + exterrstr);
+    QMessageBox::warning(window, "数据库错误", "无法删除理疗打卡记录。" + exterrstr);
     return false;
 }
 
