@@ -863,18 +863,72 @@ bad:
     return false;
 }
 
-void PsmService::insertPatient(const PsmSrvPatient &patient, QWidget *window)
+QString PsmService::getNextPatientId()
 {
+    bool ok;
+    QString tdleadstr = QDate::currentDate().toString("yyMMdd");
+    QString curid;
+    QSqlQuery query = this->database.getQuery();
+    QSqlRecord rec;
+
+    ok = query.prepare("SELECT MAX(id) FROM patients WHERE id LIKE '" + tdleadstr + "%';");
+    if (!ok)
+        goto initpath;
+
+    query.bindValue(0, this->hospiRecIdLen);
+    ok = query.exec();
+    if (!ok)
+        goto initpath;
+
+    if (query.size() < 1)
+        goto initpath;
+
+    ok = query.first();
+    if (!ok)
+        goto initpath;
+
+    rec = query.record();
+    curid = rec.value(0).toString();
+    if (curid.isEmpty())
+        goto initpath;
+
+    return QString::number(curid.toULongLong() + 1);
+
+initpath:
+    return tdleadstr + "001";
+}
+
+void PsmService::insertPatient(const PsmSrvPatient &patient,  QString *patientid, QWidget *window)
+{
+    bool needautoid = false;
+    QSqlQuery query;
+    bool ok;
+
+    if (patientid == NULL)
+        goto bad_nolock;
+
     if (window == NULL)
         window = this->parent;
+    if (patient.id.isEmpty())
+        needautoid = true;
 
-    bool ok;
-    QSqlQuery query = this->database.getQuery();
+    if (needautoid) {
+        query = this->database.getQuery();
+        ok = query.exec("LOCK TABLES patients WRITE;");
+        if (!ok)
+            goto bad_nolock;
+
+        *patientid = this->getNextPatientId ();
+    } else {
+        *patientid = patient.id;
+    }
+
+    query = this->database.getQuery();
     ok = query.prepare("INSERT INTO patients VALUES(?, ?, ?, ?, ?, ?);");
     if (!ok)
         goto bad;
 
-    query.bindValue(0, patient.id);
+    query.bindValue(0, *patientid);
     query.bindValue(1, patient.name);
     query.bindValue(2, patient.dob);
     query.bindValue(3, patient.phone);
@@ -884,11 +938,21 @@ void PsmService::insertPatient(const PsmSrvPatient &patient, QWidget *window)
     if (!ok)
         goto bad;
 
+    if (needautoid) {
+        query = this->database.getQuery();
+        query.exec("UNLOCK TABLES;");
+    }
     QMessageBox::information(window, "操作成功",
-                             "患者信息添加成功。姓名：" + patient.name + "（ID：" + patient.id +"）");
+                             "患者信息添加成功。姓名：" + patient.name + "（ID：" + *patientid +"）");
     return;
 
 bad:
+    if (needautoid) {
+        query = this->database.getQuery();
+        query.exec("UNLOCK TABLES;");
+    }
+
+bad_nolock:
     QSqlError sqlerr = query.lastError();
     QString exterrstr;
     if (sqlerr.isValid()) {
@@ -1199,7 +1263,7 @@ QString PsmService::getCurrentNextHostpiRecId(QWidget *window)
         window = this->parent;
 
     QString curid = getCurrentMaxHospiRecId();
-    if (curid.isEmpty())
+    if (curid.isEmpty() || curid.at(0) < '1')
         return "1" + QString("0").repeated(this->hospiRecIdLen - 1);
 
     bool hasletter = false;

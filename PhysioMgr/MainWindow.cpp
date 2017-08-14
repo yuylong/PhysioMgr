@@ -331,13 +331,14 @@ void MainWindow::on_pbPatientAdd_clicked()
         return;
 
     PsmSrvPatient patient;
+    QString newpatientid;
     patient.id = dialog.getPatientId();
     patient.name = dialog.getPatientName();
     patient.dob = dialog.getDob();
     patient.phone = dialog.getPhoneNum();
     patient.address = dialog.getAddress();
     patient.comment = dialog.getComment();
-    this->service.insertPatient(patient);
+    this->service.insertPatient(patient, &newpatientid);
 
     this->refreshPatientList();
 }

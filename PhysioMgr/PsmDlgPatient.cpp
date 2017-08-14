@@ -104,7 +104,7 @@ void PsmDlgPatient::unlockPatientId()
 
 void PsmDlgPatient::on_buttonBox_accepted()
 {
-    if (ui->lePatientId->text().isEmpty() || ui->lePatientName->text().isEmpty()) {
+    if (ui->lePatientName->text().isEmpty()) {
         QMessageBox::warning(this, "信息填写错误", "患者的编号和姓名必须填写。");
         return;
     }

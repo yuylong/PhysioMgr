@@ -142,7 +142,7 @@ public:
     void searchPatient(const QString &srchstr, QLabel *lbl, QTableWidget *tbl, QWidget *window = NULL);
     int getPatientCount(const QString &srchstr);
     bool getFirstPatient(const QString &srchstr, PsmSrvPatient *patient, QWidget *window = NULL);
-    void insertPatient(const PsmSrvPatient &patient, QWidget *window = NULL);
+    void insertPatient(const PsmSrvPatient &patient, QString *patientid, QWidget *window = NULL);
     void updatePatient(const PsmSrvPatient &patient, QWidget *window = NULL);
     void deletePatient(const QString &patientid, QWidget *window = NULL);
 
@@ -186,6 +186,8 @@ public:
 private:    
     int getTableSelectedRow(QTableWidget *tbl);
     QString readTableSelectedId(QTableWidget *tbl, int idx);
+
+    QString getNextPatientId();
 
     QString getCurrentMaxHospiRecId();
     bool checkHospiRecId(const QString &curid, bool *hasletter = NULL);
