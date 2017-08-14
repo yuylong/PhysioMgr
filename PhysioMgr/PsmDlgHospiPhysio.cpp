@@ -1,6 +1,8 @@
 #include "PsmDlgHospiPhysio.h"
 #include "ui_PsmDlgHospiPhysio.h"
 
+#include <QKeyEvent>
+
 #include "PsmDlgHospiPhysioReg.h"
 #include "PsmDlgPhysioList.h"
 

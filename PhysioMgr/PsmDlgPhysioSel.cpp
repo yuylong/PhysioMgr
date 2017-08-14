@@ -1,6 +1,8 @@
 #include "PsmDlgPhysioSel.h"
 #include "ui_PsmDlgPhysioSel.h"
 
+#include <QKeyEvent>
+
 PsmDlgPhysioSel::PsmDlgPhysioSel(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PsmDlgPhysioSel)

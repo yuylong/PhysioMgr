@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -136,6 +136,11 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tblPhysioLog">
+          <property name="font">
+           <font>
+            <family>新宋体</family>
+           </font>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -323,6 +328,12 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tblPatients">
+          <property name="font">
+           <font>
+            <family>新宋体</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
@@ -561,6 +572,12 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tblHospiList">
+          <property name="font">
+           <font>
+            <family>新宋体</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
@@ -752,6 +769,12 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tblDoctors">
+          <property name="font">
+           <font>
+            <family>新宋体</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -874,6 +897,12 @@
            </item>
            <item>
             <widget class="QTableWidget" name="tblDepartments">
+             <property name="font">
+              <font>
+               <family>新宋体</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>
@@ -977,6 +1006,12 @@
            </item>
            <item>
             <widget class="QTableWidget" name="tblPhysioList">
+             <property name="font">
+              <font>
+               <family>新宋体</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>
