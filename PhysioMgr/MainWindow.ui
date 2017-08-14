@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -242,7 +242,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,1,0,0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,1,0,0,0,0,0,0,0">
           <item>
            <widget class="QLabel" name="label_6">
             <property name="text">
@@ -278,9 +278,30 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="pbPatientPsLog">
+            <property name="text">
+             <string>患者打卡</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pbPatientHospiAdd">
             <property name="text">
              <string>患者添加住院记录</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
@@ -1101,6 +1122,7 @@
   <tabstop>lePatientCond</tabstop>
   <tabstop>pbPatientRefresh</tabstop>
   <tabstop>pbPatientAdd</tabstop>
+  <tabstop>pbPatientPsLog</tabstop>
   <tabstop>pbPatientHospiAdd</tabstop>
   <tabstop>pbPatientUdp</tabstop>
   <tabstop>pbPatientDel</tabstop>

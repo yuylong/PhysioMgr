@@ -323,6 +323,17 @@ void MainWindow::on_lePatientCond_returnPressed()
     this->on_pbPatientRefresh_clicked();
 }
 
+void MainWindow::on_pbPatientPsLog_clicked()
+{
+    PsmSrvPatient patient;
+    bool ok = this->service.readSelectedPatient(ui->tblPatients, &patient);
+    if (!ok)
+        return;
+
+    ui->leLogPatientID->setText(patient.id);
+    this->on_pbPhysioLog_clicked();
+}
+
 void MainWindow::on_pbPatientAdd_clicked()
 {
     PsmDlgPatient dialog(this);
