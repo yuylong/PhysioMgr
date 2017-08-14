@@ -340,7 +340,9 @@ void MainWindow::on_pbPatientAdd_clicked()
     patient.comment = dialog.getComment();
     this->service.insertPatient(patient, &newpatientid);
 
-    this->refreshPatientList();
+    ui->lePatientCond->setText(newpatientid);
+    this->on_pbPatientRefresh_clicked();
+    ui->tblPatients->selectRow(0);
 }
 
 void MainWindow::on_pbPatientUdp_clicked()
