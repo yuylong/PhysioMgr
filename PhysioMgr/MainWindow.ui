@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tabPhysioRecord">
        <attribute name="title">
@@ -1069,7 +1069,7 @@
            <item>
             <widget class="QLabel" name="label_12">
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;医院理疗管理系统&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;版本1.0.xxx&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;专门为小型医院和诊所机构设计的理疗管理系统。&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/yuylong/PhysioMgr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/yuylong/PhysioMgr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;本软件是遵循GPL3协议的自由软件。&lt;/p&gt;&lt;p&gt;Copyrights (c) 2017 Yulong Yu. All Rights Reserved.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;医院理疗管理系统&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;版本 1.0.118&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;专门为小型医院和诊所机构设计的理疗管理系统。&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/yuylong/PhysioMgr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/yuylong/PhysioMgr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;本软件是遵循 GPL-3.0 协议的自由软件。&lt;/p&gt;&lt;p&gt;Copyright (c) 2017 Yulong Yu. All Rights Reserved.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="margin">
               <number>24</number>
