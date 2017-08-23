@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>  
-<database>  
-    <host>10.3.3.157</host>  
-    <username>root</username>
-    <password>root</password>
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <host>127.0.0.1</host>
+    <username>physiouser</username>
+    <password>physiouser</password>
     <schema>ysphysiodb</schema>
     <hospiRecIdLen>8</hospiRecIdLen>
-    <machineId>ABC123</machineId>
+    <machineId>S001</machineId>
 </database>

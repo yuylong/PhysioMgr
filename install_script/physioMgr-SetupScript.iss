@@ -43,7 +43,7 @@ Source: "Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Qt5Xml.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "mysql.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "mysqldump.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "PsmDbConfig.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "PsmDbConfig.xml"; DestDir: "{app}"; Flags: ignoreversion onlyifdoesntexist
 Source: "vcredist_msvc2013_x86.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "vcredist_msvc2015_x86.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
